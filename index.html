@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>职业生态位诊断表 - OrgLens</title>
+<meta name="description" content="基于OrgLens生态位框架，三步看清你在组织中的真实坐标，找到真正的成长方向。">
+<meta property="og:title" content="职业生态位诊断表 - OrgLens">
+<meta property="og:description" content="15道题，3分钟，看清你的组织生态位。结构位×资源位×关系位。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231a1a2e'/><circle cx='16' cy='16' r='10' fill='none' stroke='%232d6a4f' stroke-width='1.5'/><line x1='5' y1='27' x2='27' y2='5' stroke='%23c8a96e' stroke-width='1.5' opacity='0.6'/><circle cx='16' cy='16' r='3' fill='%232d6a4f'/></svg>">
+<style>
+:root{
+--primary:#1a1a2e;--accent:#2d6a4f;--accent-light:#e8f5e9;--gold:#c8a96e;--gold-light:#f7efe0;
+--bg:#f6f7f6;--card-bg:#ffffff;--border:#e0e0e0;--high:#2d6a4f;--mid:#e6a817;--low:#c0392b;
+--text2:#666;--text3:#999
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing:antialiased;
+-webkit-tap-highlight-color:transparent
+}
+.container{max-width:720px;margin:0 auto;padding:0 20px 80px}
+.brand-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 0 8px}
+.brand-icon{width:40px;height:40px;flex-shrink:0}
+.brand-name{font-size:18px;font-weight:800;color:var(--primary);letter-spacing:1px;line-height:1.2}
+.brand-tagline{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:1.5px;text-transform:uppercase}
+.header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.header h1{font-size:26px;font-weight:800;color:var(--primary);letter-spacing:.5px;line-height:1.3}
+.header .subtitle{font-size:14px;color:var(--text2);margin-top:6px;line-height:1.5}
+.framework-badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;color:var(--accent);background:var(--accent-light);padding:5px 16px;border-radius:20px;font-weight:600}
+.framework-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.instructions{background:var(--card-bg);border-radius:12px;padding:20px 22px;margin-bottom:22px;border:1px solid var(--border)}
+.instructions h3{font-size:14px;margin-bottom:8px;color:var(--primary);font-weight:700}
+.instructions p{font-size:13px;color:var(--text2);margin:3px 0;line-height:1.6}
+.scale-badge{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.scale-badge span{display:inline-block;font-size:11px;padding:3px 10px;background:#f0f0f0;border-radius:12px;color:var(--text2)}
+.dim-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);transition:box-shadow .2s}
+.dim-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.dim-header{border-bottom:2px solid var(--accent);padding-bottom:10px;margin-bottom:14px}
+.dim-header .dim-num{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;display:flex;align-items:center;gap:6px}
+.dim-header .dim-num .dim-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.dim-header h2{font-size:18px;font-weight:700;margin:3px 0 2px;color:var(--primary)}
+.dim-header .dim-desc{font-size:12px;color:var(--text2)}
+.dim-intro{font-size:12.5px;color:var(--text2);margin-bottom:10px;line-height:1.6}
+.question{padding:12px 0;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;gap:10px}
+.question:last-child{border-bottom:none}
+.q-num{width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.q-text{flex:1;font-size:13.5px;color:#333;line-height:1.5}
+.q-options{display:flex;gap:5px;flex-shrink:0}
+.q-options button{width:30px;height:30px;border-radius:50%;border:2px solid #ddd;background:#fff;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;transition:all .15s;outline:none}
+.q-options button:hover{border-color:var(--accent);color:var(--accent)}
+.q-options button:active{transform:scale(.92)}
+.q-options button.selected{background:var(--accent);border-color:var(--accent);color:#fff;transform:scale(1.05)}
+.dim-subtotal{margin-top:12px;padding:10px 14px;background:#f8faf8;border-radius:8px;display:flex;align-items:center;gap:10px;font-size:13px}
+.dim-subtotal .score-box{width:44px;height:44px;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;transition:all .3s}
+.dim-subtotal .label{color:var(--text2)}
+.dim-subtotal .label strong{color:var(--primary)}
+.dim-subtotal .label .outof{color:var(--text3);font-size:11px}
+.btn-row{display:flex;gap:10px;justify-content:center;margin:24px 0}
+.btn{padding:11px 26px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;outline:none}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#1b5e3b}
+.btn-outline{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+.btn-outline:hover{background:var(--accent-light)}
+.results-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.results-card h2{font-size:19px;font-weight:700;margin-bottom:14px;text-align:center}
+.result-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13.5px}
+.result-row:last-child{border-bottom:none}
+.result-row .r-name{flex:1;font-weight:600}
+.result-row .r-score{width:80px;text-align:center;font-weight:700;color:var(--accent)}
+.result-row .r-level{width:90px;text-align:center;font-size:12px}
+.result-row .r-level .tag{display:inline-block;padding:2px 10px;border-radius:12px;font-weight:600}
+.tag-good{background:var(--accent-light);color:var(--high)}
+.tag-ok{background:var(--gold-light);color:#b8860b}
+.tag-bad{background:#fce4ec;color:var(--low)}
+.result-total{display:flex;align-items:center;padding:14px 0;background:#f8faf8;border-radius:10px;margin-top:8px;font-size:14px;font-weight:700;justify-content:center;gap:10px}
+.result-total .big-score{font-size:34px;font-weight:800;color:var(--accent)}
+.diagnosis{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:2px solid var(--accent);text-align:center;animation:fadeInUp .4s ease-out}
+.diagnosis .emoji{font-size:44px;margin-bottom:6px}
+.diagnosis .level-text{font-size:20px;font-weight:800;margin-bottom:4px}
+.diagnosis .advice{font-size:13.5px;color:#555;margin-top:6px;line-height:1.8}
+.traps-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.traps-card h2{font-size:17px;font-weight:700;margin-bottom:12px}
+.trap-intro{font-size:12.5px;color:var(--text2);margin-bottom:12px}
+.trap-item{padding:11px 14px;margin-bottom:6px;border-radius:8px;border-left:4px solid var(--border);background:#fafafa;transition:all .2s}
+.trap-item.active{background:#fff5f5;border-left-color:var(--low)}
+.trap-item h4{font-size:13px;margin-bottom:3px}
+.trap-desc{font-size:12px;color:var(--text2);margin-bottom:4px}
+.trap-checkboxes{margin-top:4px}
+.trap-checkboxes label{display:block;font-size:11.5px;margin:2px 0;color:#555;cursor:pointer;padding:2px 0}
+.trap-checkboxes label input{margin-right:6px}
+.trap-count{font-size:10.5px;color:var(--text3);margin-top:3px}
+.plan-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.plan-card h2{font-size:17px;font-weight:700;margin-bottom:14px}
+.plan-card textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12.5px;font-family:inherit;resize:vertical;min-height:42px;background:#fafafa;outline:none;margin-bottom:6px}
+.plan-card textarea:focus{border-color:var(--accent);background:#fff}
+.plan-label{font-size:12.5px;font-weight:600;color:var(--primary);margin:10px 0 4px}
+.footer{text-align:center;padding:28px 0 16px;color:#aaa;font-size:11.5px;border-top:1px solid var(--border);margin-top:20px}
+.footer-brand{font-weight:700;color:var(--primary);font-size:14px;margin-bottom:4px}
+.footer-tagline{color:var(--gold);font-size:11px;letter-spacing:1.5px;margin-bottom:8px}
+.footer-divider{width:40px;height:1px;background:var(--gold);margin:8px auto}
+.footer a{color:var(--accent);text-decoration:none}
+.hidden{display:none!important}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:500px){
+.container{padding:0 12px 60px}
+.header h1{font-size:22px}
+.q-options button{width:27px;height:27px;font-size:11px}
+.q-options{gap:3px}
+.question{gap:6px;padding:10px 0}
+.q-text{font-size:12.5px}
+.btn{padding:10px 20px;font-size:13px}
+.dim-card{padding:16px 14px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="brand-bar">
+<svg class="brand-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#2d6a4f"/></linearGradient></defs>
+<circle cx="24" cy="24" r="22" fill="none" stroke="url(#l)" stroke-width="2.5"/>
+<circle cx="24" cy="24" r="15" fill="none" stroke="#2d6a4f" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line x1="2" y1="2" x2="46" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
+<line x1="46" y1="2" x2="2" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
+<circle cx="24" cy="24" r="4" fill="#2d6a4f"/>
+<ellipse cx="18" cy="15" rx="6" ry="4" fill="white" opacity="0.15" transform="rotate(-30 18 15)"/>
+</svg>
+<div style="display:flex;flex-direction:column">
+<span class="brand-name">OrgLens</span>
+<span class="brand-tagline">看清组织，看见解法</span>
+</div>
+</div>
+
+<div class="header">
+<h1>🔍 职业生态位诊断表</h1>
+<p class="subtitle">三步看清你在组织中的真实坐标<br>找到真正的成长方向</p>
+<div class="framework-badge"><span class="dot"></span> 结构位 × 资源位 × 关系位 <span class="dot"></span></div>
+</div>
+
+<div class="instructions">
+<h3>📋 使用说明</h3>
+<p>以下共 <strong>15 道题</strong>，分三个维度，每题按 <strong>1-5 分</strong> 自评。</p>
+<p>请根据你 <strong>最近 12 个月的真实感受</strong> 作答，而不是"理想情况"。</p>
+<div class="scale-badge">
+<span>1=完全不符合</span><span>2=基本不符合</span><span>3=有时符合</span><span>4=基本符合</span><span>5=完全符合</span>
+</div>
+</div>
+
+<div id="dims"></div>
+
+<div class="btn-row">
+<button class="btn btn-outline" onclick="resetAll()">🔄 重新填写</button>
+<button class="btn btn-primary" onclick="scrollToResults()">📊 查看诊断结果</button>
+</div>
+
+<div id="results-section" class="hidden">
+<div class="results-card" id="results-summary"></div>
+<div class="diagnosis" id="diagnosis-box"></div>
+<div class="traps-card" id="traps-card"></div>
+<div class="plan-card">
+<h2>✍️ 我的行动计划</h2>
+<div class="plan-label">我最需要突破的维度是：</div>
+<textarea rows="2" placeholder="写下你最想改善的维度……"></textarea>
+<div class="plan-label">我最可能陷入的陷阱是：</div>
+<textarea rows="2" placeholder="对照上面的陷阱检核，哪个最像你？"></textarea>
+<div class="plan-label">我接下来 3 个月要做的第一件事：</div>
+<textarea rows="2" placeholder="一个具体、可衡量的行动……"></textarea>
+<div class="plan-label">关键里程碑：</div>
+<textarea rows="2" placeholder="达成什么就算成功了？"></textarea>
+<div class="plan-label">我需要的帮助/资源：</div>
+<textarea rows="2" placeholder="人、钱、信息、权限……"></textarea>
+</div>
+<div class="btn-row">
+<button class="btn btn-outline" onclick="window.print()">🖨️ 打印结果</button>
+<button class="btn btn-outline" onclick="shareResults()">📤 复制结果</button>
+</div>
+</div>
+
+<div class="footer">
+<div class="footer-brand">OrgLens</div>
+<div class="footer-tagline">看清组织，看见解法</div>
+<div class="footer-divider"></div>
+<p>基于 OrgLens「生态位」框架创建</p>
+<p style="margin-top:2px">关注 <a href="#">OrgLens</a>，每周 2-3 篇，不讲大道理，只拆真问题。</p>
+<p style="margin-top:6px">你不需要比所有人都强，你需要找到一个让你能长的生态位。</p>
+</div>
+</div>
+
+<script>
+const DIMS=[{id:'structure',title:'维度一：结构位诊断',subtitle:'你在公司的价值链条上，到底站在哪个位置？',intro:'结构位决定了你的岗位离"钱"有多远——你的工作成果是否容易被看见？以下问题请诚实作答。',questions:['我的岗位直接参与公司核心业务（研发/产品/营销/销售/客户成功），而非支撑性职能。','如果我的部门被砍掉，公司业绩下降一定超过 5%。','我的工作产出可以被直接量化成业务结果（收入增长/成本降低/效率提升）。','我的岗位在公司每次预算调整时，被归入"增长投入"而非"固定成本"。','我有清晰的内部晋升/转岗路径，不是因为位置"锁死"了。']},{id:'resource',title:'维度二：资源位诊断',subtitle:'你能撬动什么？这些资源是变多还是变少？',intro:'资源位衡量你调动关键资源的能力——预算、信息、人力、老板注意力。预算不会撒谎，看预算会上的你。',questions:['我掌握的信息在公司内是稀缺的——我比别人更早知道关键决策。','部门预算方向上，我所在的板块明年是"加钱"而不是"被砍"。','我可以独立决策至少一项关键资源的分配（预算/人头/项目优先级）。','如果我需要额外资源推进一件事，我的申请通常能得到快速响应。','我有一个"不可替代的专长"——公司找不到第二个能做这件事的人。']},{id:'relation',title:'维度三：关系位诊断',subtitle:'能决定你晋升的那几个人，看清楚你的价值了吗？',intro:'关系位衡量你在权力网络中的可见度和信任度。不需要所有人看见你——只需要 2-3 个关键人。',questions:['我能说出 2-3 个直接影响我晋升的人的名字——并且他们了解我的工作。','我的直线老板在关键场合（汇报/晋升评审）会主动提到我的贡献。','我与关键决策者之间的信任，不只是"执行力信任"——他们也认可我的判断力。','最近半年内，我配合关键决策者完成过一件"超出本职工作范围"的事。','如果我的名字被提到晋升讨论会上，至少有两个有分量的人会表示支持。']}];
+
+const TRAPS=[{name:'陷阱一：核心区外',desc:'你在非核心部门，做再多也很难被看见',signals:['我所在的部门每次预算被砍都在第一批','我的岗位在裁员名单里基本逃不掉','我的工作成果很难被量化成"业务结果"']},{name:'陷阱二：饱和位',desc:'你做得好，但上面没有位置了',signals:['我的老板不可能在 2 年内晋升或离开','我们部门没有扩编计划','我的层级上已经至少有 2 个比我资历老的人']},{name:'陷阱三：可替代位',desc:'你做得多，但换别人 3 个月也能做',signals:['我休假期间，团队运转一切正常','我的产出可以被拆解成标准 SOP','换一个人，3 个月后差异就消失了']},{name:'陷阱四：标签位',desc:'你很优秀，但在组织眼里你"只是这个"',signals:['我想尝试新方向，但总是被认为"强项不在这里"','我被分派的任务越来越同质化','同事提起我时，只会用某一个标签描述我']}];
+
+let scores={structure:[0,0,0,0,0],resource:[0,0,0,0,0],relation:[0,0,0,0,0]};
+
+function renderDims(){
+let h='';
+DIMS.forEach((d,di)=>{
+h+=`<div class="dim-card" id="dim-${d.id}"><div class="dim-header"><div class="dim-num"><span class="dim-dot"></span> Dimension ${di+1} / 3</div><h2>${d.title}</h2><div class="dim-desc">${d.subtitle}</div></div><div class="dim-intro">${d.intro}</div>`;
+d.questions.forEach((q,qi)=>{
+h+=`<div class="question"><div class="q-num">${qi+1}</div><div class="q-text">${q}</div><div class="q-options">`;
+for(let s=1;s<=5;s++)h+=`<button onclick="pick('${d.id}',${qi},${s},this)">${s}</button>`;
+h+=`</div></div>`;
+});
+h+=`<div class="dim-subtotal" id="sub-${d.id}"><div class="score-box">-</div><div class="label"><strong>${d.title.replace('维度一：','').replace('维度二：','').replace('维度三：','')}</strong> 小计 <span class="outof">/ 25</span></div></div></div>`;
+});
+document.getElementById('dims').innerHTML=h;
+}
+
+function pick(dim,qi,val,btn){
+scores[dim][qi]=val;
+btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));
+btn.classList.add('selected');
+let tot=scores[dim].reduce((a,b)=>a+b,0);
+let box=document.getElementById('sub-'+dim).querySelector('.score-box');
+if(box){
+box.textContent=scores[dim].every(v=>v>0)?tot:'-';
+box.style.transform='scale(1.1)';setTimeout(()=>box.style.transform='scale(1)',200);
+}
+}
+
+function sub(dim){return scores[dim].reduce((a,b)=>a+b,0)}
+function total(){return sub('structure')+sub('resource')+sub('relation')}
+
+function lvl(s){
+if(s>=20)return{label:'优秀',cls:'tag-good'};
+if(s>=16)return{label:'良好',cls:'tag-good'};
+if(s>=13)return{label:'一般',cls:'tag-ok'};
+if(s>=10)return{label:'偏低',cls:'tag-ok'};
+return{label:'堪忧',cls:'tag-bad'};
+}
+
+function overall(t){
+if(t>=60)return{emoji:'🟢',text:'生态位良好',color:'var(--high)',advice:'<strong>策略：深耕</strong><br><br>你在一个好的位置上。继续巩固优势，同时关注范式转移风险——警惕 AI 和行业变革对你的生态位的影响。'};
+if(t>=40)return{emoji:'🟡',text:'生态位一般',color:'var(--mid)',advice:'<strong>策略：补短板</strong><br><br>有一两个维度有缺口。先看清哪个维度最限制你，集中资源突破。不要试图同时改善所有方面。'};
+return{emoji:'🔴',text:'生态位堪忧',color:'var(--low)',advice:'<strong>策略：换生态</strong><br><br>不是你不够好，是这个生态位本身天花板太低。换一个土壤，比在盐碱地里施肥更有效。考虑横向平移、另起山头、或降维打击。'};
+}
+
+function allDone(){return DIMS.every(d=>scores[d.id].every(v=>v>0))}
+
+function scrollToResults(){
+if(!allDone()){
+for(let d of DIMS)for(let i=0;i<5;i++)if(scores[d.id][i]===0){document.getElementById('dim-'+d.id).scrollIntoView({behavior:'smooth',block:'center'});return}
+return;
+}
+document.getElementById('results-section').classList.remove('hidden');
+renderResults();
+setTimeout(()=>document.getElementById('results-section').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function renderResults(){
+let t=total(),S=sub('structure'),R=sub('resource'),E=sub('relation'),o=overall(t);
+document.getElementById('results-summary').innerHTML='<h2>📊 诊断结果汇总</h2><div class="result-row" style="font-weight:700;color:var(--text2)"><span class="r-name">维度</span><span class="r-score">得分</span><span class="r-level">等级</span></div>'+
+['结构位','资源位','关系位'].map((l,i)=>{let L=lvl([S,R,E][i]);return`<div class="result-row"><span class="r-name">${l}</span><span class="r-score">${[S,R,E][i]} / 25</span><span class="r-level"><span class="tag ${L.cls}">${L.label}</span></span></div>`}).join('')+
+`<div class="result-total"><span>综合总分</span><span class="big-score">${t}</span><span> / 75</span></div>`;
+document.getElementById('diagnosis-box').innerHTML=`<div class="emoji">${o.emoji}</div><div class="level-text" style="color:${o.color}">${t} 分 · ${o.text}</div><div class="advice">${o.advice}</div>`;
+let th='<h2>🕳️ 四种生态位陷阱检核</h2><div class="trap-intro">对照你的实际情况打勾。中 <strong>2 项及以上</strong>，说明需要重点关注。</div>';
+TRAPS.forEach((tr,ti)=>{
+th+=`<div class="trap-item" id="trap-${ti}"><h4>${tr.name}</h4><div class="trap-desc">${tr.desc}</div><div class="trap-checkboxes">`;
+tr.signals.forEach(s=>{th+=`<label><input type="checkbox" onchange="chkTrap(${ti})"> ${s}</label>`});
+th+=`</div><div class="trap-count" id="tc-${ti}">已勾选: 0 / 3</div></div>`;
+});
+document.getElementById('traps-card').innerHTML=th;
+}
+
+function chkTrap(ti){
+let n=document.querySelectorAll('#trap-'+ti+' input:checked').length;
+document.getElementById('tc-'+ti).textContent='已勾选: '+n+' / 3';
+document.getElementById('trap-'+ti).classList.toggle('active',n>=2);
+}
+
+function resetAll(){
+scores={structure:[0,0,0,0,0],resource:[0,0,0,0,0],relation:[0,0,0,0,0]};
+document.querySelectorAll('.q-options button').forEach(b=>b.classList.remove('selected'));
+DIMS.forEach(d=>{let b=document.getElementById('sub-'+d.id).querySelector('.score-box');if(b)b.textContent='-'});
+document.getElementById('results-section').classList.add('hidden');
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function shareResults(){
+if(!allDone())return;
+let t=total(),o=overall(t),S=sub('structure'),R=sub('resource'),E=sub('relation');
+let txt=`🔍 我的职业生态位诊断结果\n\n📊 总分：${t}/75 · ${o.text}\n• 结构位：${S}/25\n• 资源位：${R}/25\n• 关系位：${E}/25\n\n${o.advice.replace(/<[^>]+>/g,'')}\n\n来自 OrgLens 职业生态位诊断表`;
+navigator.clipboard.writeText(txt).then(()=>alert('✅ 结果已复制到剪贴板！')).catch(()=>prompt('复制以下文本：',txt));
+}
+
+renderDims();
+</script>
+</body>
+</html>
