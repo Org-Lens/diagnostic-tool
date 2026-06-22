@@ -21,10 +21,8 @@ background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing
 -webkit-tap-highlight-color:transparent
 }
 .container{max-width:720px;margin:0 auto;padding:0 20px 80px}
-.brand-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 0 8px}
-.brand-icon{width:40px;height:40px;flex-shrink:0}
-.brand-name{font-size:18px;font-weight:800;color:var(--primary);letter-spacing:1px;line-height:1.2}
-.brand-tagline{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:1.5px;text-transform:uppercase}
+.brand-bar{display:flex;align-items:center;justify-content:center;padding:18px 0 8px}
+.brand-logo{height:48px;width:auto}
 .header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
 .header h1{font-size:26px;font-weight:800;color:var(--primary);letter-spacing:.5px;line-height:1.3}
 .header .subtitle{font-size:14px;color:var(--text2);margin-top:6px;line-height:1.5}
@@ -120,19 +118,7 @@ background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing
 <div class="container">
 
 <div class="brand-bar">
-<svg class="brand-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<defs><linearGradient id="l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#2d6a4f"/></linearGradient></defs>
-<circle cx="24" cy="24" r="22" fill="none" stroke="url(#l)" stroke-width="2.5"/>
-<circle cx="24" cy="24" r="15" fill="none" stroke="#2d6a4f" stroke-width="1.5" stroke-dasharray="4 3"/>
-<line x1="2" y1="2" x2="46" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
-<line x1="46" y1="2" x2="2" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
-<circle cx="24" cy="24" r="4" fill="#2d6a4f"/>
-<ellipse cx="18" cy="15" rx="6" ry="4" fill="white" opacity="0.15" transform="rotate(-30 18 15)"/>
-</svg>
-<div style="display:flex;flex-direction:column">
-<span class="brand-name">OrgLens</span>
-<span class="brand-tagline">看清组织，看见解法</span>
-</div>
+<img src="orglens-logo.png" alt="OrgLens" class="brand-logo">
 </div>
 
 <div class="header">
