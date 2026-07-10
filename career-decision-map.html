@@ -188,7 +188,8 @@ function prevQ(){
 }
 
 function showQ(idx){
-  document.querySelectorAll('.q-block').forEach(function(b,i){b.classList.toggle('active',i===idx));
+  var qblocks = document.querySelectorAll('.q-block');
+  for(var k=0;k<qblocks.length;k++){ qblocks[k].classList.toggle('active',k===idx); }
   currentQ=idx;
   updateNav();
 }
