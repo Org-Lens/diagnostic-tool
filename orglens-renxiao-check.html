@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>组织人效自检清单 - OrgLens</title>
+<meta name="description" content="三合一组织人效诊断工具：枢纽识别五问法 × 能量损耗自查表 × 留对人审计模板。基于OrgLens人效框架设计。">
+<meta property="og:title" content="组织人效自检清单 - OrgLens">
+<meta property="og:description" content="不是裁了多少人，是留对了多少人。三合一诊断：识别真枢纽、定位真堵点、复盘裁错人。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231a1a2e'/><circle cx='16' cy='16' r='10' fill='none' stroke='%232d6a4f' stroke-width='1.5'/><line x1='5' y1='27' x2='27' y2='5' stroke='%23c8a96e' stroke-width='1.5' opacity='0.6'/><circle cx='16' cy='16' r='3' fill='%232d6a4f'/></svg>">
+<style>
+:root{
+--primary:#1a1a2e;--accent:#2d6a4f;--accent-light:#e8f5e9;--gold:#c8a96e;--gold-light:#f7efe0;
+--bg:#f6f7f6;--card-bg:#ffffff;--border:#e0e0e0;--high:#2d6a4f;--mid:#e6a817;--low:#c0392b;
+--text2:#666;--text3:#999;--warn:#e67e22
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing:antialiased;
+-webkit-tap-highlight-color:transparent
+}
+.container{max-width:720px;margin:0 auto;padding:0 20px 100px}
+.brand-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 0 8px}
+.brand-icon{width:40px;height:40px;flex-shrink:0}
+.brand-name{font-size:18px;font-weight:800;color:var(--primary);letter-spacing:1px;line-height:1.2}
+.brand-tagline{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:1.5px;text-transform:uppercase}
+.header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.header h1{font-size:26px;font-weight:800;color:var(--primary);letter-spacing:.5px;line-height:1.3}
+.header .subtitle{font-size:14px;color:var(--text2);margin-top:6px;line-height:1.5}
+.framework-badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;color:var(--accent);background:var(--accent-light);padding:5px 16px;border-radius:20px;font-weight:600}
+
+/* Tab 导航 */
+.tabs-nav{display:flex;gap:0;margin-bottom:0;border-radius:12px 12px 0 0;overflow:hidden;border:1px solid var(--border);border-bottom:none}
+.tab-btn{flex:1;padding:12px 8px;font-size:13px;font-weight:600;border:none;cursor:pointer;background:var(--bg);color:var(--text2);transition:all .2s;outline:none;text-align:center}
+.tab-btn:first-child{border-right:1px solid var(--border)}
+.tab-btn:last-child{border-left:1px solid var(--border)}
+.tab-btn:nth-child(2){border-left:none;border-right:1px solid var(--border)}
+.tab-btn.active{background:var(--card-bg);color:var(--accent);border-bottom:2px solid var(--accent)}
+.tab-btn:hover:not(.active){color:var(--primary)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* 通用卡片样式 */
+.card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border)}
+.card h2{font-size:18px;font-weight:700;margin-bottom:8px;color:var(--primary)}
+.card h3{font-size:15px;font-weight:700;margin:14px 0 8px;color:var(--primary)}
+.card .desc{font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.7}
+.instructions{background:var(--card-bg);border-radius:12px;padding:18px 20px;margin-bottom:16px;border:1px solid var(--border)}
+.instructions p{font-size:12.5px;color:var(--text2);line-height:1.6}
+
+/* 枢纽五问 - 卡片式 */
+.hub-q{background:var(--card-bg);border-radius:10px;padding:18px 16px;margin-bottom:12px;border:1px solid var(--border);transition:all .2s}
+.hub-q:hover{border-color:var(--accent)}
+.hub-q .q-label{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.hub-q .q-title{font-size:15px;font-weight:700;color:var(--primary);margin-bottom:4px}
+.hub-q .q-detail{font-size:12.5px;color:var(--text2);margin-bottom:10px;line-height:1.5}
+.hub-q .radio-group{display:flex;gap:16px}
+.hub-q .radio-group label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;padding:6px 14px;border-radius:8px;border:1.5px solid var(--border);transition:all .15s;user-select:none}
+.hub-q .radio-group label:hover{border-color:var(--accent)}
+.hub-q .radio-group input[type=radio]{accent-color:var(--accent)}
+.hub-q .radio-group label:has(input:checked){border-color:var(--accent);background:var(--accent-light)}
+
+/* 员工卡片 - 枢纽识别表 */
+.emp-card{background:var(--card-bg);border-radius:10px;padding:16px;margin-bottom:8px;border:1px solid var(--border)}
+.emp-card h4{font-size:14px;font-weight:700;margin-bottom:8px}
+.emp-card label{display:inline-flex;align-items:center;gap:6px;margin:4px 12px 4px 0;font-size:13px;cursor:pointer;padding:5px 10px;border-radius:8px;border:1.5px solid var(--border);transition:all .15s}
+.emp-card label:hover{border-color:var(--accent)}
+.emp-card label:has(input:checked){border-color:var(--accent);background:var(--accent-light)}
+.emp-card input[type=checkbox]{accent-color:var(--accent)}
+.add-emp{display:flex;gap:8px;margin-bottom:10px}
+.add-emp input{flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none}
+.add-emp input:focus{border-color:var(--accent)}
+.add-emp button{padding:10px 16px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
+.emp-list{margin-top:8px}
+.emp-list-header{font-size:12px;color:var(--text3);margin-bottom:6px}
+
+/* 损耗自查表 */
+.loss-card{background:var(--card-bg);border-radius:10px;padding:16px;margin-bottom:8px;border:1px solid var(--border)}
+.loss-card .l-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.loss-card .l-name{font-size:15px;font-weight:700}
+.loss-card .l-coef{font-size:11px;background:#f0f0f0;padding:3px 10px;border-radius:12px;color:var(--text2)}
+.loss-card .l-symptoms{font-size:12.5px;color:var(--text2);margin-bottom:10px;line-height:1.6}
+.loss-card .slider-row{display:flex;align-items:center;gap:10px}
+.loss-card .slider-row input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:#e0e0e0;border-radius:2px;outline:none}
+.loss-card .slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--accent);border-radius:50%;cursor:pointer}
+.loss-card .slider-val{font-size:14px;font-weight:700;color:var(--accent);min-width:30px;text-align:center}
+
+/* 留对人审计 */
+.audit-section{margin-bottom:16px}
+.audit-section h3{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.audit-section h3 .icon{font-size:18px}
+.audit-section .audit-desc{font-size:12.5px;color:var(--text2);margin-bottom:10px;line-height:1.6}
+.audit-row{display:flex;gap:8px;margin-bottom:6px}
+.audit-row input{flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:12.5px;outline:none}
+.audit-row input:focus{border-color:var(--accent)}
+.audit-row .rm-btn{width:30px;height:30px;background:#fce4ec;color:var(--low);border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:700}
+.audit-add{padding:8px 16px;background:var(--accent-light);color:var(--accent);border:1px dashed var(--accent);border-radius:8px;font-size:12.5px;cursor:pointer;font-weight:600;transition:all .15s}
+.audit-add:hover{background:#d4edda}
+
+/* 结果区域 */
+.btn-row{display:flex;gap:10px;justify-content:center;margin:24px 0}
+.btn{padding:11px 26px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;outline:none}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#1b5e3b}
+.btn-outline{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+.btn-outline:hover{background:var(--accent-light)}
+.results-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.results-card h2{font-size:18px;font-weight:700;margin-bottom:14px;text-align:center}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.summary-item{background:#f8faf8;border-radius:10px;padding:14px;text-align:center}
+.summary-item .s-value{font-size:28px;font-weight:800}
+.summary-item .s-label{font-size:11px;color:var(--text2);margin-top:2px}
+.alert-box{padding:14px 16px;border-radius:8px;margin-bottom:12px;font-size:13px;line-height:1.7}
+.alert-warn{background:#fff8e1;border:1px solid #ffe082;color:#e65100}
+.alert-good{background:var(--accent-light);border:1px solid #a5d6a7;color:var(--high)}
+.alert-danger{background:#fce4ec;border:1px solid #ef9a9a;color:var(--low)}
+
+/* Footer */
+.footer{text-align:center;padding:28px 0 16px;color:#aaa;font-size:11.5px;border-top:1px solid var(--border);margin-top:20px}
+.footer-brand{font-weight:700;color:var(--primary);font-size:14px;margin-bottom:4px}
+.footer-tagline{color:var(--gold);font-size:11px;letter-spacing:1.5px;margin-bottom:8px}
+.footer-divider{width:40px;height:1px;background:var(--gold);margin:8px auto}
+.hidden{display:none!important}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:500px){
+.container{padding:0 12px 60px}
+.header h1{font-size:22px}
+.tab-btn{font-size:11px;padding:10px 4px}
+.summary-grid{grid-template-columns:1fr}
+.btn{padding:10px 18px;font-size:13px}
+.card{padding:16px 14px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="brand-bar">
+<svg class="brand-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<circle cx="24" cy="24" r="22" fill="none" stroke="url(#l)" stroke-width="2.5"/>
+<defs><linearGradient id="l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#2d6a4f"/></linearGradient></defs>
+<circle cx="24" cy="24" r="15" fill="none" stroke="#2d6a4f" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line x1="2" y1="2" x2="46" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
+<line x1="46" y1="2" x2="2" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
+<circle cx="24" cy="24" r="4" fill="#2d6a4f"/>
+</svg>
+<div style="display:flex;flex-direction:column">
+<span class="brand-name">OrgLens</span>
+<span class="brand-tagline">看清组织，看见解法</span>
+</div>
+</div>
+
+<div class="header">
+<h1>📋 组织人效自检清单</h1>
+<p class="subtitle">三合一诊断工具：识别真枢纽 · 定位真堵点 · 复盘裁错人</p>
+<div class="framework-badge"><span class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--accent)"></span> 基于 OrgLens「人效 = 战略能量 × 组织杠杆 × 人才密度」框架</div>
+</div>
+
+<!-- Tab 导航 -->
+<div class="tabs-nav">
+<button class="tab-btn active" onclick="switchTab('hub')">🔑 枢纽识别五问法</button>
+<button class="tab-btn" onclick="switchTab('loss')">⚡ 能量损耗自查表</button>
+<button class="tab-btn" onclick="switchTab('audit')">📝 留对人审计</button>
+</div>
+
+<!-- Tab 1: 枢纽识别五问法 -->
+<div id="tab-hub" class="tab-content active">
+<div class="instructions" style="margin-top:0;border-top:none;border-radius:0 0 12px 12px">
+<p>💡 选一个你正在考虑"要不要让他走"的人，用这五个问题逐一打分。<br>每个问题「是」得 1 分。得分越高，越不能裁。</p>
+</div>
+
+<div class="hub-q">
+<div class="q-label">问题一 · 信息问</div>
+<div class="q-title">如果这个人明天不来了，有多少信息只有他知道？</div>
+<div class="q-detail">思考：核心系统权限、大客户关系、历史坑位记录、未文档化的架构决策……</div>
+<div class="radio-group" data-q="info"><label><input type="radio" name="info" value="1">是</label><label><input type="radio" name="info" value="0">否</label></div>
+</div>
+<div class="hub-q">
+<div class="q-label">问题二 · 响应问</div>
+<div class="q-title">出了问题，大家第一个想到找谁？</div>
+<div class="q-detail">思考：跨团队紧急问题时，大家是去找流程文档，还是喊这个人的名字？</div>
+<div class="radio-group" data-q="respond"><label><input type="radio" name="respond" value="1">是</label><label><input type="radio" name="respond" value="0">否</label></div>
+</div>
+<div class="hub-q">
+<div class="q-label">问题三 · 缝合问</div>
+<div class="q-title">有他在和没他在，跨部门协作效率差多少？</div>
+<div class="q-detail">思考：他走之后，两个部门开始互相推、开会没人拍板、小事升级成大事。</div>
+<div class="radio-group" data-q="stitch"><label><input type="radio" name="stitch" value="1">是</label><label><input type="radio" name="stitch" value="0">否</label></div>
+</div>
+<div class="hub-q">
+<div class="q-label">问题四 · 信任问</div>
+<div class="q-title">团队里谁走，会让其他人也开始想走？</div>
+<div class="q-detail">思考：这个人离开会不会引发连锁离职？他是不是团队的"情绪锚点"或"隐性精神领袖"？</div>
+<div class="radio-group" data-q="trust"><label><input type="radio" name="trust" value="1">是</label><label><input type="radio" name="trust" value="0">否</label></div>
+</div>
+<div class="hub-q">
+<div class="q-label">问题五 · 稀缺问</div>
+<div class="q-title">市场上多久能招到一个跟他一样的人？</div>
+<div class="q-detail">思考：猎头听到这个岗位说"这个不好找"。他掌握的领域知识、路径依赖有多深？</div>
+<div class="radio-group" data-q="scarce"><label><input type="radio" name="scarce" value="1">是</label><label><input type="radio" name="scarce" value="0">否</label></div>
+</div>
+
+<div class="btn-row">
+<button class="btn btn-outline" onclick="resetHub()">🔄 重置</button>
+<button class="btn btn-primary" onclick="calcHub()">📊 查看结果</button>
+</div>
+<div id="hub-result" class="hidden"></div>
+</div>
+
+<!-- Tab 2: 能量损耗自查表 -->
+<div id="tab-loss" class="tab-content">
+<div class="instructions" style="margin-top:0;border-top:none;border-radius:0 0 12px 12px">
+<p>⚡ 对每一项损耗类型，根据你的团队现状滑动评级。<br>0 = 几乎没有 &nbsp;|&nbsp; 5 = 非常严重（每周都在发生）</p>
+</div>
+
+<div class="loss-card">
+<div class="l-header"><span class="l-name">🔒 决策损耗</span><span class="l-coef">损耗系数 ×0.7</span></div>
+<div class="l-symptoms">一个技术方案要 3 个以上架构师点头才能推；一个预算审批要等 4 个人画圈。</div>
+<div class="slider-row"><span>0</span><input type="range" min="0" max="5" value="0" id="loss-decision" oninput="updateLossVal(this)"><span>5</span><span class="slider-val" id="val-decision">0</span></div>
+</div>
+<div class="loss-card">
+<div class="l-header"><span class="l-name">⏳ 流程损耗</span><span class="l-coef">损耗系数 ×0.6</span></div>
+<div class="l-symptoms">CI/CD Pipeline 里 40% 时间在等审批；"提需求到上线要走 42 天"；申请一个工具权限要走 5 天。</div>
+<div class="slider-row"><span>0</span><input type="range" min="0" max="5" value="0" id="loss-process" oninput="updateLossVal(this)"><span>5</span><span class="slider-val" id="val-process">0</span></div>
+</div>
+<div class="loss-card">
+<div class="l-header"><span class="l-name">🗣️ 对齐损耗</span><span class="l-coef">损耗系数 ×0.5</span></div>
+<div class="l-symptoms">每周 40% 时间在跨部门"拉通"；同一件事要跟 3 个群分别解释一遍；会越开越多，决定越来越少。</div>
+<div class="slider-row"><span>0</span><input type="range" min="0" max="5" value="0" id="loss-align" oninput="updateLossVal(this)"><span>5</span><span class="slider-val" id="val-align">0</span></div>
+</div>
+<div class="loss-card">
+<div class="l-header"><span class="l-name">💢 情绪损耗</span><span class="l-coef">损耗系数 ×0.4</span></div>
+<div class="l-symptoms">"做了也不落好，不如不做"成了团队口头禅；裁员后幸存者把"安全"排在"赢"前面。</div>
+<div class="slider-row"><span>0</span><input type="range" min="0" max="5" value="0" id="loss-morale" oninput="updateLossVal(this)"><span>5</span><span class="slider-val" id="val-morale">0</span></div>
+</div>
+<div class="loss-card">
+<div class="l-header"><span class="l-name">🤝 信任损耗</span><span class="l-coef">损耗系数 ×0.3</span></div>
+<div class="l-symptoms">产品和研发互相"防一手"；跨团队协作先确认"责任边界"再配合；推项目需要先攒人情。</div>
+<div class="slider-row"><span>0</span><input type="range" min="0" max="5" value="0" id="loss-trust" oninput="updateLossVal(this)"><span>5</span><span class="slider-val" id="val-trust">0</span></div>
+</div>
+
+<div class="btn-row">
+<button class="btn btn-outline" onclick="resetLoss()">🔄 重置</button>
+<button class="btn btn-primary" onclick="calcLoss()">📊 查看结果</button>
+</div>
+<div id="loss-result" class="hidden"></div>
+</div>
+
+<!-- Tab 3: 留对人审计 -->
+<div id="tab-audit" class="tab-content">
+<div class="instructions" style="margin-top:0;border-top:none;border-radius:0 0 12px 12px">
+<p>📝 左边列「离开的人」，右边列「新来的人」。逐一判断对组织能量的影响。<br>全部填完后点击「生成审计报告」。</p>
+</div>
+
+<div class="audit-section">
+<h3><span class="icon">👋</span> 过去 12 个月离开的人</h3>
+<div class="audit-desc">列出离开的员工，选择他们对组织的影响。</div>
+<div class="add-emp">
+<input type="text" id="left-name" placeholder="员工姓名 / 岗位">
+<button onclick="addLeft()">+ 添加</button>
+</div>
+<div id="left-list" class="emp-list"><div class="emp-list-header">尚未添加——请先添加离开的员工</div></div>
+</div>
+
+<div class="audit-section" style="margin-top:24px;padding-top:16px;border-top:1px solid var(--border)">
+<h3><span class="icon">🆕</span> 过去 12 个月新来的人</h3>
+<div class="audit-desc">列出新入职的员工，判断他们对组织的影响。</div>
+<div class="add-emp">
+<input type="text" id="new-name" placeholder="员工姓名 / 岗位">
+<button onclick="addNew()">+ 添加</button>
+</div>
+<div id="new-list" class="emp-list"><div class="emp-list-header">尚未添加——请先添加新入职的员工</div></div>
+</div>
+
+<div class="btn-row">
+<button class="btn btn-outline" onclick="resetAudit()">🔄 重置</button>
+<button class="btn btn-primary" onclick="calcAudit()">📊 生成审计报告</button>
+</div>
+<div id="audit-result" class="hidden"></div>
+</div>
+
+<div class="footer">
+<div class="footer-brand">OrgLens</div>
+<div class="footer-tagline">看清组织，看见解法</div>
+<div class="footer-divider"></div>
+<p>基于 OrgLens「人效 = 战略能量 × 组织杠杆 × 人才密度」框架</p>
+<p style="margin-top:2px">关注 <a href="#">OrgLens</a>，每周 2-3 篇，不讲大道理，只拆真问题。</p>
+<p style="margin-top:6px">别急着裁人，先把谁不能走标红。</p>
+</div>
+</div>
+
+<script>
+// Tab 切换
+function switchTab(name){
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+document.querySelector(`.tab-btn:nth-child(${name==='hub'?1:name==='loss'?2:3})`).classList.add('active');
+document.getElementById('tab-'+name).classList.add('active');
+}
+
+// === Hub 枢纽识别 ===
+function getHubVal(q){let r=document.querySelector(`input[name="${q}"]:checked`);return r?parseInt(r.value):-1}
+function calcHub(){
+let keys=['info','respond','stitch','trust','scarce'],names=['信息问','响应问','缝合问','信任问','稀缺问'];
+let score=0,total=0,missing=[];
+keys.forEach(k=>{let v=getHubVal(k);if(v<0)missing.push(''+names[keys.indexOf(k)]+'（未填写）');else{score+=v;total++}});
+if(missing.length){alert('请先完成以下问题：\n'+missing.join('\n'));return}
+let r=document.getElementById('hub-result');r.classList.remove('hidden');
+let cls=score>=4?'alert-danger':score>=2?'alert-warn':'alert-good';
+let msg=score>=4?`⚠️ <strong>得分 ${score}/5 —— 这个人是枢纽，不能裁。</strong><br>裁掉的代价远超他"省"下的薪资。建议：把他列入"防流失"名单，定期一对一了解他的堵点。`
+:score>=2?`🟡 <strong>得分 ${score}/5 —— 有一定枢纽性，需谨慎评估。</strong><br>如果有替代方案（知识交接、流程文档化），可以降低他的不可替代性后再考虑。`
+:`✅ <strong>得分 ${score}/5 —— 可替代性较高。</strong><br>如果绩效或匹配度确实有问题，裁掉的风险可控。建议做好 2 周知识交接期。`;
+r.innerHTML=`<div class="card" style="margin-top:16px"><h2>🔑 枢纽识别结果</h2><div class="alert-box ${cls}">${msg}</div></div>`;
+r.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function resetHub(){
+document.querySelectorAll('#tab-hub input[type=radio]').forEach(r=>r.checked=false);
+document.getElementById('hub-result').classList.add('hidden');
+}
+
+// === Loss 能量损耗 ===
+function updateLossVal(slider){document.getElementById('val-'+slider.id.replace('loss-','')).textContent=slider.value}
+function calcLoss(){
+let types=[
+{id:'decision',name:'决策损耗',coef:0.7},
+{id:'process',name:'流程损耗',coef:0.6},
+{id:'align',name:'对齐损耗',coef:0.5},
+{id:'morale',name:'情绪损耗',coef:0.4},
+{id:'trust',name:'信任损耗',coef:0.3}
+];
+let total=0,max=0,details=[];
+types.forEach(t=>{let v=parseInt(document.getElementById('loss-'+t.id).value);details.push({...t,val:v});total+=v*t.coef;max+=5*t.coef});
+let pct=Math.round(total/max*100);
+let r=document.getElementById('loss-result');r.classList.remove('hidden');
+let cls=pct>=60?'alert-danger':pct>=35?'alert-warn':'alert-good';
+let msg=pct>=60?`🔴 <strong>能量损耗指数：${pct}% —— 严重。</strong><br>你的组织正在内耗。不是人多了，是能量被堵住了。优先处理得分最高的前两项损耗。`
+:pct>=35?`🟡 <strong>能量损耗指数：${pct}% —— 中等。</strong><br>有损耗但还在可控范围。建议选出最严重的 1-2 项，集中做一次流程瘦身。`
+:`✅ <strong>能量损耗指数：${pct}% —— 健康。</strong><br>组织杠杆通畅，能量没有被大量消耗在内部摩擦上。保持现状。`;
+let worst=details.sort((a,b)=>b.val*b.coef-a.val*a.coef).slice(0,2);
+let worstStr=worst.map(d=>`<strong>${d.name}</strong>（${d.val}/5 分，等效损耗 ${Math.round(d.val*d.coef*20)}%）`).join(' 和 ');
+r.innerHTML=`<div class="card" style="margin-top:16px"><h2>⚡ 能量损耗诊断</h2>
+<div class="summary-grid">
+${details.map(d=>`<div class="summary-item"><div class="s-value" style="color:${d.val>=4?'var(--low)':d.val>=2?'var(--warn)':'var(--high)'}">${d.val}/5</div><div class="s-label">${d.name}（×${d.coef}）</div></div>`).join('')}
+</div>
+<div class="alert-box ${cls}">${msg}<br><br>🎯 优先处理：${worstStr}</div></div>`;
+r.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function resetLoss(){
+['decision','process','align','morale','trust'].forEach(id=>{let s=document.getElementById('loss-'+id);s.value=0;document.getElementById('val-'+id).textContent='0'});
+document.getElementById('loss-result').classList.add('hidden');
+}
+
+// === Audit 留对人审计 ===
+let leftEmps=[],newEmps=[];
+function addLeft(){
+let inp=document.getElementById('left-name');
+if(!inp.value.trim())return;
+leftEmps.push({name:inp.value.trim(),impact:null});
+inp.value='';
+renderLeft();
+}
+function addNew(){
+let inp=document.getElementById('new-name');
+if(!inp.value.trim())return;
+newEmps.push({name:inp.value.trim(),impact:null});
+inp.value='';
+renderNew();
+}
+function renderLeft(){
+let el=document.getElementById('left-list');
+if(leftEmps.length===0){el.innerHTML='<div class="emp-list-header">尚未添加——请先添加离开的员工</div>';return}
+el.innerHTML=leftEmps.map((e,i)=>`<div class="emp-card"><h4>${e.name} <span style="font-size:11px;color:var(--text3)">(已离职)</span></h4>
+<label><input type="checkbox" onchange="setLeft(${i},'better',this)">✅ 走了之后更好</label>
+<label><input type="checkbox" onchange="setLeft(${i},'worse',this)">⚠️ 走了之后出现坑</label>
+<label><input type="checkbox" onchange="setLeft(${i},'same',this)">➖ 影响不大</label>
+<button class="rm-btn" onclick="removeLeft(${i})" style="margin-left:auto;display:inline-flex;align-items:center;justify-content:center">✕</button></div>`).join('');
+}
+function setLeft(idx,type,cb){
+if(cb.checked)leftEmps[idx].impact=type;
+let card=cb.closest('.emp-card');
+card.querySelectorAll('input[type=checkbox]').forEach(c=>{if(c!==cb)c.checked=false});
+}
+function removeLeft(i){leftEmps.splice(i,1);renderLeft()}
+function renderNew(){
+let el=document.getElementById('new-list');
+if(newEmps.length===0){el.innerHTML='<div class="emp-list-header">尚未添加——请先添加新入职的员工</div>';return}
+el.innerHTML=newEmps.map((e,i)=>`<div class="emp-card"><h4>${e.name} <span style="font-size:11px;color:var(--text3)">(新入职)</span></h4>
+<label><input type="checkbox" onchange="setNew(${i},'release',this)">🚀 释放了他人能量</label>
+<label><input type="checkbox" onchange="setNew(${i},'friction',this)">🛑 增加了摩擦</label>
+<label><input type="checkbox" onchange="setNew(${i},'same',this)">➖ 影响不大</label>
+<button class="rm-btn" onclick="removeNew(${i})" style="margin-left:auto;display:inline-flex;align-items:center;justify-content:center">✕</button></div>`).join('');
+}
+function setNew(idx,type,cb){
+if(cb.checked)newEmps[idx].impact=type;
+let card=cb.closest('.emp-card');
+card.querySelectorAll('input[type=checkbox]').forEach(c=>{if(c!==cb)c.checked=false});
+}
+function removeNew(i){newEmps.splice(i,1);renderNew()}
+
+function calcAudit(){
+if(leftEmps.length===0 && newEmps.length===0){alert('请至少添加一位离开或新入职的员工');return}
+let leftBetter=leftEmps.filter(e=>e.impact==='better').length;
+let leftWorse=leftEmps.filter(e=>e.impact==='worse').length;
+let leftSame=leftEmps.filter(e=>e.impact==='same').length;
+let leftUnset=leftEmps.filter(e=>!e.impact).length;
+let newRelease=newEmps.filter(e=>e.impact==='release').length;
+let newFriction=newEmps.filter(e=>e.impact==='friction').length;
+let newSame=newEmps.filter(e=>e.impact==='same').length;
+let newUnset=newEmps.filter(e=>!e.impact).length;
+if(leftUnset>0||newUnset>0){
+let msgs=[];
+if(leftUnset>0)msgs.push(`${leftUnset} 位离开的员工未标记影响`);
+if(newUnset>0)msgs.push(`${newUnset} 位新入职的员工未标记影响`);
+alert('请完成所有员工的评估：\n'+msgs.join('\n'));return;
+}
+let r=document.getElementById('audit-result');r.classList.remove('hidden');
+let missRatio=leftEmps.length>0?Math.round(leftWorse/leftEmps.length*100):0;
+let missCls=missRatio>=40?'alert-danger':missRatio>=20?'alert-warn':'alert-good';
+let missMsg=missRatio>=40?`🔴 <strong>${missRatio}% 的离职造成了意外损失</strong>——你裁错人了。`
+:missRatio>=20?`🟡 <strong>${missRatio}% 的离职造成了损失</strong>——有一定程度的裁错，需优化评估流程。`
+:`✅ <strong>${missRatio}% 的离职造成了损失</strong>——整体裁对率较高。`;
+let frictionRatio=newEmps.length>0?Math.round(newFriction/newEmps.length*100):0;
+let frictionMsg=frictionRatio>=40?`🔴 新人中 <strong>${frictionRatio}% 增加了摩擦</strong>——招聘质量/入职流程需审视。`
+:frictionRatio>0?`🟡 新人中 ${frictionRatio}% 增加了摩擦。`
+:'✅ 新人整体融入良好。';
+r.innerHTML=`<div class="card" style="margin-top:16px"><h2>📝 留对人审计报告</h2>
+<div class="summary-grid">
+<div class="summary-item"><div class="s-value" style="color:var(--high)">${leftBetter}</div><div class="s-label">走了更好</div></div>
+<div class="summary-item"><div class="s-value" style="color:${missRatio>=40?'var(--low)':'var(--warn)'}">${leftWorse}</div><div class="s-label">走了有坑 ⚠️</div></div>
+<div class="summary-item"><div class="s-value" style="color:var(--high)">${newRelease}</div><div class="s-label">新人释放能量</div></div>
+<div class="summary-item"><div class="s-value" style="color:${frictionRatio>=40?'var(--low)':'var(--warn)'}">${newFriction}</div><div class="s-label">新人增加摩擦</div></div>
+</div>
+<div class="alert-box ${missCls}">${missMsg}<br>离职 ${leftEmps.length} 人：走更好 ${leftBetter} / 有坑 ${leftWorse} / 无影响 ${leftSame}</div>
+<div class="alert-box ${frictionRatio>=40?'alert-danger':frictionRatio>0?'alert-warn':'alert-good'}">${frictionMsg}<br>入职 ${newEmps.length} 人：释放能量 ${newRelease} / 增加摩擦 ${newFriction} / 无影响 ${newSame}</div>
+<p style="font-size:12.5px;color:var(--text2);text-align:center;margin-top:10px">💡 这个简单的对比，比 20 万咨询报告更接近真相。</p></div>`;
+r.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function resetAudit(){leftEmps=[];newEmps=[];renderLeft();renderNew();document.getElementById('audit-result').classList.add('hidden')}
+</script>
+</body>
+</html>
