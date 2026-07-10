@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>战略性组织预设计框架·四工具空白模板 - OrgLens</title>
+<meta name="description" content="能力版图断点扫描 × 战略人才矩阵 × 训战飞轮框架 × 组织优势诊断。Demo→商业化阶段，四步完成组织能力预设计。">
+<meta property="og:title" content="战略性组织预设计框架·四工具空白模板 - OrgLens">
+<meta property="og:description" content="能力版图×战略人才×训战飞轮×组织优势。科技公司必备的组织设计自检工具箱。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231a1a2e'/><circle cx='16' cy='16' r='10' fill='none' stroke='%232d6a4f' stroke-width='1.5'/><line x1='5' y1='27' x2='27' y2='5' stroke='%23c8a96e' stroke-width='1.5' opacity='0.6'/><circle cx='16' cy='16' r='3' fill='%232d6a4f'/></svg>">
+<style>
+:root{--primary:#1a1a2e;--accent:#2d6a4f;--accent-light:#e8f5e9;--gold:#c8a96e;--gold-light:#f7efe0;--bg:#f6f7f6;--card-bg:#ffffff;--border:#e0e0e0;--high:#2d6a4f;--mid:#e6a817;--low:#c0392b;--text2:#666;--text3:#999}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 18px 80px}
+.header{text-align:center;padding:28px 0 18px;border-bottom:1px solid var(--border);margin-bottom:22px}
+.header h1{font-size:23px;font-weight:800;color:var(--primary);letter-spacing:.5px;line-height:1.4}
+.header .subtitle{font-size:13px;color:var(--text2);margin-top:6px;line-height:1.5}
+.badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;color:var(--accent);background:var(--accent-light);padding:5px 14px;border-radius:20px;font-weight:600}
+.badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin:22px 0;font-size:12px;color:var(--text2)}
+.flow-step{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:85px}
+.flow-step .num{display:inline-block;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;line-height:20px;margin-bottom:3px}
+.flow-step .label{font-weight:600;color:var(--primary);font-size:12px;display:block}
+.flow-arrow{font-size:16px;color:var(--gold);font-weight:700}
+.tab-nav{display:flex;flex-wrap:wrap;gap:5px;margin:20px 0 16px}
+.tab-btn{flex:1;min-width:90px;padding:9px 6px;border:1px solid var(--border);border-radius:10px;background:var(--card-bg);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s}
+.tab-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.card{background:var(--card-bg);border-radius:12px;padding:22px;margin-bottom:18px;border:1px solid var(--border)}
+.card h2{font-size:17px;font-weight:700;color:var(--primary);margin-bottom:4px}
+.card .purpose{font-size:13px;color:var(--text2);margin-bottom:16px}
+.infobox{background:var(--accent-light);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:16px;font-size:12px;color:var(--accent)}
+.infobox.warn{background:#fff8e1;border-left-color:var(--mid);color:#a67c00}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px}
+th,td{padding:8px 6px;border:1px solid var(--border);text-align:center;vertical-align:middle}
+th{background:#f9faf9;font-weight:600;color:var(--primary);font-size:11px}
+td input,td textarea,td select{width:100%;padding:5px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px;font-family:inherit;background:#fafafa}
+td input:focus,td textarea:focus,td select:focus{outline:none;border-color:var(--accent);background:#fff}
+td textarea{resize:vertical;min-height:36px}
+.sht{width:50px;text-align:center}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;font-size:11px;color:var(--text2)}
+.legend-item{display:flex;align-items:center;gap:3px}
+.sdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:2px}
+.dot-r{background:#c0392b}.dot-y{background:#e6a817}.dot-g{background:#2d6a4f}.dot-b{background:#2980b9}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
+.btn:hover{opacity:.85}
+.btn-ol{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.summary-card{background:var(--gold-light);border:1px solid var(--gold);border-radius:12px;padding:20px;margin:18px 0}
+.summary-card h3{font-size:15px;color:var(--primary);margin-bottom:10px}
+.footer{text-align:center;padding:28px 0 20px;border-top:1px solid var(--border);margin-top:28px}
+.footer-logo{display:block;max-width:170px;height:auto;margin:0 auto 10px}
+.footer p{font-size:11px;color:var(--text3)}
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+@media(max-width:500px){.container{padding:0 10px 50px}.header h1{font-size:19px}.card{padding:14px}.tab-btn{font-size:10px;padding:7px 4px}table{font-size:10px}th,td{padding:5px 3px}td input,td textarea{font-size:10px}.sht{width:38px}}
+@media print{body{background:#fff}.container{max-width:100%;padding:0}.card{break-inside:avoid;border:1px solid #ccc}.tab-nav,.btn-row,.btn,.toast{display:none!important}.tab-content{display:block!important;margin-bottom:16px}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>战略性组织预设计框架</h1>
+<p class="subtitle">科技公司 Demo 验证期 → 商业化规模化 · 组织能力预设计<br>线上可填写版本 · 支持保存 / 打印 / 截图</p>
+<div class="badge"><span class="dot"></span>OrgLens · 四工具联动</div>
+</div>
+<div class="flow">
+<div class="flow-step"><span class="num">1</span><span class="label">能力版图</span></div><div class="flow-arrow">→</div>
+<div class="flow-step"><span class="num">2</span><span class="label">人才矩阵</span></div><div class="flow-arrow">→</div>
+<div class="flow-step"><span class="num">3</span><span class="label">训战飞轮</span></div><div class="flow-arrow">→</div>
+<div class="flow-step"><span class="num">4</span><span class="label">组织优势</span></div>
+</div>
+<div class="tab-nav">
+<button class="tab-btn active" onclick="switchTab(0)">工具一<br>能力版图</button>
+<button class="tab-btn" onclick="switchTab(1)">工具二<br>人才矩阵</button>
+<button class="tab-btn" onclick="switchTab(2)">工具三<br>训战飞轮</button>
+<button class="tab-btn" onclick="switchTab(3)">工具四<br>组织优势</button>
+<button class="tab-btn" onclick="switchTab(4)">综合<br>路线图</button>
+</div>
+
+<div class="tab-content active" id="tab0">
+<div class="card">
+<h2>工具一：能力版图 · 断点扫描</h2>
+<p class="purpose">扫描组织在三条能力线上的覆盖状态，定位🔴断点和🟡单点依赖。</p>
+<div class="legend">
+<div class="legend-item"><span class="sdot dot-r"></span>🔴 断点：完全缺失</div>
+<div class="legend-item"><span class="sdot dot-y"></span>🟡 单点：一人扛，走了就断</div>
+<div class="legend-item"><span class="sdot dot-g"></span>🟢 覆盖：有梯队有SOP</div>
+<div class="legend-item"><span class="sdot dot-b"></span>🟦 溢出：行业领先</div>
+</div>
+<table>
+<tr><th>能力线</th><th colspan="6">子能力</th></tr>
+<tr><td><b>产品技术线</b></td><td>算法研发<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>系统工程化<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>平台架构<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>运维稳定性<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>安全合规<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td><input placeholder="其他" style="width:56px"><br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td></tr>
+<tr><td><b>商业转化线</b></td><td>大客户BD<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>售前方案<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>销售管理<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>客户成功<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>市场品牌<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td><input placeholder="其他" style="width:56px"><br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td></tr>
+<tr><td><b>组织运营线</b></td><td>招聘能力<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>新人融入<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>绩效管理<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>流程建设<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>文化传承<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td><td>管理梯队<br><select><option>-</option><option>🔴</option><option>🟡</option><option>🟢</option><option>🟦</option></select></td></tr>
+</table>
+<div class="infobox warn">⚠️ 别把所有子能力都填🟢——诚实面对断点，是组织升级的第一步。</div>
+<h3 style="font-size:14px;margin:18px 0 8px">断点汇总与优先级</h3>
+<table>
+<tr><th>优先级</th><th>🔴/🟡 项</th><th>能力线</th><th>谁在兼？什么问题？</th><th>与12月战略关联度</th></tr>
+<tr><td>P0</td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><select><option>🔴 高</option><option>🟡 中</option><option>🟢 低</option></select></td></tr>
+<tr><td>P0</td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><select><option>🔴 高</option><option>🟡 中</option><option>🟢 低</option></select></td></tr>
+<tr><td>P1</td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><select><option>🔴 高</option><option>🟡 中</option><option>🟢 低</option></select></td></tr>
+<tr><td>P1</td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><select><option>🔴 高</option><option>🟡 中</option><option>🟢 低</option></select></td></tr>
+<tr><td>P2</td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><select><option>🔴 高</option><option>🟡 中</option><option>🟢 低</option></select></td></tr>
+</table></div></div>
+<div class="tab-content" id="tab1">
+<div class="card">
+<h2>工具二：战略人才矩阵</h2>
+<p class="purpose">把核心人才（Top 10-15）放进两个维度矩阵，识别排位错误和战略人才缺口。</p>
+<div style="display:flex;justify-content:center;margin:16px 0">
+<table style="max-width:320px">
+<tr><th></th><th>低战略关联度</th><th>高战略关联度</th></tr>
+<tr><td><b>高不可替代性</b></td><td style="background:#f7efe0">🟡 战略错配区</td><td style="background:#e8f5e9">🟢 核心战区</td></tr>
+<tr><td><b>低不可替代性</b></td><td style="background:#fde8e8">🔴 优化/替换区</td><td style="background:#fff8e1">🟡 培养/补强区</td></tr>
+</table>
+</div>
+<h3 style="font-size:14px;margin:18px 0 8px">人才排位清单</h3>
+<table>
+<tr><th>区域</th><th>姓名</th><th>当前角色</th><th>核心能力</th><th>排位诊断</th></tr>
+<tr><td style="background:#e8f5e9"><b>🟢 核心战区</b></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><select><option>✅ 位置正确</option><option>⚠️ 需微调</option></select></td></tr>
+<tr><td style="background:#e8f5e9"><b>🟢 核心战区</b></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><select><option>✅ 位置正确</option><option>⚠️ 需微调</option></select></td></tr>
+<tr><td style="background:#f7efe0"><b>🟡 战略错配</b></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><select><option>⚠️ 人强但做偏了</option></select></td></tr>
+<tr><td style="background:#f7efe0"><b>🟡 战略错配</b></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><select><option>⚠️ 人强但做偏了</option></select></td></tr>
+<tr><td style="background:#fff8e1"><b>🟡 培养/补强</b></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><select><option>⚠️ 方向对人不够强</option></select></td></tr>
+<tr><td style="background:#fde8e8"><b>🔴 优化/替换</b></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><select><option>❌ 建议调整</option></select></td></tr>
+</table>
+<h3 style="font-size:14px;margin:18px 0 8px">人才重排行动计划</h3>
+<table>
+<tr><th>姓名</th><th>当前区域</th><th>目标区域</th><th>调整动作</th><th>时间窗口</th></tr>
+<tr><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+<tr><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+</table>
+<h3 style="font-size:14px;margin:18px 0 8px">双通道设计自检</h3>
+<table>
+<tr><th>检查项</th><th>现状</th><th>差距</th></tr>
+<tr><td>是否有明确的管理通道和专家通道区分？</td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+<tr><td>专家通道职级和薪酬上限是否不低于同级管理岗？</td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+<tr><td>是否有技术大牛因"只有管理一条路"而流失？</td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+<tr><td>专家序列晋升标准是否清晰可量化？</td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+</table>
+</div></div>
+<div class="tab-content" id="tab2">
+<div class="card">
+<h2>工具三：训战飞轮框架</h2>
+<p class="purpose">把关键战役中最优秀个体的经验，拆解成可复用的"肌肉记忆"，通过实战循环让新人快速达到75分。</p>
+<div class="infobox">🔄 标准动作(V1) → 新人带框架出战 → 战后复盘 → 迭代标准动作(V2) → 下一批用V2出战 → 循环三圈</div>
+<h3 style="font-size:14px;margin:18px 0 8px">关键战役场景（选3-5个）</h3>
+<table>
+<tr><th>战役场景</th><th>为什么关键</th><th>当前战斗力</th><th>目标</th></tr>
+<tr><td><input placeholder="例：头部客户BD"></td><td><input placeholder=""></td><td><input class="sht" placeholder=""></td><td><input class="sht" placeholder=""></td></tr>
+<tr><td><input placeholder=""></td><td><input placeholder=""></td><td><input class="sht" placeholder=""></td><td><input class="sht" placeholder=""></td></tr>
+<tr><td><input placeholder=""></td><td><input placeholder=""></td><td><input class="sht" placeholder=""></td><td><input class="sht" placeholder=""></td></tr>
+<tr><td><input placeholder=""></td><td><input placeholder=""></td><td><input class="sht" placeholder=""></td><td><input class="sht" placeholder=""></td></tr>
+<tr><td><input placeholder=""></td><td><input placeholder=""></td><td><input class="sht" placeholder=""></td><td><input class="sht" placeholder=""></td></tr>
+</table>
+<h3 style="font-size:14px;margin:18px 0 8px">场景拆解：<input style="width:160px;font-size:13px" placeholder="填写场景名"></h3>
+<table>
+<tr><th>环节</th><th>标准动作（怎么做）</th><th>判断要诀（怎么判断）</th><th>红线（绝不能做）</th></tr>
+<tr><td><input placeholder="环节1"></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td></tr>
+<tr><td><input placeholder="环节2"></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td></tr>
+<tr><td><input placeholder="环节3"></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td></tr>
+<tr><td><input placeholder="环节4"></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td></tr>
+<tr><td><input placeholder="环节5"></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td></tr>
+</table>
+<h3 style="font-size:14px;margin:18px 0 8px">飞轮迭代记录</h3>
+<table>
+<tr><th>圈数</th><th>日期</th><th>出战人数</th><th>复盘核心发现</th><th>标准动作调整</th></tr>
+<tr><td>V1→出战</td><td><input placeholder=""></td><td><input class="sht" placeholder=""></td><td>-</td><td>-</td></tr>
+<tr><td>第一圈复盘</td><td><input placeholder=""></td><td>-</td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+<tr><td>V2→出战</td><td><input placeholder=""></td><td><input class="sht" placeholder=""></td><td>-</td><td>-</td></tr>
+<tr><td>第二圈复盘</td><td><input placeholder=""></td><td>-</td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+<tr><td>V3→出战</td><td><input placeholder=""></td><td><input class="sht" placeholder=""></td><td>-</td><td>-</td></tr>
+<tr><td>第三圈复盘</td><td><input placeholder=""></td><td>-</td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+</table></div></div>
+<div class="tab-content" id="tab3">
+<div class="card">
+<h2>工具四：组织优势诊断</h2>
+<p class="purpose">诊断"卖得出去""交付得了""留得住人"三条线，是个人能力驱动还是组织系统驱动。</p>
+<h3 style="font-size:14px;margin:18px 0 8px">组织优势诊断表</h3>
+<table>
+<tr><th>维度</th><th>诊断问题</th><th>评分<br>(1-10)</th><th>个人/组织</th><th>差距描述</th></tr>
+<tr><td rowspan="4" style="background:#f7efe0"><b>销售组织化</b></td><td>CEO三个月不见客户，签约节奏是否不变？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+<tr><td>是否有独立于CEO的Top BD团队（≥3人）？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+<tr><td>客户攻占方法论是否沉淀为可复用手册/方案库？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+<tr><td>是否有客户成功部门（非客服）主动帮助客户用好产品？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+<tr><td rowspan="4" style="background:#e8f5e9"><b>交付体系化</b></td><td>标准客户POC能否两周内由≤3人团队独立完成？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+<tr><td>产品化交付占比是否≥80%（定制化≤20%）？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+<tr><td>是否有交付工具链（自动部署/监控面板/知识库）？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+<tr><td>交付能力是否分级（标准/高级/攻坚）？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+<tr><td rowspan="4" style="background:#dceefb"><b>人才竞争力</b></td><td>核心高潜人才年流失率是否≤10%？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+<tr><td>流失人才去了大厂"养老"还是竞对"打仗"？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+<tr><td>高潜人才是否一个季度能打一场大厂四年才有的战役？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+<tr><td>是否有每半年一次的能力定级和成长阶梯？</td><td><input class="sht" placeholder=""></td><td><select><option>个人</option><option>组织</option></select></td><td><input placeholder=""></td></tr>
+</table>
+<h3 style="font-size:14px;margin:18px 0 8px">差距汇总</h3>
+<table>
+<tr><th>优先级</th><th>最短板</th><th>当前评分</th><th>目标评分</th><th>提升1分最关键的一个动作</th></tr>
+<tr><td>1</td><td><input placeholder=""></td><td><input class="sht" placeholder=""></td><td><input class="sht" placeholder=""></td><td><input placeholder=""></td></tr>
+<tr><td>2</td><td><input placeholder=""></td><td><input class="sht" placeholder=""></td><td><input class="sht" placeholder=""></td><td><input placeholder=""></td></tr>
+<tr><td>3</td><td><input placeholder=""></td><td><input class="sht" placeholder=""></td><td><input class="sht" placeholder=""></td><td><input placeholder=""></td></tr>
+</table></div></div>
+<div class="tab-content" id="tab4">
+<div class="summary-card">
+<h3>📋 综合行动路线图</h3>
+<p style="font-size:12px;color:var(--text2);margin-bottom:12px">完成以上四个工具后，将核心发现汇总到此处。</p>
+<table>
+<tr><th>工具</th><th>核心发现（1句话）</th><th>未来30天最关键的一个动作</th><th>责任人</th><th>成功标志</th></tr>
+<tr><td>能力版图</td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+<tr><td>人才矩阵</td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+<tr><td>训战飞轮</td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+<tr><td>组织优势</td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+</table>
+</div>
+<div class="card" style="text-align:center">
+<p style="font-size:13px;color:var(--text2);line-height:1.8">
+填完这四张图之后，如果你发现——<br>
+有些断点很明显但"怎么补、先补哪个"拿不准<br>
+有些人明显在错配区但"调到哪、怎么调"不确定<br>
+训战框架写完了但"飞轮怎么转起来"需要外部视角<br>
+<strong>这时候，我们可以聊聊。</strong>
+</p>
+</div>
+</div>
+
+<!-- Buttons -->
+<div class="btn-row">
+<button class="btn" onclick="saveData()">💾 保存填写内容</button>
+<button class="btn btn-ol" onclick="clearData()">🔄 清空全部</button>
+<button class="btn btn-ol" onclick="window.print()">🖨️ 打印</button>
+</div>
+
+<div class="footer">
+<img src="orglens-logo.png" alt="OrgLens · 看清组织，看见解法" class="footer-logo">
+<p>OrgLens · 看清组织，看见解法</p>
+</div>
+
+<div class="toast" id="toast"></div>
+
+</div>
+
+<script>
+function switchTab(e){document.querySelectorAll(".tab-btn").forEach((t,n)=>{t.classList.toggle("active",n===e)}),document.querySelectorAll(".tab-content").forEach((t,n)=>{t.classList.toggle("active",n===e)}),window.scrollTo({top:0,behavior:"smooth"})}
+function saveData(){var e={};document.querySelectorAll("input,textarea,select").forEach((t,n)=>{var o=t.name||t.placeholder||(t.parentElement?t.parentElement.textContent.trim().slice(0,30):"")||"field_"+n;e[o]=t.value}),localStorage.setItem("orglens-predesign",JSON.stringify(e)),function(e){var t=document.getElementById("toast");t.textContent=e,t.classList.add("show"),setTimeout(function(){t.classList.remove("show")},2e3)}("✅ 已保存！刷新页面后内容不会丢失")}
+function clearData(){confirm("确定要清空所有填写内容吗？此操作不可恢复。")&&(document.querySelectorAll("input,textarea").forEach(e=>e.value=""),document.querySelectorAll("select").forEach(e=>e.selectedIndex=0),localStorage.removeItem("orglens-predesign"),function(e){var t=document.getElementById("toast");t.textContent=e,t.classList.add("show"),setTimeout(function(){t.classList.remove("show")},2e3)}("🔄 已清空"))}
+!function(){try{var e=JSON.parse(localStorage.getItem("orglens-predesign"));if(e){var t=0;document.querySelectorAll("input,textarea,select").forEach(function(n,o){var r=n.name||n.placeholder||(n.parentElement?n.parentElement.textContent.trim().slice(0,30):"")||"field_"+o;e[r]!==undefined&&(n.value=e[r],t++)})}}catch(e){}}();
+</script>
+</body>
+</html>
