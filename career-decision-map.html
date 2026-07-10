@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>职业决策地图 · 该忍还是该走？ - OrgLens</title>
+<meta name="description" content="基于四象限模型，通过12道题评估你当前的职业生态位现状与趋势，帮你做出理性决策。什么时候该忍，什么时候该走，一张图看清楚。">
+<meta property="og:title" content="职业决策地图 · 该忍还是该走？ - OrgLens">
+<meta property="og:description" content="12道题，看清你的职业现状与趋势。基于OrgLens四象限模型，帮你判断现在是该忍、该留、该准备、还是该走。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231a1a2e'/><circle cx='16' cy='16' r='10' fill='none' stroke='%232d6a4f' stroke-width='1.5'/><line x1='5' y1='27' x2='27' y2='5' stroke='%23c8a96e' stroke-width='1.5' opacity='0.6'/><circle cx='16' cy='16' r='3' fill='%232d6a4f'/></svg>">
+<style>
+:root{--primary:#1a1a2e;--accent:#2d6a4f;--accent-light:#e8f5e9;--gold:#c8a96e;--gold-light:#f7efe0;--bg:#f6f7f6;--card-bg:#ffffff;--border:#e0e0e0;--high:#2d6a4f;--mid:#e6a817;--low:#c0392b;--text2:#666;--text3:#999}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:720px;margin:0 auto;padding:0 20px 80px}
+.header{text-align:center;padding:32px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.header h1{font-size:26px;font-weight:800;color:var(--primary);letter-spacing:.5px;line-height:1.3}
+.header .subtitle{font-size:14px;color:var(--text2);margin-top:6px;line-height:1.5}
+.badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;color:var(--accent);background:var(--accent-light);padding:5px 14px;border-radius:20px;font-weight:600}
+.badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.intro{background:var(--card-bg);border-radius:12px;padding:20px 22px;margin-bottom:20px;border:1px solid var(--border);font-size:14px;color:var(--text2);line-height:1.8}
+.card{background:var(--card-bg);border-radius:12px;padding:22px;margin-bottom:18px;border:1px solid var(--border)}
+.progress-wrap{margin:20px 0}
+.progress-label-row{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:6px}
+.progress-bar{background:var(--border);border-radius:10px;height:6px;overflow:hidden}
+.progress-fill{height:6px;border-radius:10px;background:var(--accent);transition:width .4s}
+.q-block{display:none}
+.q-block.active{display:block}
+.q-num{font-size:12px;color:var(--accent);font-weight:700;margin-bottom:4px;text-transform:uppercase}
+.q-dim{font-size:11px;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:4px}
+.q-dim .dim-badge{padding:2px 8px;border-radius:10px;font-size:10px}
+.dim-now{background:#e8f5e9;color:#2d6a4f}
+.dim-trend{background:#fff8e1;color:#a67c00}
+.q-title{font-size:17px;font-weight:700;color:var(--primary);margin-bottom:16px;line-height:1.4}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt-btn{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1.5px solid var(--border);border-radius:10px;background:var(--card-bg);cursor:pointer;transition:all .2s;text-align:left;font-family:inherit}
+.opt-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.opt-btn.selected{border-color:var(--accent);background:var(--accent-light);box-shadow:0 0 0 2px rgba(45,106,79,.15)}
+.opt-radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.opt-btn.selected .opt-radio{border-color:var(--accent);background:var(--accent)}
+.opt-btn.selected .opt-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff}
+.opt-text{flex:1;font-size:14px;color:var(--primary);line-height:1.4}
+.opt-score{font-size:11px;color:var(--text3);flex-shrink:0}
+.nav-btns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:10px 22px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s}
+.btn:hover{opacity:.85}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-ol{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.result-wrap{display:none}
+.result-wrap.show{display:block}
+.result-card{background:var(--card-bg);border-radius:12px;padding:28px 24px;margin-bottom:18px;border:1px solid var(--border);text-align:center}
+.quadrant-label{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:700;margin-bottom:16px}
+.q1{background:#d5f5e3;color:#1e7e34}
+.q2{background:#fef9e7;color:#a67c00}
+.q3{background:#fdedec;color:#c0392b}
+.q4{background:#fadbd8;color:#922b21}
+.score-meta{display:flex;justify-content:center;gap:32px;font-size:13px;color:var(--text2);margin-bottom:20px}
+.score-meta div{text-align:center}
+.score-meta .val{font-size:28px;font-weight:700;display:block}
+.val.now-good{color:var(--high)}
+.val.now-bad{color:var(--low)}
+.val.trend-up{color:var(--high)}
+.val.trend-down{color:var(--low)}
+.advice-box{background:var(--accent-light);border-radius:10px;padding:20px;margin:16px 0;text-align:left;font-size:14px;line-height:1.8}
+.advice-box h3{font-size:16px;color:var(--accent);margin-bottom:8px}
+.advice-box ul{margin:8px 0;padding-left:20px}
+.advice-box ul li{margin-bottom:4px}
+.signal-list{text-align:left;margin:16px 0}
+.signal-list h4{font-size:14px;color:var(--primary);margin-bottom:8px}
+.signal-item{display:flex;align-items:flex-start;gap:8px;padding:8px 12px;margin-bottom:6px;border-radius:8px;font-size:13px;background:#f9faf9}
+.signal-item .icon{flex-shrink:0;font-size:16px}
+.signal-item.red{background:#fdedec;border-left:3px solid var(--low)}
+.signal-item.yellow{background:#fef9e7;border-left:3px solid var(--mid)}
+.signal-item.green{background:#d5f5e3;border-left:3px solid var(--high)}
+.knife-q{background:var(--gold-light);border-radius:12px;padding:20px 24px;margin:18px 0;text-align:center;border:1px solid var(--gold)}
+.knife-q .big-q{font-size:18px;font-weight:700;color:var(--primary);line-height:1.6;margin-bottom:8px}
+.knife-q .hint{font-size:13px;color:var(--text2)}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:20px 0}
+.footer{text-align:center;padding:28px 0 20px;border-top:1px solid var(--border);margin-top:28px}
+.footer-logo{display:block;max-width:170px;height:auto;margin:0 auto 10px}
+.footer p{font-size:11px;color:var(--text3)}
+@media(max-width:500px){.container{padding:0 14px 60px}.header h1{font-size:21px}.q-title{font-size:15px}.score-meta{gap:20px}.score-meta .val{font-size:24px}}
+@media print{body{background:#fff}.container{max-width:100%;padding:0}.q-block,.nav-btns,.btn-row,.progress-wrap{display:none!important}.result-wrap{display:block!important}.card{break-inside:avoid;border:1px solid #ccc}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>职业决策地图</h1>
+<p class="subtitle">什么时候该忍，什么时候该走？<br>12 道题，看清你的现状与趋势</p>
+<div class="badge"><span class="dot"></span>基于 OrgLens 四象限模型</div>
+</div>
+<div class="intro">
+💡 <b>评估逻辑：</b>两个维度——<b>现在的位置</b>（你目前在组织里的生态位质量）和<b>趋势在变好还是变坏</b>（你的位置在往哪个方向移动）。各6题，每题1-5分。两个得分一交叉，你就知道自己在哪个象限。
+</div>
+<div class="progress-wrap" id="progressWrap">
+<div class="progress-label-row"><span id="progressLabel">第 1 / 12 题</span><span id="progressPct">0%</span></div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+<div id="questionsContainer"></div>
+<div class="nav-btns" id="navBtns">
+<button class="btn btn-ol" id="prevBtn" onclick="prevQ()" disabled>← 上一题</button>
+<button class="btn" id="nextBtn" onclick="nextQ()">下一题 →</button>
+</div>
+<div class="result-wrap" id="resultWrap">
+<div class="result-card" id="resultCard"></div>
+<div class="knife-q">
+<div class="big-q">🗡️ 快刀问题</div>
+<p style="font-size:15px;color:var(--primary);line-height:1.8;margin:10px 0">
+<strong>"两年后回头看，你会后悔现在没走吗？"</strong>
+</p>
+<p class="hint">如果你的直觉回答是"会后悔"，那就是答案。剩下的只是行动。</p>
+</div>
+<div class="btn-row">
+<button class="btn" onclick="window.print()">🖨️ 打印结果</button>
+<button class="btn btn-ol" onclick="restart()">🔄 重新评估</button>
+<button class="btn btn-ol" id="copyBtn" onclick="copyResult()">📋 复制结果</button>
+</div>
+</div>
+<div class="footer">
+<img src="orglens-logo.png" alt="OrgLens · 看清组织，看见解法" class="footer-logo">
+<p>OrgLens · 看清组织，看见解法</p>
+</div>
+</div>
+<script>
+const questions = [
+  {dim:'now', text:'你在关键决策中有多大的话语权？重大决定是否经过你？', opts:['完全被排除在外','偶尔被告知，但无参与','有时被征求，但最终不取决于我','经常参与关键决策','核心决策都经过我，我是关键声音']},
+  {dim:'now', text:'你对重要资源的控制力如何？（预算、项目分配、人员编制）', opts:['完全无权，资源被大量砍减','资源被削减但还能维持','基本稳定，够用但不充裕','资源在增长，有一定调配权','我是资源主要分配者，掌控力强']},
+  {dim:'now', text:'上级对你工作成果的关注和认可程度？', opts:['几乎不关注，做的方案没人看','偶尔有关注，但反馈敷衍','有基本关注，但很少主动肯定','经常给予反馈和认可','高度认可，是我最重要的支持者']},
+  {dim:'now', text:'你在组织中的不可替代性如何？如果你离开，团队受到多大影响？', opts:['随时可被替代，影响很小','短期会有些不便，但很快能补上','有几个关键环节只有我能处理','很多核心事务依赖我，短期难以替代','核心支柱，离开会造成系统性风险']},
+  {dim:'now', text:'横向关系（跨部门、同事间的信任与合作）怎么样？', opts:['被孤立，几乎无横向支持','关系表面化，缺乏实质合作','有基本合作关系，但不深入','有稳定的盟友和支持网络','各条线都愿意与我合作，横向影响力强']},
+  {dim:'now', text:'你在这里还能学到新东西、积累可迁移的能力吗？', opts:['完全停滞，在吃老本','偶尔有新挑战但不成体系','能学到一些，但增速明显放缓','持续有新挑战，能力在稳步提升','每天都在突破边界，成长曲线陡峭']},
+  {dim:'trend', text:'过去半年，你的项目范围/职责是在扩大还是缩小？', opts:['明显缩小，核心项目被转移','有些萎缩，新项目不给我了','基本持平，没变好也没变坏','有一些新机会在增加','职责明显扩大，在做更重要的事']},
+  {dim:'trend', text:'过去半年，你的汇报线/组织位置有什么变化？', opts:['被降级或边缘化，汇报线拉长','新来了一个上级压在上面','没变化，但也看不出上升空间','有传言在考虑我参与新角色','被提拔或明确在上升通道上']},
+  {dim:'trend', text:'过去半年，上级对你的态度变化趋势？', opts:['越来越冷淡，明显在被疏远','偶有关注但质量下降','没什么变化','信任在逐步建立，沟通加密','越来越重视，主动找我聊发展']},
+  {dim:'trend', text:'你所在的团队/业务线，整体是在扩张还是收缩？', opts:['面临裁撤或合并，人心惶惶','在收缩，人员持续流失','保持稳定但增长停滞','有小幅扩张，在补新人','快速增长，核心业务线，势头很好']},
+  {dim:'trend', text:'你的市场议价能力（猎头联系频率、外部机会质量）在变好还是变差？', opts:['几乎没有猎头联系，外部机会很少','偶尔有联系，但机会一般','没什么变化','联系频率在上升，机会质量在提高','经常被主动联系，有不错的机会']},
+  {dim:'trend', text:'你每天早上起床去上班的意愿在变强还是变弱？', opts:['极度抗拒，需要强撑','越来越提不起劲','时好时坏，看心情','大部分时候状态还不错','充满动力，期待新的一天']},
+];
+
+let currentQ = 0;
+let answers = new Array(12).fill(null);
+
+function init(){
+  const container = document.getElementById('questionsContainer');
+  questions.forEach((q,i)=>{
+    const block = document.createElement('div');
+    block.className = `q-block${i===0?' active':''}`;
+    block.id = `q${i}`;
+    const dimLabel = q.dim==='now'?'📍 现状评估':'📈 趋势判断';
+    const dimClass = q.dim==='now'?'dim-now':'dim-trend';
+    const dimDesc = i<6?'你在组织里的生态位质量':'你的位置在往哪个方向移动';
+    let optsHtml = q.opts.map((o,j)=>`<div class="opt-btn" onclick="selectOpt(${i},${j+1})" data-q="${i}" data-val="${j+1}"><div class="opt-radio"></div><div class="opt-text">${o}</div><div class="opt-score">${j+1}/5</div></div>`).join('');
+    block.innerHTML=`<div class="card"><div class="q-num">第 ${i+1} / 12 题</div><div class="q-dim"><span class="dim-badge ${dimClass}">${dimLabel}</span>${dimDesc}</div><div class="q-title">${q.text}</div><div class="options">${optsHtml}</div></div>`;
+    container.appendChild(block);
+  });
+  loadState();
+}
+
+function selectOpt(qIdx, val){
+  answers[qIdx] = val;
+  document.querySelectorAll(`#q${qIdx} .opt-btn`).forEach(b=>b.classList.toggle('selected', parseInt(b.dataset.val)===val));
+  updateProgress();
+  if(qIdx===currentQ && qIdx<11){ setTimeout(()=>nextQ(), 400); }
+  saveState();
+}
+
+function nextQ(){
+  if(currentQ<11){ currentQ++; showQ(currentQ); }
+  else if(answers.every(a=>a!==null)){ showResult(); }
+  updateNav();
+}
+
+function prevQ(){
+  if(currentQ>0){ currentQ--; showQ(currentQ); }
+  updateNav();
+}
+
+function showQ(idx){
+  document.querySelectorAll('.q-block').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  currentQ=idx;
+  updateNav();
+}
+
+function updateNav(){
+  document.getElementById('prevBtn').disabled=currentQ===0;
+  if(currentQ===11 && answers.every(a=>a!==null)){
+    document.getElementById('nextBtn').textContent='查看结果 🎯';
+    document.getElementById('nextBtn').onclick=showResult;
+  } else {
+    document.getElementById('nextBtn').textContent='下一题 →';
+    document.getElementById('nextBtn').onclick=nextQ;
+  }
+  updateProgress();
+}
+
+function updateProgress(){
+  const answered=answers.filter(a=>a!==null).length;
+  document.getElementById('progressLabel').textContent=`第 ${currentQ+1} / 12 题`;
+  document.getElementById('progressPct').textContent=Math.round(answered/12*100)+'%';
+  document.getElementById('progressFill').style.width=(answered/12*100)+'%';
+}
+
+function calcScores(){
+  const nowScore=answers.slice(0,6).reduce((a,b)=>a+b,0);
+  const trendScore=answers.slice(6,12).reduce((a,b)=>a+b,0);
+  let quadrant;
+  if(nowScore>=18&&trendScore>=18)quadrant=1;
+  else if(nowScore<18&&trendScore>=18)quadrant=2;
+  else if(nowScore>=18&&trendScore<18)quadrant=3;
+  else quadrant=4;
+  return {nowScore,trendScore,quadrant};
+}
+
+function showResult(){
+  document.querySelectorAll('.q-block').forEach(b=>b.classList.remove('active'));
+  document.getElementById('progressWrap').style.display='none';
+  document.getElementById('navBtns').style.display='none';
+  document.getElementById('resultWrap').classList.add('show');
+  const {nowScore,trendScore,quadrant}=calcScores();
+  const nowLabel=nowScore>=18?'good':'bad';
+  const trendLabel=trendScore>=18?'up':'down';
+
+  const qdData={
+    1:{name:'象限一 · 黄金位',emoji:'🌟',cls:'q1',color:'#1e7e34',
+       title:'位置不错，趋势向上',
+       advice:'你现在处于一个上升轨道上。老板信任你，资源在往你这儿集中，你在团队里越来越重要。',
+       bullets:['<b>不要被猎头的20%涨幅诱惑。</b>一个上升的生态位比短期涨薪值钱得多。','趁势建立更深的护城河——把关键关系、核心能力沉淀为组织资产。','主动争取更大的战场。现在的信任是你扩大影响力的最佳筹码。','未雨绸缪：记录自己的战绩和贡献，为下一次晋升谈判积累弹药。'],
+       mistake:'这类人最常犯的错是"猎头多给了20%就飘了"。别飘。',
+       signals:[{cls:'green',icon:'✅',text:'核心决策以你为中心，你是关键声音'},{cls:'green',icon:'✅',text:'资源在持续增长，你有调配权'},{cls:'green',icon:'✅',text:'上级是你的支持者而非观望者'},{cls:'green',icon:'✅',text:'你在组织中的不可替代性在增强'}]},
+    2:{name:'象限二 · 黎明前',emoji:'🌅',cls:'q2',color:'#a67c00',
+       title:'位置不算好，但趋势在好转',
+       advice:'这是最容易被误判的一种。很多人的职业转折，前半年看着都像"是不是该走了"。好转有滞后期——信任在重修但还没修好，资源在回流但还没到位。',
+       bullets:['<b>别在黎明前离开。</b>好转可能比你以为的慢，但趋势是真的。','<b>给一个时间窗口，比如6个月。</b>设三个指标：核心会议叫不叫我、预算审不审批、上级有没有主动找我聊过一次发展。三个里有两个没达成，走。','在窗口期内主动创造胜利——选一个够得着的小目标，打下来，让趋势加速。','有条件的忍不是软弱，无限期的忍才是。'],
+       mistake:'最容易犯的错误：在黎明前走了。',
+       signals:[{cls:'yellow',icon:'🟡',text:'信任在重修但还没完全修好'},{cls:'yellow',icon:'🟡',text:'资源在回流但还没到位'},{cls:'yellow',icon:'🟡',text:'上面在观察你但还没明确表态'},{cls:'green',icon:'✅',text:'趋势是向上的——给自己设窗口期观察'}]},
+    3:{name:'象限三 · 山顶位',emoji:'🏔️',cls:'q3',color:'#c0392b',
+       title:'位置还好，但趋势在下滑',
+       advice:'这是最纠结的一种。你业绩不差，位置还稳，上面也还认你。但信号在冒头——项目被分流、决策不再经过你、汇报线被拉长。<br><br><b>"现在还行"正是你筹码最足的时候。</b>等到不行了再走，心态、议价能力、履历的最后一段都会打折。',
+       bullets:['<b>不要裸辞。</b>用3-6个月做平行准备。','更新简历但别海投，通过猎头和前同事摸清目标公司的内部情况。','在现在的横向关系里锁定两个能帮你做背调的人。','<b>设一个触发点：</b>"年度绩效不达预期"或"上级换了"，触发就走。','<b>趋势比现状重要。</b>在顶部走，你选的是时机；在底部走，你选的是逃命。'],
+       mistake:'很多人赖着不走，是因为"现在还行"。但"现在还行"正是你筹码最足的时候。',
+       signals:[{cls:'red',icon:'🔴',text:'项目被慢慢分流，新机会不给'},{cls:'red',icon:'🔴',text:'重要决策不再经过你'},{cls:'red',icon:'🔴',text:'汇报线被拉长，中间多了一两层'},{cls:'yellow',icon:'🟡',text:'表面上还行，但"还行"是在流失的资产'}]},
+    4:{name:'象限四 · 沼泽地',emoji:'🆘',cls:'q4',color:'#922b21',
+       title:'位置差，趋势也在变差',
+       advice:'你每多待一个月，就是在拿时间换一个更贬值的自己。这不是危言耸听——你已经在这个象限了，关键是认清它并行动。',
+       bullets:['<b>沉没成本：</b>"我都在这干了这么多年，现在走全白费了。"——恰恰相反，待了这么久还在这个位置，说明天花板已经到了。再熬一年，沉没成本更高。','<b>恐惧：</b>"外面更差怎么办？至少这里我还熟。"——熟悉不等于安全。你熟悉的是一个正在把你吞掉的沼泽。','<b>愧疚：</b>"老板对我还不错，团队还需要我。"——老板人好和组织不需要你了可以同时存在。在一条下沉的船上，谁都保护不了。','<b>面子：</b>"走了就是认输。"——赖着不走才是。','<b>立即行动：</b>不要裸辞，但马上开启"平行准备"模式。更新简历、接触猎头、盘点外部机会。给自己设个deadline，两个月内至少要有两个面试。'],
+       mistake:'你以为每多待一天是"在熬"，其实是在用时间换贬值的自己。',
+       signals:[{cls:'red',icon:'🔴',text:'关键决策被排除在外'},{cls:'red',icon:'🔴',text:'资源被持续砍减，项目被转走'},{cls:'red',icon:'🔴',text:'上级不再在意你的产出'},{cls:'red',icon:'🔴',text:'你每天早上起床需要强撑'}]}
+  };
+  const qd=qdData[quadrant];
+  const signalsHtml=qd.signals.map(s=>`<div class="signal-item ${s.cls}"><span class="icon">${s.icon}</span><span>${s.text}</span></div>`).join('');
+
+  // Build quadrant grid
+  const grids=[
+    {label:'🟡 黎明前',sub:'位置差·趋势好',active:quadrant===2,bg:'#fef9e7',border:'#e6a817'},
+    {label:'🌟 核心战区',sub:'位置好·趋势好',active:quadrant===1,bg:'#d5f5e3',border:'#1e7e34'},
+    {label:'🔴 沼泽地带',sub:'位置差·趋势差',active:quadrant===4,bg:'#fadbd8',border:'#922b21'},
+    {label:'🏔️ 山顶地带',sub:'位置好·趋势差',active:quadrant===3,bg:'#fdedec',border:'#c0392b'},
+  ];
+  const gridHtml=grids.map(g=>`<div style="padding:8px;border-radius:8px;text-align:center;background:${g.active?g.bg:'#f9faf9'};border:1px solid ${g.active?g.border:'#e0e0e0'};font-size:12px;">${g.label}<br><span style="font-size:10px;color:var(--text2)">${g.sub}</span></div>`).join('');
+
+  document.getElementById('resultCard').innerHTML=`
+    <div style="text-align:center;margin-bottom:20px">
+      <span class="quadrant-label ${qd.cls}">${qd.emoji} ${qd.name}</span>
+      <h2 style="font-size:22px;font-weight:800;color:${qd.color};margin:8px 0">${qd.title}</h2>
+    </div>
+    <div class="score-meta">
+      <div><span class="val ${nowLabel==='good'?'now-good':'now-bad'}">${nowScore}</span>/30<br>现状得分</div>
+      <div><span class="val ${trendLabel==='up'?'trend-up':'trend-down'}">${trendScore}</span>/30<br>趋势得分</div>
+    </div>
+    <div class="advice-box">
+      <h3>📊 核心判断</h3>
+      <p>${qd.advice}</p>
+      <ul>${qd.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>
+      <p style="margin-top:8px;font-style:italic;color:var(--text2)">⚠️ ${qd.mistake}</p>
+    </div>
+    <div class="signal-list">
+      <h4>你的关键信号：</h4>
+      ${signalsHtml}
+    </div>
+    <div style="margin-top:20px;text-align:center">
+      <div style="display:inline-block;padding:16px 24px;background:#f9faf9;border-radius:12px">
+        <div style="font-size:12px;color:var(--text3);margin-bottom:6px">四象限定位</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:240px;margin:0 auto">
+          ${gridHtml}
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--text3)">⬆️ 你在 ${qd.emoji} <b>${qd.name}</b></div>
+      </div>
+    </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function restart(){
+  answers=new Array(12).fill(null);
+  currentQ=0;
+  document.getElementById('resultWrap').classList.remove('show');
+  document.getElementById('progressWrap').style.display='block';
+  document.getElementById('navBtns').style.display='flex';
+  document.querySelectorAll('.q-block').forEach((b,i)=>b.classList.toggle('active',i===0));
+  document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('nextBtn').textContent='下一题 →';
+  document.getElementById('nextBtn').onclick=nextQ;
+  updateProgress();updateNav();
+  localStorage.removeItem('career-decision');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function copyResult(){
+  const {nowScore,trendScore,quadrant}=calcScores();
+  const names=['','象限一·黄金位','象限二·黎明前','象限三·山顶位','象限四·沼泽地'];
+  const titles=['','位置不错，趋势向上','位置不算好，但趋势在好转','位置还好，但趋势在下滑','位置差，趋势也在变差'];
+  const text=`【职业决策地图】OrgLens 四象限评估结果\n━━━━━━━━━━━━\n📍 ${names[quadrant]}\n📊 ${titles[quadrant]}\n现状得分：${nowScore}/30\n趋势得分：${trendScore}/30\n━━━━━━━━━━━━\n🔗 你也来测一下：https://org-lens.github.io/diagnostic-tool/career-decision-map.html\n\n#职业决策 #OrgLens`;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(()=>showToast('📋 已复制！可粘贴分享到微信/朋友圈'));
+  }else{
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    showToast('📋 已复制到剪贴板');
+  }
+}
+
+function showToast(msg){
+  let t=document.getElementById('toast');
+  if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none';document.body.appendChild(t);}
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+function saveState(){
+  localStorage.setItem('career-decision',JSON.stringify({answers,currentQ}));
+}
+
+function loadState(){
+  try{
+    const raw=localStorage.getItem('career-decision');
+    if(!raw)return;
+    const state=JSON.parse(raw);
+    if(state.answers){
+      state.answers.forEach((val,i)=>{
+        if(val!==null){
+          answers[i]=val;
+          const qBlock=document.getElementById(`q${i}`);
+          if(qBlock){
+            qBlock.querySelectorAll('.opt-btn').forEach(b=>{b.classList.toggle('selected',parseInt(b.dataset.val)===val);});
+          }
+        }
+      });
+    }
+    if(typeof state.currentQ==='number' && state.currentQ>=0 && state.currentQ<12){
+      showQ(state.currentQ);
+    }
+    updateProgress();
+  }catch(e){}
+}
+
+window.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
