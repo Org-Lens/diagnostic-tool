@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>向上管理 · 预期对齐一页纸 - OrgLens</title>
+<meta name="description" content="包含翻译话术模板、校准三步法Checklist、不可能三角推演图--把"管理预期"变成你的肌肉记忆。">
+<meta property="og:title" content="向上管理 · 预期对齐一页纸 - OrgLens">
+<meta property="og:description" content="翻译话术×校准三步法×不可能三角推演--三件套随身带着用。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231a1a2e'/><circle cx='16' cy='16' r='10' fill='none' stroke='%232d6a4f' stroke-width='1.5'/><line x1='5' y1='27' x2='27' y2='5' stroke='%23c8a96e' stroke-width='1.5' opacity='0.6'/><circle cx='16' cy='16' r='3' fill='%232d6a4f'/></svg>">
+<style>
+:root{
+--primary:#1a1a2e;--accent:#2d6a4f;--accent-light:#e8f5e9;--gold:#c8a96e;--gold-light:#f7efe0;
+--bg:#f6f7f6;--card-bg:#ffffff;--border:#e0e0e0;--high:#2d6a4f;--mid:#e6a817;--low:#c0392b;
+--text2:#666;--text3:#999;--warm:#c45038;--warm-light:#fff0ed
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing:antialiased;
+-webkit-tap-highlight-color:transparent
+}
+.container{max-width:720px;margin:0 auto;padding:0 20px 80px}
+
+/* Brand bar */
+.brand-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 0 8px}
+.brand-icon{width:40px;height:40px;flex-shrink:0}
+.brand-name{font-size:18px;font-weight:800;color:var(--primary);letter-spacing:1px;line-height:1.2}
+.brand-tagline{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:1.5px;text-transform:uppercase}
+
+/* Header */
+.header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.header h1{font-size:26px;font-weight:800;color:var(--primary);letter-spacing:.5px;line-height:1.3}
+.header .subtitle{font-size:14px;color:var(--text2);margin-top:6px;line-height:1.5}
+.framework-badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;color:var(--accent);background:var(--accent-light);padding:5px 16px;border-radius:20px;font-weight:600}
+.framework-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+/* Section card */
+.section-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);transition:box-shadow .2s}
+.section-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.section-header{border-bottom:2px solid var(--accent);padding-bottom:10px;margin-bottom:16px}
+.section-header .sec-num{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px}
+.section-header h2{font-size:18px;font-weight:700;margin:3px 0 2px;color:var(--primary)}
+.section-header .sec-desc{font-size:12px;color:var(--text2)}
+
+/* Module 1: Translation Cards */
+.translate-grid{display:flex;flex-direction:column;gap:10px}
+.translate-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:all .25s}
+.translate-card.active{border-color:var(--accent);box-shadow:0 2px 8px rgba(45,106,79,.1)}
+.tc-boss{background:#f8faf8;padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none}
+.tc-boss .boss-icon{width:32px;height:32px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.tc-boss .boss-say{flex:1;font-size:14px;font-weight:600;color:var(--primary)}
+.tc-boss .boss-say .quote{color:var(--warm);font-style:italic}
+.tc-boss .toggle-arrow{font-size:12px;color:var(--text3);transition:transform .25s}
+.translate-card.active .toggle-arrow{transform:rotate(180deg);color:var(--accent)}
+.tc-translation{background:#fff;padding:0 16px;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;border-top:1px solid transparent}
+.translate-card.active .tc-translation{max-height:200px;padding:14px 16px;border-top-color:var(--accent-light)}
+.tc-translation .t-label{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.tc-translation .t-text{font-size:13px;color:#444;line-height:1.7}
+.tc-translation .t-text .highlight{background:var(--gold-light);padding:0 4px;border-radius:3px;font-weight:600}
+
+/* Module 2: Checklist */
+.step-list{display:flex;flex-direction:column;gap:12px}
+.step-item{border:1px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:flex-start;gap:10px;user-select:none}
+.step-item:hover{border-color:var(--accent);background:#fafdfa}
+.step-item.checked{background:var(--accent-light);border-color:var(--accent)}
+.step-check{width:24px;height:24px;border-radius:50%;border:2px solid #ccc;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:2px;font-size:13px;color:transparent}
+.step-item.checked .step-check{background:var(--accent);border-color:var(--accent);color:#fff}
+.step-body{flex:1}
+.step-title{font-size:14px;font-weight:700;color:var(--primary);margin-bottom:3px}
+.step-desc{font-size:12px;color:var(--text2);line-height:1.5}
+.step-example{font-size:11.5px;color:var(--text3);margin-top:6px;padding:8px 10px;background:#f8f8f8;border-radius:6px;line-height:1.6;display:none;font-style:italic}
+.step-item.checked .step-example{display:block}
+.step-example .sticky{display:inline-block;background:var(--gold-light);padding:1px 6px;border-radius:3px;margin-right:3px;font-weight:600;font-style:normal;color:var(--primary)}
+.step-sub-items{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.step-sub-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);padding:6px 8px;border-radius:6px;transition:all .2s;cursor:pointer}
+.step-sub-item:hover{background:#fff}
+.step-sub-item.checked{color:var(--accent);font-weight:600}
+.step-sub-check{width:18px;height:18px;border-radius:4px;border:2px solid #ccc;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:10px;color:transparent}
+.step-sub-item.checked .step-sub-check{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* Module 3: Impossible Triangle */
+.triangle-container{display:flex;flex-direction:column;align-items:center;gap:16px}
+.triangle-intro{font-size:13px;color:var(--text2);text-align:center;line-height:1.6;max-width:480px}
+.triangle-intro strong{color:var(--primary)}
+.triangle-viz{position:relative;width:280px;height:242px;margin:0 auto}
+.triangle-viz svg{width:100%;height:100%}
+.triangle-node{cursor:pointer;transition:all .2s}
+.triangle-node text{font-size:13px;font-weight:700;fill:var(--primary);text-anchor:middle}
+.triangle-node circle{fill:var(--card-bg);stroke:var(--border);stroke-width:2;transition:all .2s}
+.triangle-node:hover circle{stroke:var(--accent);stroke-width:2.5}
+.triangle-node.selected circle{fill:var(--accent-light);stroke:var(--accent);stroke-width:3}
+.triangle-node.dimmed circle{fill:#f5f5f5;stroke:#ddd}
+.triangle-node.dimmed text{fill:var(--text3)}
+.triangle-edge{stroke:var(--border);stroke-width:2;transition:all .2s}
+.triangle-edge.selected{stroke:var(--accent);stroke-width:3;stroke-dasharray:6 3;animation:dashFlow .8s linear infinite}
+.triangle-edge.dimmed{stroke:#eee}
+@keyframes dashFlow{to{stroke-dashoffset:-18}}
+.triangle-center-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;font-weight:700;color:var(--warm);text-align:center;line-height:1.4;pointer-events:none;opacity:0;transition:opacity .3s}
+.triangle-center-text.visible{opacity:1}
+.triangle-result{background:var(--gold-light);border-radius:10px;padding:16px 18px;text-align:center;font-size:13px;color:var(--primary);line-height:1.7;min-height:56px;transition:all .3s;display:flex;align-items:center;justify-content:center}
+.triangle-result .sacrifice{color:var(--warm);font-weight:700}
+
+/* Scenario picker */
+.scenario-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:4px 0 12px}
+.scenario-tag{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:2px solid var(--border);background:var(--card-bg);color:var(--text2);transition:all .2s}
+.scenario-tag:hover{border-color:var(--accent);color:var(--accent)}
+.scenario-tag.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* Tips bar */
+.tips-bar{display:flex;align-items:center;gap:10px;background:var(--accent-light);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:13px;color:var(--accent);line-height:1.6;border:1px solid #d4e8da}
+.tips-icon{font-size:20px;flex-shrink:0}
+
+/* Buttons */
+.btn-row{display:flex;gap:10px;justify-content:center;margin:24px 0;flex-wrap:wrap}
+.btn{padding:11px 26px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;outline:none}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#1b5e3b}
+.btn-outline{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+.btn-outline:hover{background:var(--accent-light)}
+
+/* Footer */
+.footer{text-align:center;padding:28px 0 16px;color:#aaa;font-size:11.5px;border-top:1px solid var(--border);margin-top:20px}
+.footer-logo{width:120px;height:auto;margin-bottom:8px}
+.footer-brand{font-weight:700;color:var(--primary);font-size:14px;margin-bottom:4px}
+.footer-tagline{color:var(--gold);font-size:11px;letter-spacing:1.5px;margin-bottom:8px}
+.footer-divider{width:40px;height:1px;background:var(--gold);margin:8px auto}
+.footer a{color:var(--accent);text-decoration:none}
+
+.hidden{display:none!important}
+
+@media(max-width:500px){
+.container{padding:0 12px 60px}
+.header h1{font-size:22px}
+.section-card{padding:16px 14px}
+.triangle-viz{width:240px;height:208px}
+.tc-boss{padding:10px 14px}
+.tc-boss .boss-say{font-size:13px}
+.step-item{padding:12px 14px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Brand -->
+<div class="brand-bar">
+<svg class="brand-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#2d6a4f"/></linearGradient></defs>
+<circle cx="24" cy="24" r="22" fill="none" stroke="url(#l)" stroke-width="2.5"/>
+<circle cx="24" cy="24" r="15" fill="none" stroke="#2d6a4f" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line x1="2" y1="2" x2="46" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
+<line x1="46" y1="2" x2="2" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
+<circle cx="24" cy="24" r="4" fill="#2d6a4f"/>
+<ellipse cx="18" cy="15" rx="6" ry="4" fill="white" opacity="0.15" transform="rotate(-30 18 15)"/>
+</svg>
+<div style="display:flex;flex-direction:column">
+<span class="brand-name">OrgLens</span>
+<span class="brand-tagline">看清组织,看见解法</span>
+</div>
+</div>
+
+<!-- Header -->
+<div class="header">
+<h1>📐 向上管理 · 预期对齐一页纸</h1>
+<p class="subtitle">把"管理预期"变成你的肌肉记忆</p>
+<div class="framework-badge"><span class="dot"></span> 翻译话术 × 校准三步法 × 不可能三角 <span class="dot"></span></div>
+</div>
+
+<!-- Intro tips -->
+<div class="tips-bar">
+<span class="tips-icon">💡</span>
+<div>向上管理的本质不是让老板开心,是让他脑子里的"预期地图"和现实对齐。本页是实操工具--每次见老板前翻一遍,慢慢变成本能。</div>
+</div>
+
+<!-- ==================== MODULE 1: 翻译话术 ==================== -->
+<div class="section-card">
+<div class="section-header">
+<div class="sec-num">Module 01</div>
+<h2>🗣️ 翻译话术模板</h2>
+<div class="sec-desc">把老板的"感觉"翻译成"变量"--把模糊的方向,变成可以讨论的具体参数</div>
+</div>
+<div class="translate-grid">
+<div class="translate-card" onclick="toggleCard(this)">
+<div class="tc-boss"><div class="boss-icon">👔</div><div class="boss-say">老板说:<span class="quote">"把数字拉上来"</span></div><span class="toggle-arrow">▼</span></div>
+<div class="tc-translation"><div class="t-label">你的翻译 →</div><div class="t-text">"目标从 X 到 Y,<span class="highlight">时间是多长?资源边界是什么?</span>牺牲哪些是可以接受的?"</div></div>
+</div>
+<div class="translate-card" onclick="toggleCard(this)">
+<div class="tc-boss"><div class="boss-icon">👔</div><div class="boss-say">老板说:<span class="quote">"动作要快"</span></div><span class="toggle-arrow">▼</span></div>
+<div class="tc-translation"><div class="t-label">你的翻译 →</div><div class="t-text">"<span class="highlight">优先级是什么?</span>哪些事情可以先不做?--快是有代价的,我想确认哪些代价是可接受的。"</div></div>
+</div>
+<div class="translate-card" onclick="toggleCard(this)">
+<div class="tc-boss"><div class="boss-icon">👔</div><div class="boss-say">老板说:<span class="quote">"要有狼性"</span></div><span class="toggle-arrow">▼</span></div>
+<div class="tc-translation"><div class="t-label">你的翻译 →</div><div class="t-text">"<span class="highlight">具体指什么行为?</span>是自主推进?承担更多风险?还是决策更快?"</div></div>
+</div>
+<div class="translate-card" onclick="toggleCard(this)">
+<div class="tc-boss"><div class="boss-icon">👔</div><div class="boss-say">老板说:<span class="quote">"不能再这样下去了"</span></div><span class="toggle-arrow">▼</span></div>
+<div class="tc-translation"><div class="t-label">你的翻译 →</div><div class="t-text">"<span class="highlight">您最不满意的三个点是什么?</span>按优先级排一下,我先集中解决最重要的。"</div></div>
+</div>
+<div class="translate-card" onclick="toggleCard(this)">
+<div class="tc-boss"><div class="boss-icon">👔</div><div class="boss-say">老板说:<span class="quote">"下季度要翻倍"</span></div><span class="toggle-arrow">▼</span></div>
+<div class="tc-translation"><div class="t-label">你的翻译 →</div><div class="t-text">"翻倍是一个结果。我们来看实现这个结果需要什么<span class="highlight">条件</span>--产品/销售/市场各需要做到什么?哪些变量是您能帮我推动的?"</div></div>
+</div>
+<div class="translate-card" onclick="toggleCard(this)">
+<div class="tc-boss"><div class="boss-icon">👔</div><div class="boss-say">老板说:<span class="quote">"你怎么搞的这么慢"</span></div><span class="toggle-arrow">▼</span></div>
+<div class="tc-translation"><div class="t-label">你的翻译 →</div><div class="t-text">"我梳理了三个卡点--<span class="highlight">A(我能解决)、B(需要跨部门协调)、C(需要您出面)</span>。我先把A推起来,B和C需要你的帮助。"</div></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== MODULE 2: 校准三步法 Checklist ==================== -->
+<div class="section-card">
+<div class="section-header">
+<div class="sec-num">Module 02</div>
+<h2>✅ 校准三步法 Checklist</h2>
+<div class="sec-desc">在没出事之前对齐"什么是成功"--做事之前校准,而不是结果不好时才解释</div>
+</div>
+<div class="step-list">
+
+<!-- Step 1: Align Boundaries -->
+<div class="step-item" id="step1" onclick="toggleStep('step1')">
+<div class="step-check">✓</div>
+<div class="step-body">
+<div class="step-title">第一步:对齐边界</div>
+<div class="step-desc">告诉老板"这件事我的权责范围是什么"--哪些是我能决定的,哪些是需要你帮我的</div>
+<div class="step-example"><span class="sticky">话术</span>"老周,这个项目我负责渠道策略和执行,但产品侧的配合需要您帮我和产品VP拉通。咱们把边界分清楚,我来推渠道,产品推他那边。"</div>
+<div class="step-sub-items">
+<div class="step-sub-item" onclick="event.stopPropagation();toggleSub(event, this)"><span class="step-sub-check">✓</span>我已明确自己的权责边界</div>
+<div class="step-sub-item" onclick="event.stopPropagation();toggleSub(event, this)"><span class="step-sub-check">✓</span>我已和老板确认哪些事需要他出面</div>
+<div class="step-sub-item" onclick="event.stopPropagation();toggleSub(event, this)"><span class="step-sub-check">✓</span>我拿到了跨部门沟通的"上方宝剑"</div>
+</div>
+</div>
+</div>
+
+<!-- Step 2: Align Rhythm -->
+<div class="step-item" id="step2" onclick="toggleStep('step2')">
+<div class="step-check">✓</div>
+<div class="step-body">
+<div class="step-title">第二步:对齐节奏</div>
+<div class="step-desc">告诉老板"什么时候能看到什么"--不是最后一天给一个惊吓</div>
+<div class="step-example"><span class="sticky">话术</span>"渠道拓展大概需要6周见效。第2周首批试点上线,第4周拿到转化数据,第6周完整复盘。每周四同步进展。"</div>
+<div class="step-sub-items">
+<div class="step-sub-item" onclick="event.stopPropagation();toggleSub(event, this)"><span class="step-sub-check">✓</span>我有明确的阶段里程碑时间表</div>
+<div class="step-sub-item" onclick="event.stopPropagation();toggleSub(event, this)"><span class="step-sub-check">✓</span>我已设定每周/每两周的同步节奏</div>
+<div class="step-sub-item" onclick="event.stopPropagation();toggleSub(event, this)"><span class="step-sub-check">✓</span>老板知道每个节点该期待什么</div>
+</div>
+</div>
+</div>
+
+<!-- Step 3: Align Risk -->
+<div class="step-item" id="step3" onclick="toggleStep('step3')">
+<div class="step-check">✓</div>
+<div class="step-body">
+<div class="step-title">第三步:对齐风险</div>
+<div class="step-desc">告诉老板"什么事情一旦发生,会阻碍目标达成"--提前预警,而不是事后解释</div>
+<div class="step-example"><span class="sticky">话术</span>"关键变量:如果产品在9月中旬还修不完bug,渠道转化率会卡在50%以下。到时启用Plan B--走线下渠道。提前打招呼,到时候决策很快。"</div>
+<div class="step-sub-items">
+<div class="step-sub-item" onclick="event.stopPropagation();toggleSub(event, this)"><span class="step-sub-check">✓</span>我已列出 1-3 个关键风险变量</div>
+<div class="step-sub-item" onclick="event.stopPropagation();toggleSub(event, this)"><span class="step-sub-check">✓</span>每个风险都有 Plan B 预案</div>
+<div class="step-sub-item" onclick="event.stopPropagation();toggleSub(event, this)"><span class="step-sub-check">✓</span>老板已确认风险触发条件和应对方案</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="btn-row">
+<button class="btn btn-outline" onclick="resetChecklist()">🔄 重置 Checklist</button>
+<span style="font-size:13px;color:var(--text3);display:flex;align-items:center" id="checklist-progress">已勾选 0 / 9 项</span>
+</div>
+</div>
+
+<!-- ==================== MODULE 3: 不可能三角推演 ==================== -->
+<div class="section-card">
+<div class="section-header">
+<div class="sec-num">Module 03</div>
+<h2>🔺 不可能三角推演图</h2>
+<div class="sec-desc">让老板看到"做A意味着不做B"--所有资源都是有限的,把选择可视化</div>
+</div>
+
+<div class="triangle-intro">
+先选一个场景,然后<strong>点击两个角</strong>--看看你放弃的是什么👇
+</div>
+
+<div class="scenario-bar">
+<span class="scenario-tag active" onclick="pickScenario(this, 'default')">通用版</span>
+<span class="scenario-tag" onclick="pickScenario(this, 'project')">新项目上线</span>
+<span class="scenario-tag" onclick="pickScenario(this, 'channel')">渠道拓展</span>
+<span class="scenario-tag" onclick="pickScenario(this, 'growth')">业绩增长</span>
+</div>
+
+<div class="triangle-container">
+<div class="triangle-viz">
+<svg viewBox="0 0 280 242" xmlns="http://www.w3.org/2000/svg">
+<!-- Triangle edges -->
+<line class="triangle-edge" id="edge1" x1="140" y1="15" x2="15" y2="227"/>
+<line class="triangle-edge" id="edge2" x1="15" y1="227" x2="265" y2="227"/>
+<line class="triangle-edge" id="edge3" x1="265" y1="227" x2="140" y2="15"/>
+<!-- Node: Cost (top) -->
+<g class="triangle-node" id="node-cost" onclick="pickNode('cost')">
+<circle cx="140" cy="18" r="28"/>
+<text x="140" y="15">💰</text>
+<text x="140" y="34" font-size="11" font-weight="700" fill="#1a1a2e" text-anchor="middle">成本可控</text>
+</g>
+<!-- Node: Speed (bottom-left) -->
+<g class="triangle-node" id="node-speed" onclick="pickNode('speed')">
+<circle cx="18" cy="227" r="28"/>
+<text x="18" y="224">⚡</text>
+<text x="18" y="243" font-size="11" font-weight="700" fill="#1a1a2e" text-anchor="middle">速度优先</text>
+</g>
+<!-- Node: Quality (bottom-right) -->
+<g class="triangle-node" id="node-quality" onclick="pickNode('quality')">
+<circle cx="262" cy="227" r="28"/>
+<text x="262" y="224">🎯</text>
+<text x="262" y="243" font-size="11" font-weight="700" fill="#1a1a2e" text-anchor="middle">质量保证</text>
+</g>
+</svg>
+<div class="triangle-center-text" id="center-text"></div>
+</div>
+<div class="triangle-result" id="triangle-result">👆 点击上方的两个角,看看必须牺牲什么</div>
+</div>
+
+<div class="btn-row">
+<button class="btn btn-outline" onclick="resetTriangle()">🔄 重新选择</button>
+</div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<div class="footer">
+<img src="orglens-logo.png" alt="OrgLens · 看清组织,看见解法" class="footer-logo">
+<div class="footer-brand">OrgLens</div>
+<div class="footer-tagline">看清组织,看见解法</div>
+<div class="footer-divider"></div>
+<p>基于 OrgLens「预期管理四步框架」创建</p>
+<p style="margin-top:2px">关注 <a href="#">OrgLens</a>,每周 2-3 篇,不讲大道理,只拆真问题。</p>
+<p style="margin-top:6px">向上管理的最高境界,不是让老板觉得你做得多好--而是让老板觉得你靠得住。</p>
+</div>
+
+</div>
+
+<script>
+// ===== MODULE 1: Toggle translation cards =====
+function toggleCard(card){
+card.classList.toggle('active');
+}
+
+// ===== MODULE 2: Checklist =====
+function toggleStep(id){
+let el = document.getElementById(id);
+el.classList.toggle('checked');
+updateChecklistProgress();
+}
+
+function toggleSub(e, el){
+el.classList.toggle('checked');
+updateChecklistProgress();
+}
+
+function updateChecklistProgress(){
+let totalSub = document.querySelectorAll('.step-sub-item').length;
+let checkedSub = document.querySelectorAll('.step-sub-item.checked').length;
+document.getElementById('checklist-progress').textContent = '已勾选 ' + checkedSub + ' / ' + totalSub + ' 项';
+}
+
+function resetChecklist(){
+document.querySelectorAll('.step-item.checked').forEach(el => el.classList.remove('checked'));
+document.querySelectorAll('.step-sub-item.checked').forEach(el => el.classList.remove('checked'));
+updateChecklistProgress();
+}
+
+// ===== MODULE 3: Impossible Triangle =====
+let selectedNodes = [];
+let currentScenario = 'default';
+
+const scenarios = {
+default: {
+cost: '成本可控', speed: '速度优先', quality: '质量保证',
+sacrifice: { cost: '预算会被突破', speed: '推进节奏会变慢', quality: '交付标准需要妥协' },
+},
+project: {
+cost: '成本可控', speed: '快速上线抢占窗口', quality: '产品体验打磨到位',
+sacrifice: { cost: '需要追加预算或人手', speed: '上线窗口会错失给竞品', quality: '首版体验会有瑕疵,后期迭代修复' },
+},
+channel: {
+cost: '渠道 ROI 为正', speed: '渠道数量快速增长', quality: '渠道质量/转化率高',
+sacrifice: { cost: '渠道成本可能超过收益', speed: '渠道拓展速度放慢,竞品抢先', quality: '渠道质量参差,存在浪费' },
+},
+growth: {
+cost: '控制人力 & 投放成本', speed: '季度增长目标达标', quality: '增长可持续/不牺牲品牌',
+sacrifice: { cost: '需要加大投放或扩编团队', speed: '增长目标下调,下季度再冲', quality: '可能过度营销损害品牌调性' },
+}
+};
+
+function pickScenario(tagEl, key){
+document.querySelectorAll('.scenario-tag').forEach(t => t.classList.remove('active'));
+tagEl.classList.add('active');
+currentScenario = key;
+resetTriangle();
+}
+
+function pickNode(nodeId){
+if(selectedNodes.includes(nodeId)){
+selectedNodes = selectedNodes.filter(n => n !== nodeId);
+updateTriangleUI();
+return;
+}
+if(selectedNodes.length >= 2){
+selectedNodes.shift();
+}
+selectedNodes.push(nodeId);
+updateTriangleUI();
+}
+
+function updateTriangleUI(){
+let allNodes = ['cost','speed','quality'];
+let sc = scenarios[currentScenario];
+
+// Reset all
+allNodes.forEach(id => {
+let el = document.getElementById('node-'+id);
+el.classList.remove('selected','dimmed');
+});
+document.querySelectorAll('.triangle-edge').forEach(e => e.classList.remove('selected','dimmed'));
+
+if(selectedNodes.length === 0){
+document.getElementById('center-text').classList.remove('visible');
+document.getElementById('triangle-result').innerHTML = '👆 点击上方的两个角,看看必须牺牲什么';
+return;
+}
+
+// Highlight selected
+selectedNodes.forEach(id => {
+document.getElementById('node-'+id).classList.add('selected');
+});
+
+if(selectedNodes.length === 2){
+// Find sacrificed node
+let sacrificed = allNodes.find(n => !selectedNodes.includes(n));
+document.getElementById('node-'+sacrificed).classList.add('dimmed');
+
+// Highlight the edge between the two selected
+let edgeMap = {
+'cost-speed': 'edge1',
+'speed-cost': 'edge1',
+'speed-quality': 'edge2',
+'quality-speed': 'edge2',
+'cost-quality': 'edge3',
+'quality-cost': 'edge3'
+};
+let edgeKey = selectedNodes[0] + '-' + selectedNodes[1];
+let edgeId = edgeMap[edgeKey];
+if(edgeId) document.getElementById(edgeId).classList.add('selected');
+
+// Dim other edges
+document.querySelectorAll('.triangle-edge').forEach(e => {
+if(e.id !== edgeId) e.classList.add('dimmed');
+});
+
+// Show center text
+let ct = document.getElementById('center-text');
+ct.textContent = '必须牺牲\n⬇';
+ct.classList.add('visible');
+
+// Show result
+let nodeNames = {cost: sc.cost, speed: sc.speed, quality: sc.quality};
+let keep = selectedNodes.map(n => nodeNames[n]).join(' + ');
+document.getElementById('triangle-result').innerHTML =
+'你选择了 <strong>' + keep + '</strong><br>' +
+'代价是:<span class="sacrifice">' + sc.sacrifice[sacrificed] + '</span> --你准备好了吗?';
+} else {
+// Only 1 selected
+document.getElementById('center-text').classList.remove('visible');
+document.getElementById('triangle-result').innerHTML = '👆 再选一个角,看看必须放弃什么';
+}
+}
+
+function resetTriangle(){
+selectedNodes = [];
+updateTriangleUI();
+}
+
+// ===== Print & Share =====
+function sharePage(){
+let txt = '📐 OrgLens《向上管理 · 预期对齐一页纸》\n\n🗣️ 翻译话术模板：把老板的“感觉”变成“变量”\n✅ 校准三步法：对齐边界→对齐节奏→对齐风险\n🔺 不可能三角推演：让老板看到选择的代价\n\n来自 OrgLens · 看清组织，看见解法';
+navigator.clipboard.writeText(txt).then(() => alert('✅ 已复制到剪贴板！')).catch(() => prompt('复制以下文本：', txt));
+}
+
+render();
+</script>
+</body>
+</html>
