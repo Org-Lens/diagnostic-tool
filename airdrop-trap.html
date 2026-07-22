@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>空降高管 · 陷阱自检表 - OrgLens</title>
+<meta name="description" content="基于OrgLens空降框架，15道题快速识别空降高管最容易踩的四大陷阱——读场、时机、信任，一个都不能少。">
+<meta property="og:title" content="空降高管 · 陷阱自检表 - OrgLens">
+<meta property="og:description" content="空降第一滴血，往往不是能力不够，而是踩中了看不见的陷阱。15题自检，3分钟，看清你的风险点。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231a1a2e'/><circle cx='16' cy='16' r='10' fill='none' stroke='%232d6a4f' stroke-width='1.5'/><line x1='5' y1='27' x2='27' y2='5' stroke='%23c8a96e' stroke-width='1.5' opacity='0.6'/><circle cx='16' cy='16' r='3' fill='%232d6a4f'/></svg>">
+<style>
+:root{
+--primary:#1a1a2e;--accent:#2d6a4f;--accent-light:#e8f5e9;--gold:#c8a96e;--gold-light:#f7efe0;
+--bg:#f6f7f6;--card-bg:#ffffff;--border:#e0e0e0;--high:#2d6a4f;--mid:#e6a817;--low:#c0392b;
+--text2:#666;--text3:#999
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing:antialiased;
+-webkit-tap-highlight-color:transparent
+}
+.container{max-width:720px;margin:0 auto;padding:0 20px 80px}
+.brand-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 0 8px}
+.brand-icon{width:40px;height:40px;flex-shrink:0}
+.brand-name{font-size:18px;font-weight:800;color:var(--primary);letter-spacing:1px;line-height:1.2}
+.brand-tagline{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:1.5px;text-transform:uppercase}
+.header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.header h1{font-size:26px;font-weight:800;color:var(--primary);letter-spacing:.5px;line-height:1.3}
+.header .subtitle{font-size:14px;color:var(--text2);margin-top:6px;line-height:1.5}
+.framework-badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;color:var(--accent);background:var(--accent-light);padding:5px 16px;border-radius:20px;font-weight:600}
+.framework-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.instructions{background:var(--card-bg);border-radius:12px;padding:20px 22px;margin-bottom:22px;border:1px solid var(--border)}
+.instructions h3{font-size:14px;margin-bottom:8px;color:var(--primary);font-weight:700}
+.instructions p{font-size:13px;color:var(--text2);margin:3px 0;line-height:1.6}
+.scale-badge{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.scale-badge span{display:inline-block;font-size:11px;padding:3px 10px;background:#f0f0f0;border-radius:12px;color:var(--text2)}
+.dim-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);transition:box-shadow .2s}
+.dim-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.dim-header{border-bottom:2px solid var(--accent);padding-bottom:10px;margin-bottom:14px}
+.dim-header .dim-num{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;display:flex;align-items:center;gap:6px}
+.dim-header .dim-num .dim-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.dim-header h2{font-size:18px;font-weight:700;margin:3px 0 2px;color:var(--primary)}
+.dim-header .dim-desc{font-size:12px;color:var(--text2)}
+.dim-intro{font-size:12.5px;color:var(--text2);margin-bottom:10px;line-height:1.6}
+.question{padding:12px 0;border-bottom:1px solid #f0f0f0;display:flex;align-items:flex-start;gap:10px}
+.question:last-child{border-bottom:none}
+.q-num{width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.q-body{flex:1}
+.q-text{font-size:13.5px;color:#333;line-height:1.5;margin-bottom:6px}
+.q-hint{font-size:11.5px;color:var(--text3);line-height:1.4;margin-bottom:6px;font-style:italic}
+.q-options{display:flex;gap:5px}
+.q-options button{width:32px;height:32px;border-radius:50%;border:2px solid #ddd;background:#fff;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;transition:all .15s;outline:none}
+.q-options button:hover{border-color:var(--accent);color:var(--accent)}
+.q-options button:active{transform:scale(.92)}
+.q-options button.selected{background:var(--accent);border-color:var(--accent);color:#fff;transform:scale(1.05)}
+.dim-subtotal{margin-top:12px;padding:10px 14px;background:#f8faf8;border-radius:8px;display:flex;align-items:center;gap:10px;font-size:13px}
+.dim-subtotal .score-box{width:44px;height:44px;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;transition:all .3s}
+.dim-subtotal .label{color:var(--text2)}
+.dim-subtotal .label strong{color:var(--primary)}
+.dim-subtotal .label .outof{color:var(--text3);font-size:11px}
+.btn-row{display:flex;gap:10px;justify-content:center;margin:24px 0}
+.btn{padding:11px 26px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;outline:none}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#1b5e3b}
+.btn-outline{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+.btn-outline:hover{background:var(--accent-light)}
+.results-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.results-card h2{font-size:19px;font-weight:700;margin-bottom:14px;text-align:center}
+.result-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13.5px}
+.result-row:last-child{border-bottom:none}
+.result-row .r-name{flex:1;font-weight:600}
+.result-row .r-score{width:80px;text-align:center;font-weight:700;color:var(--accent)}
+.result-row .r-level{width:90px;text-align:center;font-size:12px}
+.result-row .r-level .tag{display:inline-block;padding:2px 10px;border-radius:12px;font-weight:600}
+.tag-good{background:var(--accent-light);color:var(--high)}
+.tag-ok{background:var(--gold-light);color:#b8860b}
+.tag-bad{background:#fce4ec;color:var(--low)}
+.result-total{display:flex;align-items:center;padding:14px 0;background:#f8faf8;border-radius:10px;margin-top:8px;font-size:14px;font-weight:700;justify-content:center;gap:10px}
+.result-total .big-score{font-size:34px;font-weight:800;color:var(--accent)}
+.diagnosis{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:2px solid var(--accent);text-align:center;animation:fadeInUp .4s ease-out}
+.diagnosis .emoji{font-size:44px;margin-bottom:6px}
+.diagnosis .level-text{font-size:20px;font-weight:800;margin-bottom:4px}
+.diagnosis .advice{font-size:13.5px;color:#555;margin-top:6px;line-height:1.8}
+.traps-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.traps-card h2{font-size:17px;font-weight:700;margin-bottom:12px}
+.trap-intro{font-size:12.5px;color:var(--text2);margin-bottom:12px}
+.trap-item{padding:11px 14px;margin-bottom:8px;border-radius:8px;border-left:4px solid var(--border);background:#fafafa;transition:all .2s}
+.trap-item.active{background:#fff5f5;border-left-color:var(--low)}
+.trap-item h4{font-size:13px;margin-bottom:3px}
+.trap-desc{font-size:12px;color:var(--text2);margin-bottom:4px}
+.trap-checkboxes{margin-top:4px}
+.trap-checkboxes label{display:block;font-size:11.5px;margin:2px 0;color:#555;cursor:pointer;padding:2px 0}
+.trap-checkboxes label input{margin-right:6px}
+.trap-count{font-size:10.5px;color:var(--text3);margin-top:3px}
+.plan-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.plan-card h2{font-size:17px;font-weight:700;margin-bottom:14px}
+.plan-card textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12.5px;font-family:inherit;resize:vertical;min-height:42px;background:#fafafa;outline:none;margin-bottom:6px}
+.plan-card textarea:focus{border-color:var(--accent);background:#fff}
+.plan-label{font-size:12.5px;font-weight:600;color:var(--primary);margin:10px 0 4px}
+.footer{text-align:center;padding:28px 0 16px;color:#aaa;font-size:11.5px;border-top:1px solid var(--border);margin-top:20px}
+.footer-logo{max-width:180px;margin-bottom:10px;opacity:.85}
+.footer-brand{font-weight:700;color:var(--primary);font-size:14px;margin-bottom:4px}
+.footer-tagline{color:var(--gold);font-size:11px;letter-spacing:1.5px;margin-bottom:8px}
+.footer-divider{width:40px;height:1px;background:var(--gold);margin:8px auto}
+.footer a{color:var(--accent);text-decoration:none}
+.hidden{display:none!important}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:500px){
+.container{padding:0 12px 60px}
+.header h1{font-size:21px}
+.q-options button{width:28px;height:28px;font-size:11px}
+.q-options{gap:3px}
+.question{gap:6px;padding:10px 0}
+.q-text{font-size:12.5px}
+.q-hint{font-size:10.5px}
+.btn{padding:10px 20px;font-size:13px}
+.dim-card{padding:16px 14px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="brand-bar">
+<svg class="brand-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#2d6a4f"/></linearGradient></defs>
+<circle cx="24" cy="24" r="22" fill="none" stroke="url(#l)" stroke-width="2.5"/>
+<circle cx="24" cy="24" r="15" fill="none" stroke="#2d6a4f" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line x1="2" y1="2" x2="46" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
+<line x1="46" y1="2" x2="2" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
+<circle cx="24" cy="24" r="4" fill="#2d6a4f"/>
+<ellipse cx="18" cy="15" rx="6" ry="4" fill="white" opacity="0.15" transform="rotate(-30 18 15)"/>
+</svg>
+<div style="display:flex;flex-direction:column">
+<span class="brand-name">OrgLens</span>
+<span class="brand-tagline">看清组织，看见解法</span>
+</div>
+</div>
+
+<div class="header">
+<h1>🩸 空降高管 · 陷阱自检表</h1>
+<p class="subtitle">空降第一滴血，往往不是能力不够<br>而是踩中了看不见的陷阱</p>
+<div class="framework-badge"><span class="dot"></span> 读场能力 × 出手时机 × 信任建设 <span class="dot"></span></div>
+</div>
+
+<div class="instructions">
+<h3>📋 使用说明</h3>
+<p>以下共 <strong>15 道题</strong>，分三个维度，每题按 <strong>1-5 分</strong> 自评。</p>
+<p>请根据你<strong>最近一次空降经历</strong>（或准备空降的预期情况）作答，越诚实结果越准。</p>
+<div class="scale-badge">
+<span>1=完全不符合</span><span>2=基本不符合</span><span>3=有时符合</span><span>4=基本符合</span><span>5=完全符合</span>
+</div>
+</div>
+
+<div id="dims"></div>
+
+<div class="btn-row">
+<button class="btn btn-outline" onclick="resetAll()">🔄 重新填写</button>
+<button class="btn btn-primary" onclick="scrollToResults()">📊 查看诊断结果</button>
+</div>
+
+<div id="results-section" class="hidden">
+<div class="results-card" id="results-summary"></div>
+<div class="diagnosis" id="diagnosis-box"></div>
+<div class="traps-card" id="traps-card"></div>
+<div class="plan-card">
+<h2>✍️ 我的空降开局行动清单</h2>
+<div class="plan-label">我最需要补的"读场"信息是：</div>
+<textarea rows="2" placeholder="比如：我还没搞清楚谁是真正的"地下CEO"……"></textarea>
+<div class="plan-label">我第一个方案最可能遇到的阻力是：</div>
+<textarea rows="2" placeholder="对照上面的陷阱，哪个人或哪个环节最可能让我的方案卡住？"></textarea>
+<div class="plan-label">我应该从哪里先"赢第一轮"：</div>
+<textarea rows="2" placeholder="一个不需要所有人配合就能跑通的试点……"></textarea>
+<div class="plan-label">我需要把谁变成方案的"共同贡献者"：</div>
+<textarea rows="2" placeholder="设计一个让对方说"这个也有我的功劳"的方式……"></textarea>
+<div class="plan-label">我接下来 30 天最该做的一件事：</div>
+<textarea rows="2" placeholder="不是出手，是读场——具体读什么？"></textarea>
+</div>
+<div class="btn-row">
+<button class="btn btn-outline" onclick="window.print()">🖨️ 打印结果</button>
+<button class="btn btn-outline" onclick="shareResults()">📤 复制结果</button>
+</div>
+</div>
+
+<div class="footer">
+<img src="orglens-logo.png" alt="OrgLens · 看清组织，看见解法" class="footer-logo">
+<div class="footer-brand">OrgLens</div>
+<div class="footer-tagline">看清组织，看见解法</div>
+<div class="footer-divider"></div>
+<p>基于 OrgLens「空降陷阱」框架创建</p>
+<p style="margin-top:2px">关注 <a href="#">OrgLens</a>，每周 2-3 篇深度拆解，不讲大道理，只拆真问题。</p>
+<p style="margin-top:6px">空降不是为了证明自己正确，而是学会正确的事从谁身上开始做。</p>
+</div>
+</div>
+
+<script>
+const DIMS=[
+  {
+    id:'read',
+    title:'维度一：读场能力',
+    subtitle:'你是否读懂了组织的真实权力结构与信息流',
+    intro:'入职前30天，最核心的任务不是做事，是"读场"。以下问题帮助你判断自己是否完成了这三个关键问题的回答。',
+    questions:[
+      {
+        text:'我能清晰指出这家公司里"地下CEO"是谁——那个跨部门协作必须经过、老板决定他先知道、离职全公司都慌的人。',
+        hint:'不是架构图上画的人。他可能是个运营经理、老财务、甚至是行政主管。'
+      },
+      {
+        text:'我手上有了一张"隐性权力地图"——知道架构图上哪些岗位是真有资源调动权的，哪些只是虚衔。',
+        hint:'有些岗位光鲜但没有资源调动权，有些架构排第四但真实影响力排第二。'
+      },
+      {
+        text:'我在入职前两周完成了一轮"真实立场校准"——明确知道哪些人会嘴上支持但手上不动，哪些人会嘴上沉默但实际帮你。',
+        hint:'这需要1v1沟通，不是看开会时的表态。'
+      },
+      {
+        text:'我理解这家公司信息流通的真实路径——重大决策通常谁先知道、谁最后知道、哪些信息被刻意截留。',
+        hint:'信息流反映了权力流。被信息绕过的人，往往也是被权力绕过的人。'
+      },
+      {
+        text:'在回答完以上问题之前，我忍住了没有在全员会上做诊断、没有提方案、没有假设"老板说正确"就等于"大家会帮我推"。',
+        hint:'这是空降第一课：忍住不说的冲动。'
+      }
+    ]
+  },
+  {
+    id:'timing',
+    title:'维度二：出手时机',
+    subtitle:'你提的第一个方案，是否在正确的时机、用正确的姿势',
+    intro:'大多数空降高管在两三周内就看出组织的致命问题——难的不是看出问题，是忍住不说的冲动。以下问题帮助你评估你的"出手"是否踩中了三种经典死法。',
+    questions:[
+      {
+        text:'我的第一个方案，不需要调动跨部门资源就能跑通——或者至少，我先在自己的权限内验证了一个小闭环。',
+        hint:'反面教材：林慧的"全公司数据对齐"，需要销售、电商、品牌三个部门配合。'
+      },
+      {
+        text:'在提方案之前，我先让老团队里的关键人物参与了"方案的诊断和设计"——让他们有"这个方案也有我的功劳"的感觉。',
+        hint:'正确的方案被拒绝往往不是因为内容错误，是因为姿势错误。'
+      },
+      {
+        text:'我提出的方案，没有让老团队感到被"比下去"——我没有用一个正确方案放大他们的无能。',
+        hint:'你越正确，老团队越难堪。你看到的裂痕，是他们已经与之共存多年的现实。'
+      },
+      {
+        text:'我没有在第一个方案上就用掉CEO的公开背书——我把CEO的支持留给了更有把握的关键战役。',
+        hint:'CEO只能在有限的事情上为你站台。开局就用王牌，后续没有弹药。'
+      },
+      {
+        text:'我的方案启动方式是"先赢一轮小闭环"——用一个小胜利积累信任，而不是用一个宏大方案试错。',
+        hint:'空降的信任是复利：每一次成功积累下一次的信用资本。反之，每一次"方向正确但推不动"都在消耗信用。'
+      }
+    ]
+  },
+  {
+    id:'trust',
+    title:'维度三：信任建设',
+    subtitle:'你是否建立了正确的信任网络，让自己从"唯一负责人"变成"共同成果"的推动者',
+    intro:'空降高管最大的错觉是"老板支持我=大家都会配合"。信任不是自上而下一纸任命能给的，是在你入职前30天里，通过一场场1v1和一个个小胜利积累出来的。',
+    questions:[
+      {
+        text:'我找到了至少一个"inside ally"——组织内部有分量、愿意在关键时刻为我说公道话的人。',
+        hint:'不是临时拉关系，而是在日常工作中建立了真实的信任。'
+      },
+      {
+        text:'我与各关键部门负责人之间，不只是"知道对方是谁"，而是建立了初步的工作信任——他们愿意在我有困难时先跟我说而不是先跟老板说。',
+        hint:'如果每个部门都用"我们配合"来回应你，实际上等于没人配合。'
+      },
+      {
+        text:'我用一个"不需要大动干戈但能看到结果"的小胜利，在组织里拿到了第一张信任票——有人因为我的工作获得了实际收益。',
+        hint:'品牌部因为你的精准画像跑出转化提升，他们就成了你的第一张信任票。'
+      },
+      {
+        text:'当我的方案遇到阻力时，我能准确判断：是"态度问题"还是"排期问题"——并且我知道针对不同问题找不同的人解决。',
+        hint:'电商VP说"技术上没问题"，翻译过来是：逻辑上可以，但我不去推动。'
+      },
+      {
+        text:'我对每一个关键合作方，都能说出他们的"隐藏利益诉求"——知道什么对他们有利、什么让他们不安。',
+        hint:'销售VP怕数据统一会削弱他的信息优势。品牌VP想借项目刷存在感。每个人都有一本账。'
+      }
+    ]
+  }
+];
+
+const TRAPS=[
+  {
+    name:'陷阱一：「全场点赞，全都不动」',
+    desc:'会议上每个人都点头支持，走出会议室每个人都不动。因为你推动的事需要调用他们的注意力、关系资本甚至牺牲既得利益——而他们承担的个人风险为零。',
+    signals:[
+      '我的方案在全员会上获得了一致表态支持，但会后推进时每个人都温和地推脱',
+      '我找合作方要资源时，对方永远有"排期问题""口径问题""权限问题"——态度没问题，就是不动',
+      '三个月后老板的评价是"方向对但落地不行"——而我自己也说不清问题到底出在哪'
+    ]
+  },
+  {
+    name:'陷阱二：「正确方案 = 揭旧伤疤」',
+    desc:'你提出的方案越是"一眼就能看出来的正确问题"，越暗示一个信息：老团队在这件事上做了好几年竟然没人推动。没人会公开承认"我之前没做好"，但所有人都会在行动上让你"也做不成"。',
+    signals:[
+      '我提出方案后，感觉到合作方有一种微妙的"防御反应"——不是反对，而是一种冷淡',
+      '有老员工委婉或直接地暗示"这个我们之前试过，不好推"或"这里面水很深"',
+      '方案方向明显正确但推进阻力极大，而且这种阻力是沉默的、无法正面讨论的'
+    ]
+  },
+  {
+    name:'陷阱三：「CEO 背书用错地方」',
+    desc:'CEO只能在有限的事情上为你站台。如果第一个方案就用了他的背书且推不动，他会认为是方案不值得——更糟的是，如果他背书了方案还失败，等于他做了一个错误判断。CEO 比谁都更不愿意承认自己看错了人。',
+    signals:[
+      '我的第一个方案就让CEO在全员会上表了态或写了邮件推进',
+      'CEO公开站台后方案仍然推不动，我开始感觉到CEO对我的关注度在下降',
+      '我在想"为什么老板说了支持但感觉还是不够"——我在等更多授权，他在等更多结果'
+    ]
+  },
+  {
+    name:'陷阱四：「唯一负责人」',
+    desc:'你以为全场一致同意，其实是全场一致把一件"他们不想做但不好意思反对"的事，甩给了提出这件事的人。当方案出成果时，功劳可能被分享；当方案卡住时，只有你一个人在为它焦虑。',
+    signals:[
+      '我在推动的方案，除了我以外没有第二个人有紧迫感',
+      '每次跨部门协调，都是我在主动追、别人在被动等',
+      '我发现如果这个方案失败了，只有我一个人会受到影响——其他人完全可以回到原来的工作状态'
+    ]
+  }
+];
+
+let scores={read:[0,0,0,0,0],timing:[0,0,0,0,0],trust:[0,0,0,0,0]};
+
+function renderDims(){
+let h='';
+DIMS.forEach((d,di)=>{
+h+=`<div class="dim-card" id="dim-${d.id}"><div class="dim-header"><div class="dim-num"><span class="dim-dot"></span> Dimension ${di+1} / 3</div><h2>${d.title}</h2><div class="dim-desc">${d.subtitle}</div></div><div class="dim-intro">${d.intro}</div>`;
+d.questions.forEach((q,qi)=>{
+h+=`<div class="question"><div class="q-num">${qi+1}</div><div class="q-body"><div class="q-text">${q.text}</div><div class="q-hint">💡 ${q.hint}</div><div class="q-options">`;
+for(let s=1;s<=5;s++)h+=`<button onclick="pick('${d.id}',${qi},${s},this)">${s}</button>`;
+h+=`</div></div></div>`;
+});
+h+=`<div class="dim-subtotal" id="sub-${d.id}"><div class="score-box">-</div><div class="label"><strong>${d.title.replace('维度一：','').replace('维度二：','').replace('维度三：','')}</strong> 小计 <span class="outof">/ 25</span></div></div></div>`;
+});
+document.getElementById('dims').innerHTML=h;
+}
+
+function pick(dim,qi,val,btn){
+scores[dim][qi]=val;
+btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));
+btn.classList.add('selected');
+let tot=scores[dim].reduce((a,b)=>a+b,0);
+let box=document.getElementById('sub-'+dim).querySelector('.score-box');
+if(box){
+box.textContent=scores[dim].every(v=>v>0)?tot:'-';
+box.style.transform='scale(1.1)';setTimeout(()=>box.style.transform='scale(1)',200);
+}
+}
+
+function sub(dim){return scores[dim].reduce((a,b)=>a+b,0)}
+function total(){return sub('read')+sub('timing')+sub('trust')}
+
+function lvl(s){
+if(s>=20)return{label:'安全区',cls:'tag-good'};
+if(s>=16)return{label:'稳健',cls:'tag-good'};
+if(s>=13)return{label:'中等风险',cls:'tag-ok'};
+if(s>=10)return{label:'高风险',cls:'tag-ok'};
+return{label:'危险区',cls:'tag-bad'};
+}
+
+function overall(t){
+if(t>=60)return{emoji:'🟢',text:'空降开局准备充分',color:'var(--high)',
+advice:`<strong>策略：保持节奏，放大优势</strong><br><br>你的读场、时机、信任三个维度得分较高，说明你具备空降高管最稀缺的能力——忍住不说的冲动，先读懂场再出手。<br><br>但这不代表可以放松警惕。空降是马拉松，不是短跑。接下来注意：<br>• 持续维护你的信任网络，不要因为站稳了就停止1v1<br>• 用小胜利换大授权，不要急于证明"更大的正确"<br>• 关注组织暗流——权力结构是会变的，你的隐性地图也要持续更新`};
+if(t>=45)return{emoji:'🟡',text:'空降存在中等风险',color:'var(--mid)',
+advice:`<strong>策略：优先补短板</strong><br><br>你有一两个维度存在明显缺口。空降高管的成败不取决于最强项，而取决于最弱项。<br><br>建议你：<br>• 看你的三个维度分数，最低的那个就是你现在最该投入的地方<br>• 如果"读场"分低：停止提方案，先完成入职30天"读场三问"<br>• 如果"时机"分低：忍住出手冲动，先在你自己的权限内赢第一轮<br>• 如果"信任"分低：回去做1v1，找到你的"inside ally"再往前推`};
+return{emoji:'🔴',text:'空降高风险预警',color:'var(--low)',
+advice:`<strong>策略：立刻止损，重建开局</strong><br><br>你的得分提示你正在踩中空降高管最致命的陷阱。不是你能力不够——是姿势错了。<br><br>立刻采取以下行动：<br>• <strong>停：</strong>不要再提新方案、不要再推进任何需要跨部门配合的事<br>• <strong>读：</strong>用两周时间，只做1v1，只问问题，不给建议。绘制你的隐权力地图<br>• <strong>赢：</strong>找一个完全在你权限内、能让一个人或一个部门直接受益的小事，先赢一轮<br>• <strong>忍：</strong>你看见的所有"明显问题"——老团队一定也知道。你说出来不是在发现新大陆，是在揭旧伤疤`};
+}
+
+function allDone(){return DIMS.every(d=>scores[d.id].every(v=>v>0))}
+
+function scrollToResults(){
+if(!allDone()){
+for(let d of DIMS){
+for(let i=0;i<d.questions.length;i++){
+if(scores[d.id][i]===0){
+document.getElementById('dim-'+d.id).scrollIntoView({behavior:'smooth',block:'center'});
+let qs=document.getElementById('dim-'+d.id).querySelectorAll('.question');
+if(qs[i]){qs[i].style.background='#fff9e6';setTimeout(()=>qs[i].style.background='',2000)}
+return;
+}
+}
+}
+return;
+}
+document.getElementById('results-section').classList.remove('hidden');
+renderResults();
+setTimeout(()=>document.getElementById('results-section').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function renderResults(){
+let t=total(),READ=sub('read'),TIMING=sub('timing'),TRUST=sub('trust'),o=overall(t);
+document.getElementById('results-summary').innerHTML='<h2>📊 空降陷阱诊断结果</h2><div class="result-row" style="font-weight:700;color:var(--text2)"><span class="r-name">维度</span><span class="r-score">得分</span><span class="r-level">等级</span></div>'+
+['读场能力','出手时机','信任建设'].map((l,i)=>{let L=lvl([READ,TIMING,TRUST][i]);return`<div class="result-row"><span class="r-name">${l}</span><span class="r-score">${[READ,TIMING,TRUST][i]} / 25</span><span class="r-level"><span class="tag ${L.cls}">${L.label}</span></span></div>`}).join('')+
+`<div class="result-total"><span>综合总分</span><span class="big-score">${t}</span><span> / 75</span></div>`;
+document.getElementById('diagnosis-box').innerHTML=`<div class="emoji">${o.emoji}</div><div class="level-text" style="color:${o.color}">${t} 分 · ${o.text}</div><div class="advice">${o.advice}</div>`;
+let th='<h2>🕳️ 四大空降陷阱检核</h2><div class="trap-intro">对照你的实际情况打勾。中 <strong>2 项及以上</strong>，说明这个陷阱已经在起作用——不是"可能"，是"正在"。每个陷阱都对应文章中的一个真实案例。</div>';
+TRAPS.forEach((tr,ti)=>{
+th+=`<div class="trap-item" id="trap-${ti}"><h4>${tr.name}</h4><div class="trap-desc">${tr.desc}</div><div class="trap-checkboxes">`;
+tr.signals.forEach(s=>{th+=`<label><input type="checkbox" onchange="chkTrap(${ti})"> ${s}</label>`});
+th+=`</div><div class="trap-count" id="tc-${ti}">已勾选: 0 / 3</div></div>`;
+});
+document.getElementById('traps-card').innerHTML=th;
+}
+
+function chkTrap(ti){
+let n=document.querySelectorAll('#trap-'+ti+' input:checked').length;
+document.getElementById('tc-'+ti).textContent='已勾选: '+n+' / 3';
+document.getElementById('trap-'+ti).classList.toggle('active',n>=2);
+}
+
+function resetAll(){
+scores={read:[0,0,0,0,0],timing:[0,0,0,0,0],trust:[0,0,0,0,0]};
+document.querySelectorAll('.q-options button').forEach(b=>b.classList.remove('selected'));
+DIMS.forEach(d=>{let b=document.getElementById('sub-'+d.id).querySelector('.score-box');if(b)b.textContent='-'});
+document.getElementById('results-section').classList.add('hidden');
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function shareResults(){
+if(!allDone())return;
+let t=total(),o=overall(t),READ=sub('read'),TIMING=sub('timing'),TRUST=sub('trust');
+let adviceText=o.advice.replace(/<[^>]+>/g,'');
+let txt=`🩸 我的空降陷阱自检结果
+
+📊 总分：${t}/75 · ${o.text}
+• 读场能力：${READ}/25
+• 出手时机：${TIMING}/25
+• 信任建设：${TRUST}/25
+
+${adviceText}
+
+来自 OrgLens 空降高管·陷阱自检表`;
+navigator.clipboard.writeText(txt).then(()=>alert('✅ 结果已复制到剪贴板！')).catch(()=>prompt('复制以下文本：',txt));
+}
+
+renderDims();
+</script>
+</body>
+</html>
