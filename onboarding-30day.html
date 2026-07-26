@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>空降高管开局30天读场清单 - OrgLens</title>
+<meta name="description" content="基于OrgLens空降篇设计：权力网络绘制、隐性影响力校准七问法、第一张胜利牌选取框架、信任关系建设时间线。">
+<meta property="og:title" content="空降高管开局30天读场清单 - OrgLens">
+<meta property="og:description" content="不要急着出手——先用30天读懂组织的真实权力结构、信息流和信任网络。含4个核心工具。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231a1a2e'/><circle cx='16' cy='16' r='10' fill='none' stroke='%232d6a4f' stroke-width='1.5'/><line x1='5' y1='27' x2='27' y2='5' stroke='%23c8a96e' stroke-width='1.5' opacity='0.6'/><circle cx='16' cy='16' r='3' fill='%232d6a4f'/></svg>">
+<style>
+:root{
+--primary:#1a1a2e;--accent:#2d6a4f;--accent-light:#e8f5e9;--gold:#c8a96e;--gold-light:#f7efe0;
+--bg:#f6f7f6;--card-bg:#ffffff;--border:#e0e0e0;--high:#2d6a4f;--mid:#e6a817;--low:#c0392b;
+--text2:#666;--text3:#999
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing:antialiased;
+-webkit-tap-highlight-color:transparent
+}
+.container{max-width:720px;margin:0 auto;padding:0 20px 80px}
+
+/* Brand bar */
+.brand-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 0 8px}
+.brand-icon{width:40px;height:40px;flex-shrink:0}
+.brand-name{font-size:18px;font-weight:800;color:var(--primary);letter-spacing:1px;line-height:1.2}
+.brand-tagline{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:1.5px;text-transform:uppercase}
+
+/* Header */
+.header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.header h1{font-size:26px;font-weight:800;color:var(--primary);letter-spacing:.5px;line-height:1.3}
+.header .subtitle{font-size:14px;color:var(--text2);margin-top:6px;line-height:1.5}
+.framework-badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;color:var(--accent);background:var(--accent-light);padding:5px 16px;border-radius:20px;font-weight:600}
+.framework-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+/* Instructions */
+.instructions{background:var(--card-bg);border-radius:12px;padding:20px 22px;margin-bottom:22px;border:1px solid var(--border)}
+.instructions h3{font-size:14px;margin-bottom:8px;color:var(--primary);font-weight:700}
+.instructions p{font-size:13px;color:var(--text2);margin:3px 0;line-height:1.6}
+.instructions .highlight{background:var(--gold-light);padding:2px 8px;border-radius:4px;font-weight:600;color:#8b6914}
+
+/* Tabs */
+.tabs{display:flex;gap:0;margin-bottom:0;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px 12px 0 0;overflow:hidden}
+.tab-btn{flex:1;min-width:80px;padding:12px 8px;background:#e8e8e8;border:none;font-size:11.5px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;outline:none;white-space:nowrap}
+.tab-btn.active{background:var(--card-bg);color:var(--accent);box-shadow:0 -2px 0 var(--accent) inset}
+.tab-btn:hover{color:var(--accent)}
+.tab-panel{display:none;background:var(--card-bg);border-radius:0 0 12px 12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);border-top:none}
+.tab-panel.active{display:block}
+
+/* Common card styles */
+.section-title{font-size:16px;font-weight:700;color:var(--primary);margin-bottom:6px}
+.section-desc{font-size:12.5px;color:var(--text2);margin-bottom:16px;line-height:1.6}
+.section-subtitle{font-size:13.5px;font-weight:700;color:var(--accent);margin:16px 0 8px;padding-top:12px;border-top:1px dashed var(--border)}
+
+/* Tool 1: Power Map */
+.power-map-canvas{background:#fafafa;border:2px dashed var(--border);border-radius:12px;padding:16px;margin:12px 0;min-height:160px}
+.role-input-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.role-input-row input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;background:#fff}
+.role-input-row input:focus{border-color:var(--accent)}
+.role-input-row select{padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;outline:none;background:#fff;min-width:110px}
+.role-input-row select:focus{border-color:var(--accent)}
+.role-input-row button{padding:8px 14px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;outline:none;transition:all .15s}
+.btn-sm-add{background:var(--accent);color:#fff}
+.btn-sm-add:hover{background:#1b5e3b}
+.btn-sm-del{background:#fce4ec;color:var(--low)}
+.btn-sm-del:hover{background:#f8bbd0}
+.role-list{margin-top:10px}
+.role-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fff;border-radius:8px;margin-bottom:6px;border:1px solid var(--border);font-size:13px}
+.role-item .role-name{flex:1;font-weight:600}
+.role-item .role-type{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600}
+.type-formal{background:#e3f2fd;color:#1565c0}
+.type-hidden{background:var(--gold-light);color:#8b6914}
+.type-blocker{background:#fce4ec;color:var(--low)}
+.type-ally{background:var(--accent-light);color:var(--high)}
+.role-item .role-actions{display:flex;gap:4px}
+.role-item .role-actions button{width:26px;height:26px;border-radius:50%;border:none;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.map-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:11px;color:var(--text2)}
+.map-legend span{display:flex;align-items:center;gap:4px}
+.map-legend .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.ld-formal{background:#1565c0}.ld-hidden{background:#8b6914}.ld-blocker{background:var(--low)}.ld-ally{background:var(--high)}
+
+/* Tool 2: Seven Questions */
+.q7-item{margin-bottom:16px;padding:14px 16px;background:#fafafa;border-radius:10px;border-left:3px solid var(--border);transition:all .2s}
+.q7-item:hover{border-left-color:var(--accent)}
+.q7-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.q7-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.q7-title{font-size:13.5px;font-weight:700;color:var(--primary);line-height:1.4}
+.q7-desc{font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.5}
+.q7-input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;background:#fff;font-family:inherit;resize:vertical;min-height:48px}
+.q7-input:focus{border-color:var(--accent);background:#fff}
+.q7-hint{font-size:11px;color:var(--text3);margin-top:6px}
+
+/* Tool 3: Victory Card Framework */
+.vc-intro{font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6}
+.vc-matrix{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:12px}
+.vc-row{display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid #f0f0f0}
+.vc-row:last-child{border-bottom:none}
+.vc-row.header-row{background:var(--accent);color:#fff;font-weight:700;font-size:12.5px}
+.vc-cell{padding:10px 12px;font-size:12.5px;line-height:1.5;display:flex;align-items:center}
+.vc-cell.label{font-weight:600;background:#fafafa;border-right:1px solid #f0f0f0;font-size:12px;justify-content:center}
+.vc-cell.label.header-row-cell{background:transparent;border-right:1px solid rgba(255,255,255,.2)}
+.vc-cell input,.vc-cell textarea{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;font-family:inherit;resize:vertical;min-height:36px}
+.vc-cell input:focus,.vc-cell textarea:focus{border-color:var(--accent)}
+.vc-checklist{margin-top:12px;padding:12px 16px;background:var(--gold-light);border-radius:8px}
+.vc-checklist h4{font-size:13px;margin-bottom:8px;color:#8b6914}
+.vc-checklist label{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#555;margin:4px 0;cursor:pointer}
+.vc-checklist label input{margin-top:2px}
+.vc-result{text-align:center;padding:14px;margin-top:12px;border-radius:8px;font-size:14px;font-weight:700}
+
+/* Tool 4: Trust Timeline */
+.tt-block{margin-bottom:20px;padding:16px;background:#fafafa;border-radius:10px;border:1px solid var(--border)}
+.tt-week-title{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.tt-week-dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.tt-week-goal{font-size:12px;color:var(--text2);margin-bottom:10px}
+.tt-action-row{display:flex;gap:8px;margin-bottom:6px}
+.tt-action-row input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:12.5px;outline:none}
+.tt-action-row input:focus{border-color:var(--accent)}
+.tt-action-row button{padding:6px 12px;border-radius:6px;border:none;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap}
+.tt-action-list{list-style:none;margin-top:8px}
+.tt-action-list li{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:12.5px;border-bottom:1px solid #f0f0f0}
+.tt-action-list li:last-child{border-bottom:none}
+.tt-action-list li .tt-done{cursor:pointer;font-size:16px}
+.tt-action-list li .tt-text{flex:1}
+.tt-action-list li .tt-del{font-size:16px;cursor:pointer;color:#ccc;padding:0 4px}
+.tt-action-list li .tt-del:hover{color:var(--low)}
+
+/* Buttons */
+.btn-row{display:flex;gap:10px;justify-content:center;margin:24px 0;flex-wrap:wrap}
+.btn{padding:11px 26px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;outline:none}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#1b5e3b}
+.btn-outline{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+.btn-outline:hover{background:var(--accent-light)}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:#b8941a}
+
+/* Summary card */
+.summary-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:2px solid var(--accent);animation:fadeInUp .4s ease-out}
+.summary-card h2{font-size:18px;font-weight:700;margin-bottom:12px;text-align:center;color:var(--accent)}
+.summary-block{margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #f0f0f0}
+.summary-block:last-child{border-bottom:none;margin-bottom:0}
+.summary-block h4{font-size:14px;color:var(--primary);margin-bottom:4px}
+.summary-block p{font-size:12.5px;color:var(--text2);line-height:1.6}
+
+/* Footer */
+.footer{text-align:center;padding:28px 0 16px;color:#aaa;font-size:11.5px;border-top:1px solid var(--border);margin-top:20px}
+.footer-brand{font-weight:700;color:var(--primary);font-size:14px;margin-bottom:4px}
+.footer-tagline{color:var(--gold);font-size:11px;letter-spacing:1.5px;margin-bottom:8px}
+.footer-divider{width:40px;height:1px;background:var(--gold);margin:8px auto}
+.footer a{color:var(--accent);text-decoration:none}
+
+.hidden{display:none!important}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:500px){
+.container{padding:0 12px 60px}
+.header h1{font-size:20px}
+.tab-btn{font-size:10.5px;padding:10px 6px}
+.tab-panel{padding:14px 12px}
+.vc-row{grid-template-columns:90px 1fr}
+.vc-cell{font-size:11.5px;padding:8px 6px}
+.role-input-row{flex-wrap:wrap}
+.role-input-row select{min-width:100%}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+<h1>🗺️ 空降高管开局30天「读场」清单</h1>
+<p class="subtitle">不要急着出手——先用30天读懂组织的<br>真实权力结构、信息流和信任网络</p>
+<div class="framework-badge"><span class="dot"></span> 读场四步法：绘制 · 校准 · 选牌 · 规划 <span class="dot"></span></div>
+</div>
+
+<!-- Instructions -->
+<div class="instructions">
+<h3>📋 使用说明</h3>
+<p>本工具基于 OrgLens 空降篇设计，包含 <strong>四个核心模块</strong>：</p>
+<p>① <strong>权力网络绘制工具</strong>——画出组织的真实权力地图，识别"地下CEO"</p>
+<p>② <strong>隐性影响力校准七问法</strong>——在1v1对话中校准每个人的真实立场</p>
+<p>③ <strong>第一张胜利牌的选取框架</strong>——找到不需要所有人配合就能赢的小闭环</p>
+<p>④ <strong>信任关系建设时间线</strong>——按周规划信任复利的积攒路径</p>
+<p style="margin-top:8px"><span class="highlight">💡 建议打印或在电脑上填写</span>，完成全部四个模块后点击「生成开局报告」。</p>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab(0)">🗺️ 权力网络</button>
+<button class="tab-btn" onclick="switchTab(1)">🔍 七问校准</button>
+<button class="tab-btn" onclick="switchTab(2)">🎯 胜利牌</button>
+<button class="tab-btn" onclick="switchTab(3)">📅 信任时间线</button>
+</div>
+
+<!-- ===== TAB 0: Power Network Map ===== -->
+<div class="tab-panel active" id="tab-0">
+<div class="section-title">🗺️ 工具一：权力网络绘制工具</div>
+<div class="section-desc">找到组织的"地下CEO"——不是架构图上画的人，而是那个跨部门协作必须经过、CEO的决定他会先知道、离职了全公司都会慌的人。</div>
+
+<div class="section-subtitle">第一步：列出关键人物</div>
+<div class="role-input-row">
+<input type="text" id="role-name-input" placeholder="姓名/职位" maxlength="30">
+<select id="role-type-input">
+<option value="formal">组织架构（正式权力）</option>
+<option value="hidden">隐性影响力（地下CEO）</option>
+<option value="blocker">潜在阻碍者</option>
+<option value="ally">潜在盟友</option>
+</select>
+<button class="btn-sm-add" onclick="addRole()">+ 添加</button>
+</div>
+<div class="role-list" id="role-list"></div>
+<div class="map-legend">
+<span><span class="dot ld-formal"></span> 正式权力</span>
+<span><span class="dot ld-hidden"></span> 隐性影响力</span>
+<span><span class="dot ld-blocker"></span> 潜在阻碍者</span>
+<span><span class="dot ld-ally"></span> 潜在盟友</span>
+</div>
+
+<div class="section-subtitle">第二步：画一张"隐性权力地图"</div>
+<div class="power-map-canvas" id="power-map-canvas">
+<p style="text-align:center;color:var(--text3);font-size:13px;padding:30px 0">
+📝 上面添加的人物会出现在这里<br>
+<small>你也可以在下面的文本框补充关系描述</small>
+</p>
+</div>
+<textarea class="q7-input" id="power-map-notes" placeholder="补充描述：谁和谁有私下联盟？谁和谁有历史恩怨？谁对CEO有最大影响力？信息流通的关键枢纽是谁？（例如：任何跨部门的事都得先过XX的手，不然对方部门根本不接）……" rows="4"></textarea>
+
+<div class="section-subtitle">第三步：回答核心问题</div>
+<div class="q7-item">
+<div class="q7-header"><div class="q7-num">1</div><div class="q7-title">这个组织的"地下CEO"是谁？</div></div>
+<div class="q7-desc">不是架构图上最大的人——是那个真正决定事情能不能推进的人。</div>
+<input class="q7-input" id="q-pm1" placeholder="写下你观察到的人……">
+</div>
+<div class="q7-item">
+<div class="q7-header"><div class="q7-num">2</div><div class="q7-title">架构图上的权力，哪些是"真的"，哪些是"空的"？</div></div>
+<div class="q7-desc">有些岗位看着光鲜，实际上没有资源调动权。有些人在架构图上排第四第五，但真实影响力排第二。</div>
+<input class="q7-input" id="q-pm2" placeholder="列出"真权力"和"空权力"对应的人……">
+</div>
+<div class="q7-item">
+<div class="q7-header"><div class="q7-num">3</div><div class="q7-title">如果我现在提一个正确方案，谁会嘴上支持但手上不动？谁会嘴上沉默但实际帮我？</div></div>
+<div class="q7-desc">这个问题是你整个开局策略的基石。把上面添加的每个人都归入这两个类别。</div>
+<input class="q7-input" id="q-pm3" placeholder="把你的人脉分成两列……">
+</div>
+</div>
+
+<!-- ===== TAB 1: Seven Questions ===== -->
+<div class="tab-panel" id="tab-1">
+<div class="section-title">🔍 工具二：隐性影响力校准七问法</div>
+<div class="section-desc">在入职前几周的1v1中，用这7个问题校准每一个关键人物的真实立场。不是为了讨好谁——是为了判断你的第一个方案该从谁身上先动。</div>
+
+<div class="section-subtitle">选择你要校准的人</div>
+<div style="display:flex;gap:8px;align-items:center;margin-bottom:16px">
+<input type="text" id="q7-person-input" placeholder="输入你要评估的人" style="flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none">
+<button class="btn-sm-add" onclick="addQ7Person()">+ 添加评估对象</button>
+</div>
+<div id="q7-person-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px"></div>
+
+<div class="section-subtitle" style="border-top:1px solid var(--border);margin-top:16px">七问清单（请对当前选中的人作答）</div>
+
+<div class="q7-item">
+<div class="q7-header"><div class="q7-num">1</div><div class="q7-title">这个人在组织里的真实权力来源是什么？</div></div>
+<div class="q7-desc">是职位赋予的（正式权力）、是老板信任给的（关系权力）、是掌握关键信息（信息权力）、还是不可替代的专业能力（专家权力）？</div>
+<input class="q7-input q7-answer" data-idx="0" placeholder="描述TA的真实权力来源……">
+<div class="q7-hint">💡 注意：架构图上的title ≠ 真实权力。</div>
+</div>
+
+<div class="q7-item">
+<div class="q7-header"><div class="q7-num">2</div><div class="q7-title">TA对"改变现状"的真实态度是什么？</div></div>
+<div class="q7-desc">嘴上说"拥抱变化"的人，可能最深层的态度是"我不想动"。你需要从TA过去的行为模式中找答案——TA上一次支持一个变革是什么时候？那次变革触动了谁的利益？</div>
+<input class="q7-input q7-answer" data-idx="1" placeholder="是积极推动者 / 观望等待者 / 隐性抵抗者？">
+<div class="q7-hint">💡 看行为不看态度——TA做过什么比TA说过什么更真实。</div>
+</div>
+
+<div class="q7-item">
+<div class="q7-header"><div class="q7-num">3</div><div class="q7-title">如果我推动一项跨部门变革，TA会损失什么？</div></div>
+<div class="q7-desc">没有人会公开说"我反对是因为损害了我的利益"。但只要你画出TA的决策地盘、预算控制权和信息垄断权，就能预判阻力在哪里。</div>
+<input class="q7-input q7-answer" data-idx="2" placeholder="TA的既有利益会被触动的点……">
+<div class="q7-hint">💡 销售VP怕数据透明，财务VP怕预算权分散，技术VP怕排期被打乱。</div>
+</div>
+
+<div class="q7-item">
+<div class="q7-header"><div class="q7-num">4</div><div class="q7-title">TA需要什么"台阶"才会从旁观者变成支持者？</div></div>
+<div class="q7-desc">让人支持你的方案，不是说服TA你有多正确——是让TA觉得这个方案"也是TA的"。TA需要功劳、数据证明、还是老板的一句明确表态？</div>
+<input class="q7-input q7-answer" data-idx="3" placeholder="TA需要什么形式的"归属感"……">
+<div class="q7-hint">💡 让老团队成为"共同贡献者"而非"被动接受者"。</div>
+</div>
+
+<div class="q7-item">
+<div class="q7-header"><div class="q7-num">5</div><div class="q7-title">TA和CEO之间的真实关系如何？</div></div>
+<div class="q7-desc">是"铁杆信任"、"历史功绩型尊重"、"互相利用"、还是"CEO其实在等合适时机换掉TA"？这决定了你该在多大程度上借用CEO的背书。</div>
+<input class="q7-input q7-answer" data-idx="4" placeholder="评估TA与CEO的关系深度……">
+<div class="q7-hint">💡 注意区分CEO对TA的"公开表扬"和"私下信任"。</div>
+</div>
+
+<div class="q7-item">
+<div class="q7-header"><div class="q7-num">6</div><div class="q7-title">TA在组织中的"盟友网络"覆盖哪些人？</div></div>
+<div class="q7-desc">TA和谁共事过？谁欠TA人情？谁和TA有共同利益？这个网络的范围决定了TA能动员多少人帮你——或阻你。</div>
+<input class="q7-input q7-answer" data-idx="5" placeholder="TA的核心盟友圈……">
+</div>
+
+<div class="q7-item">
+<div class="q7-header"><div class="q7-num">7</div><div class="q7-title">如果我是TA，我会怎么看待"我的空降"这件事？</div></div>
+<div class="q7-desc">换位思考：一个外部空降的人进入TA的领地，TA的第一反应是什么？是"终于有人来帮忙了"、"这是CEO对我能力的不满信号"、还是"无所谓，看你能撑多久"？</div>
+<input class="q7-input q7-answer" data-idx="6" placeholder="从TA的视角看你的到来……">
+<div class="q7-hint">💡 你越能理解TA的防御心态，越能找到破冰的方式。</div>
+</div>
+</div>
+
+<!-- ===== TAB 2: Victory Card Framework ===== -->
+<div class="tab-panel" id="tab-2">
+<div class="section-title">🎯 工具三：第一张胜利牌的选取框架</div>
+<div class="section-desc">读完场之后，你的第一个动作不该是"推方案"——而应该是"选一张小牌先赢一轮"。好的第一张牌有四个标准。</div>
+
+<div class="section-subtitle">胜利牌筛选矩阵</div>
+<div class="vc-matrix">
+<div class="vc-row header-row">
+<div class="vc-cell label header-row-cell">维度</div>
+<div class="vc-cell">你的评估</div>
+</div>
+<div class="vc-row">
+<div class="vc-cell label">候选方案名称</div>
+<div class="vc-cell"><input type="text" id="vc-name" placeholder="给这张牌起个名字……"></div>
+</div>
+<div class="vc-row">
+<div class="vc-cell label">① 权限可控</div>
+<div class="vc-cell"><textarea id="vc-auth" placeholder="这个方案在我自己的权限范围内（或只需1-2人配合）就能启动，不需要跨部门大会批准？具体需要谁配合？" rows="2"></textarea></div>
+</div>
+<div class="vc-row">
+<div class="vc-cell label">② 受益明确</div>
+<div class="vc-cell"><textarea id="vc-benefit" placeholder="谁会是这个方案的直接受益者？它能不能让至少一个部门（或关键人）拿到"肉眼可见的好处"？" rows="2"></textarea></div>
+</div>
+<div class="vc-row">
+<div class="vc-cell label">③ 周期够短</div>
+<div class="vc-cell"><textarea id="vc-cycle" placeholder="能不能在2-4周内出结果？不要选"三个月后才能看到效果的长期工程"作为第一张牌。" rows="2"></textarea></div>
+</div>
+<div class="vc-row">
+<div class="vc-cell label">④ 可复制</div>
+<div class="vc-cell"><textarea id="vc-replicate" placeholder="赢下这第一轮之后，这个结果的"证据"能不能用来撬动第二轮、第三轮？有没有自然的扩展路径？" rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="vc-checklist">
+<h4>✅ 胜利牌检核清单（必须全部打勾才能出牌）</h4>
+<label><input type="checkbox" id="vc-check-1"> 这个方案不需要所有人配合——我只需要1-2个支持者。</label>
+<label><input type="checkbox" id="vc-check-2"> 受益者是具体的、有名字的人，不是一个模糊的"公司"。</label>
+<label><input type="checkbox" id="vc-check-3"> 2-4周内能看到可量化的结果（数据/反馈/案例）。</label>
+<label><input type="checkbox" id="vc-check-4"> 这个结果可以变成一个"故事"——能在下次1v1或汇报中讲出来。</label>
+<label><input type="checkbox" id="vc-check-5"> 我没有消耗CEO的公开背书，这张牌是我自己推动的。</label>
+<label><input type="checkbox" id="vc-check-6"> 赢下这一轮，能让至少一个之前观望的人变成支持者。</label>
+</div>
+
+<div class="vc-result" id="vc-result" style="display:none"></div>
+<button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="checkVictoryCard()">🔍 检核我的胜利牌</button>
+
+<div class="section-subtitle">备选方案记录区（可选）</div>
+<div class="q7-desc">如果你有多个候选方案，在这里记录并比较。每次只出一张牌。</div>
+<textarea class="q7-input" rows="3" id="vc-alt" placeholder="备选方案A：……&#10;备选方案B：……&#10;为什么最终选了这个：……"></textarea>
+</div>
+
+<!-- ===== TAB 3: Trust Timeline ===== -->
+<div class="tab-panel" id="tab-3">
+<div class="section-title">📅 工具四：信任关系建设时间线规划表</div>
+<div class="section-desc">空降阶段的信任是"复利"——每一次成功都在为下一个提案积累信用资本。反之，每一次"方向正确但推不动"都在消耗。按4周规划你的信任建设路径。</div>
+
+<!-- Week 1 -->
+<div class="tt-block">
+<div class="tt-week-title"><span class="tt-week-dot"></span> 第1周：观察与倾听（不要出手）</div>
+<div class="tt-week-goal">🎯 目标：完成所有关键人的1v1，问多听少，不做判断不承诺</div>
+<div class="tt-action-row">
+<input type="text" id="w1-input" placeholder="添加行动项……">
+<button class="btn-sm-add" onclick="addAction('w1')">+ 添加</button>
+</div>
+<ul class="tt-action-list" id="w1-list"></ul>
+</div>
+
+<!-- Week 2 -->
+<div class="tt-block">
+<div class="tt-week-title"><span class="tt-week-dot"></span> 第2周：播种（建立第一层信任）</div>
+<div class="tt-week-goal">🎯 目标：找到2-3个潜在盟友，从"能帮谁"入手而非"谁能帮我"</div>
+<div class="tt-action-row">
+<input type="text" id="w2-input" placeholder="添加行动项……">
+<button class="btn-sm-add" onclick="addAction('w2')">+ 添加</button>
+</div>
+<ul class="tt-action-list" id="w2-list"></ul>
+</div>
+
+<!-- Week 3 -->
+<div class="tt-block">
+<div class="tt-week-title"><span class="tt-week-dot"></span> 第3周：测试（出第一张胜利牌）</div>
+<div class="tt-week-goal">🎯 目标：启动那经过筛选的"小闭环"，在你的控制范围内做成一件事</div>
+<div class="tt-action-row">
+<input type="text" id="w3-input" placeholder="添加行动项……">
+<button class="btn-sm-add" onclick="addAction('w3')">+ 添加</button>
+</div>
+<ul class="tt-action-list" id="w3-list"></ul>
+</div>
+
+<!-- Week 4 -->
+<div class="tt-block">
+<div class="tt-week-title"><span class="tt-week-dot"></span> 第4周：放大（用第一轮结果撬第二轮）</div>
+<div class="tt-week-goal">🎯 目标：把胜利的结果变成案例，带上数据去推进更大的事</div>
+<div class="tt-action-row">
+<input type="text" id="w4-input" placeholder="添加行动项……">
+<button class="btn-sm-add" onclick="addAction('w4')">+ 添加</button>
+</div>
+<ul class="tt-action-list" id="w4-list"></ul>
+</div>
+
+<div class="section-subtitle">关键关系里程碑记录</div>
+<p style="font-size:12px;color:var(--text2);margin-bottom:10px">每周结束时填写：本周和谁建立了什么程度的信任？谁从"观望"变成了"支持"？</p>
+<textarea class="q7-input" rows="4" id="tt-milestones" placeholder="第1周：……\n第2周：……\n第3周：……\n第4周：……"></textarea>
+</div>
+
+<!-- Generate Report Button -->
+<div class="btn-row">
+<button class="btn btn-outline" onclick="resetAll()">🔄 清空重填</button>
+<button class="btn btn-gold" onclick="generateReport()">📋 生成开局报告</button>
+</div>
+
+<!-- Summary Report -->
+<div id="report-section" class="hidden">
+<div class="summary-card" id="report-content"></div>
+<div class="btn-row">
+<button class="btn btn-outline" onclick="window.print()">🖨️ 打印报告</button>
+<button class="btn btn-outline" onclick="shareReport()">📤 复制报告</button>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+<div class="footer-brand">OrgLens</div>
+<div class="footer-tagline">看清组织，看见解法</div>
+<div class="footer-divider"></div>
+<p>基于 OrgLens「空降篇」设计：《空降高管的第一滴血》</p>
+
+<p style="margin-top:6px">正确的事，什么时候说，从什么角度说，从谁身上开始做。</p>
+</div>
+</div>
+
+<script>
+// ========== State ==========
+let roles = [];
+let q7People = [];
+let q7CurrentPersonIdx = 0;
+let q7Answers = {}; // { personName: [answer0,...answer6] }
+let actions = { w1:[], w2:[], w3:[], w4:[] };
+
+// ========== Tab Switching ==========
+function switchTab(idx) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  document.querySelectorAll('.tab-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+// ========== Tool 1: Power Map ==========
+function addRole() {
+  const nameInput = document.getElementById('role-name-input');
+  const typeInput = document.getElementById('role-type-input');
+  const name = nameInput.value.trim();
+  if (!name) return;
+  roles.push({ name, type: typeInput.value });
+  nameInput.value = '';
+  renderRoles();
+  renderPowerMap();
+}
+
+function removeRole(idx) {
+  roles.splice(idx, 1);
+  renderRoles();
+  renderPowerMap();
+}
+
+function renderRoles() {
+  const el = document.getElementById('role-list');
+  const typeLabels = { formal:'正式权力', hidden:'隐性影响力', blocker:'潜在阻碍者', ally:'潜在盟友' };
+  const typeClasses = { formal:'type-formal', hidden:'type-hidden', blocker:'type-blocker', ally:'type-ally' };
+  el.innerHTML = roles.map((r,i) => 
+    `<div class="role-item">
+      <span class="role-name">${r.name}</span>
+      <span class="role-type ${typeClasses[r.type]}">${typeLabels[r.type]}</span>
+      <span class="role-actions"><button class="btn-sm-del" onclick="removeRole(${i})">✕</button></span>
+    </div>`
+  ).join('');
+}
+
+function renderPowerMap() {
+  const canvas = document.getElementById('power-map-canvas');
+  if (roles.length === 0) {
+    canvas.innerHTML = '<p style="text-align:center;color:var(--text3);font-size:13px;padding:30px 0">📝 上面添加的人物会出现在这里<br><small>你也可以在下面的文本框补充关系描述</small></p>';
+    return;
+  }
+  const typeLabels = { formal:'正式权力', hidden:'隐性影响力', blocker:'潜在阻碍者', ally:'潜在盟友' };
+  const typeColors = { formal:'#1565c0', hidden:'#8b6914', blocker:'#c0392b', ally:'#2d6a4f' };
+  let html = '<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px">';
+  roles.forEach(r => {
+    html += `<div style="background:#fff;border:2px solid ${typeColors[r.type]};border-radius:10px;padding:8px 14px;text-align:center;font-size:13px">
+      <div style="font-weight:700">${r.name}</div>
+      <div style="font-size:10px;color:${typeColors[r.type]};margin-top:2px">${typeLabels[r.type]}</div>
+    </div>`;
+  });
+  html += '</div>';
+  canvas.innerHTML = html;
+}
+
+// ========== Tool 2: Seven Questions ==========
+function addQ7Person() {
+  const input = document.getElementById('q7-person-input');
+  const name = input.value.trim();
+  if (!name || q7People.includes(name)) return;
+  q7People.push(name);
+  q7Answers[name] = ['','','','','','',''];
+  input.value = '';
+  renderQ7People();
+  if (q7People.length === 1) selectQ7Person(0);
+}
+
+function selectQ7Person(idx) {
+  q7CurrentPersonIdx = idx;
+  // Save current answers first
+  if (q7People.length > 0) {
+    const prev = q7People[q7CurrentPersonIdx];
+    document.querySelectorAll('.q7-answer').forEach((inp, i) => {
+      q7Answers[prev][i] = inp.value;
+    });
+  }
+  // Load selected person's answers
+  const person = q7People[idx];
+  document.querySelectorAll('.q7-answer').forEach((inp, i) => {
+    inp.value = q7Answers[person] ? q7Answers[person][i] : '';
+  });
+  renderQ7People();
+}
+
+function renderQ7People() {
+  const el = document.getElementById('q7-person-list');
+  el.innerHTML = q7People.map((p, i) => {
+    const active = i === q7CurrentPersonIdx;
+    return `<button style="padding:6px 14px;border-radius:20px;border:2px solid ${active ? 'var(--accent)' : 'var(--border)'};background:${active ? 'var(--accent-light)' : '#fff'};font-size:12px;font-weight:${active?700:500};cursor:pointer;color:${active ? 'var(--accent)' : 'var(--text2)'}" onclick="selectQ7Person(${i})">${p}</button>`;
+  }).join('');
+}
+
+// Auto-save Q7 answers on input
+document.addEventListener('input', function(e) {
+  if (e.target.classList.contains('q7-answer') && q7People.length > 0) {
+    const person = q7People[q7CurrentPersonIdx];
+    document.querySelectorAll('.q7-answer').forEach((inp, i) => {
+      q7Answers[person][i] = inp.value;
+    });
+  }
+});
+
+// ========== Tool 3: Victory Card ==========
+function checkVictoryCard() {
+  const checks = [];
+  for (let i = 1; i <= 6; i++) {
+    checks.push(document.getElementById('vc-check-'+i).checked);
+  }
+  const allChecked = checks.every(c => c);
+  const count = checks.filter(c => c).length;
+  const result = document.getElementById('vc-result');
+  result.style.display = 'block';
+  if (allChecked) {
+    result.innerHTML = '🟢 <strong>6/6 通过！</strong>这张牌可以作为你的第一张胜利牌。你准备好了——去出牌吧。';
+    result.style.background = 'var(--accent-light)';
+    result.style.color = 'var(--high)';
+  } else if (count >= 4) {
+    result.innerHTML = `🟡 <strong>${count}/6 通过。</strong>方案方向不错，但还有 ${6-count} 项需要优化。建议调整方案或等待更好的时机。`;
+    result.style.background = 'var(--gold-light)';
+    result.style.color = '#8b6914';
+  } else {
+    result.innerHTML = `🔴 <strong>${count}/6 通过。</strong>这张牌风险较高。建议重新设计方案，降低依赖、缩短周期。`;
+    result.style.background = '#fce4ec';
+    result.style.color = 'var(--low)';
+  }
+}
+
+// ========== Tool 4: Trust Timeline ==========
+function addAction(week) {
+  const input = document.getElementById(week+'-input');
+  const text = input.value.trim();
+  if (!text) return;
+  actions[week].push({ text, done: false });
+  input.value = '';
+  renderActions(week);
+}
+
+function toggleAction(week, idx) {
+  actions[week][idx].done = !actions[week][idx].done;
+  renderActions(week);
+}
+
+function removeAction(week, idx) {
+  actions[week].splice(idx, 1);
+  renderActions(week);
+}
+
+function renderActions(week) {
+  const el = document.getElementById(week+'-list');
+  el.innerHTML = actions[week].map((a, i) => 
+    `<li>
+      <span class="tt-done" onclick="toggleAction('${week}',${i})">${a.done ? '✅' : '⬜'}</span>
+      <span class="tt-text" style="${a.done ? 'text-decoration:line-through;color:var(--text3)' : ''}">${a.text}</span>
+      <span class="tt-del" onclick="removeAction('${week}',${i})">✕</span>
+    </li>`
+  ).join('');
+}
+
+// ========== Report Generation ==========
+function generateReport() {
+  // Save any unsaved Q7 answers
+  if (q7People.length > 0) {
+    const person = q7People[q7CurrentPersonIdx];
+    document.querySelectorAll('.q7-answer').forEach((inp, i) => {
+      q7Answers[person][i] = inp.value;
+    });
+  }
+
+  const section = document.getElementById('report-section');
+  const content = document.getElementById('report-content');
+  
+  let html = '<h2>📋 空降开局30天读场报告</h2>';
+  
+  // Power Map
+  html += '<div class="summary-block"><h4>🗺️ 权力网络</h4>';
+  if (roles.length > 0) {
+    html += '<p><strong>已识别关键人物：</strong>' + roles.map(r => r.name).join('、') + '</p>';
+  } else {
+    html += '<p style="color:var(--text3)">（尚未填写）</p>';
+  }
+  html += '<p><strong>地下CEO判断：</strong>' + (document.getElementById('q-pm1').value || '未填写') + '</p>';
+  html += '<p><strong>真/空权力分析：</strong>' + (document.getElementById('q-pm2').value || '未填写') + '</p>';
+  html += '<p><strong>支持/阻碍者预判：</strong>' + (document.getElementById('q-pm3').value || '未填写') + '</p>';
+  html += '</div>';
+
+  // Q7
+  html += '<div class="summary-block"><h4>🔍 隐性影响力校准</h4>';
+  if (q7People.length > 0) {
+    q7People.forEach(p => {
+      const filled = q7Answers[p] ? q7Answers[p].filter(a => a.trim()).length : 0;
+      html += `<p><strong>${p}：</strong>${filled}/7 题已作答</p>`;
+    });
+  } else {
+    html += '<p style="color:var(--text3)">（尚未评估任何人）</p>';
+  }
+  html += '</div>';
+
+  // Victory Card
+  html += '<div class="summary-block"><h4>🎯 第一张胜利牌</h4>';
+  html += '<p><strong>方案名称：</strong>' + (document.getElementById('vc-name').value || '未填写') + '</p>';
+  let vcChecks = 0;
+  for (let i = 1; i <= 6; i++) {
+    if (document.getElementById('vc-check-'+i).checked) vcChecks++;
+  }
+  html += '<p><strong>检核通过：</strong>' + vcChecks + '/6</p>';
+  html += '</div>';
+
+  // Timeline
+  html += '<div class="summary-block"><h4>📅 信任建设时间线</h4>';
+  const weekLabels = { w1:'第1周：观察与倾听', w2:'第2周：建立信任', w3:'第3周：出第一张牌', w4:'第4周：用结果撬动' };
+  for (const wk of ['w1','w2','w3','w4']) {
+    const done = actions[wk].filter(a => a.done).length;
+    const total = actions[wk].length;
+    html += `<p><strong>${weekLabels[wk]}：</strong>${done}/${total} 项完成` + (total === 0 ? '（未规划）' : '') + '</p>';
+  }
+  html += '</div>';
+
+  content.innerHTML = html;
+  section.classList.remove('hidden');
+  setTimeout(() => section.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+// ========== Share ==========
+function shareReport() {
+  const content = document.getElementById('report-content');
+  const txt = content.innerText.replace(/\n{2,}/g, '\n');
+  navigator.clipboard.writeText('🗺️ 空降高管开局30天读场报告\n\n' + txt + '\n\n来自 OrgLens · 组织透镜\n看清组织，看见解法')
+    .then(() => alert('✅ 报告已复制到剪贴板！'))
+    .catch(() => prompt('复制以下文本：', txt));
+}
+
+// ========== Reset ==========
+function resetAll() {
+  if (!confirm('确定要清空所有已填写的内容吗？此操作不可恢复。')) return;
+  roles = [];
+  q7People = [];
+  q7CurrentPersonIdx = 0;
+  q7Answers = {};
+  actions = { w1:[], w2:[], w3:[], w4:[] };
+  document.getElementById('role-list').innerHTML = '';
+  document.getElementById('power-map-canvas').innerHTML = '<p style="text-align:center;color:var(--text3);font-size:13px;padding:30px 0">📝 上面添加的人物会出现在这里<br><small>你也可以在下面的文本框补充关系描述</small></p>';
+  document.getElementById('q7-person-list').innerHTML = '';
+  document.querySelectorAll('.q7-answer').forEach(inp => inp.value = '');
+  document.getElementById('q-pm1').value = '';
+  document.getElementById('q-pm2').value = '';
+  document.getElementById('q-pm3').value = '';
+  document.getElementById('power-map-notes').value = '';
+  document.querySelectorAll('#tab-2 input[type=text], #tab-2 textarea').forEach(inp => inp.value = '');
+  document.querySelectorAll('#tab-2 input[type=checkbox]').forEach(cb => cb.checked = false);
+  document.getElementById('vc-result').style.display = 'none';
+  document.getElementById('vc-alt').value = '';
+  document.getElementById('tt-milestones').value = '';
+  ['w1','w2','w3','w4'].forEach(wk => {
+    document.getElementById(wk+'-input').value = '';
+    document.getElementById(wk+'-list').innerHTML = '';
+  });
+  document.getElementById('report-section').classList.add('hidden');
+  switchTab(0);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ========== Init ==========
+renderRoles();
+renderPowerMap();
+</script>
+</body>
+</html>
