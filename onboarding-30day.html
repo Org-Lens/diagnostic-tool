@@ -23,10 +23,11 @@ background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing
 .container{max-width:720px;margin:0 auto;padding:0 20px 80px}
 
 /* Brand bar */
-.brand-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 0 8px}
-.brand-icon{width:40px;height:40px;flex-shrink:0}
-.brand-name{font-size:18px;font-weight:800;color:var(--primary);letter-spacing:1px;line-height:1.2}
-.brand-tagline{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:1.5px;text-transform:uppercase}
+.brand-bar{display:flex;align-items:center;justify-content:center;gap:8px;padding:20px 0 6px}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.brand-name{font-size:16px;font-weight:700;color:var(--accent);letter-spacing:1px;line-height:1.2;font-family:'Georgia','Times New Roman',serif}
+.brand-sep{color:var(--text3);font-size:14px;margin:0 4px}
+.brand-desc{font-size:12px;color:var(--text2);font-weight:500}
 
 /* Header */
 .header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
@@ -170,9 +171,17 @@ background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing
 <body>
 <div class="container">
 
+<!-- Brand Bar -->
+<div class="brand-bar">
+  <div class="brand-dot"></div>
+  <span class="brand-name">OrgLens</span>
+  <span class="brand-sep">·</span>
+  <span class="brand-desc">空降开局诊断</span>
+</div>
+
 <!-- Header -->
 <div class="header">
-<h1>🗺️ 空降高管开局30天「读场」清单</h1>
+<h1>空降高管开局30天「读场」清单</h1>
 <p class="subtitle">不要急着出手——先用30天读懂组织的<br>真实权力结构、信息流和信任网络</p>
 <div class="framework-badge"><span class="dot"></span> 读场四步法：绘制 · 校准 · 选牌 · 规划 <span class="dot"></span></div>
 </div>
@@ -190,7 +199,7 @@ background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing
 
 <!-- Tabs -->
 <div class="tabs">
-<button class="tab-btn active" onclick="switchTab(0)">🗺️ 权力网络</button>
+<button class="tab-btn active" onclick="switchTab(0)">权力网络</button>
 <button class="tab-btn" onclick="switchTab(1)">🔍 七问校准</button>
 <button class="tab-btn" onclick="switchTab(2)">🎯 胜利牌</button>
 <button class="tab-btn" onclick="switchTab(3)">📅 信任时间线</button>
@@ -198,7 +207,7 @@ background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing
 
 <!-- ===== TAB 0: Power Network Map ===== -->
 <div class="tab-panel active" id="tab-0">
-<div class="section-title">🗺️ 工具一：权力网络绘制工具</div>
+<div class="section-title">工具一：权力网络绘制工具</div>
 <div class="section-desc">找到组织的"地下CEO"——不是架构图上画的人，而是那个跨部门协作必须经过、CEO的决定他会先知道、离职了全公司都会慌的人。</div>
 
 <div class="section-subtitle">第一步：列出关键人物</div>
@@ -624,7 +633,7 @@ function generateReport() {
   let html = '<h2>📋 空降开局30天读场报告</h2>';
   
   // Power Map
-  html += '<div class="summary-block"><h4>🗺️ 权力网络</h4>';
+  html += '<div class="summary-block"><h4>权力网络</h4>';
   if (roles.length > 0) {
     html += '<p><strong>已识别关键人物：</strong>' + roles.map(r => r.name).join('、') + '</p>';
   } else {
@@ -676,7 +685,7 @@ function generateReport() {
 function shareReport() {
   const content = document.getElementById('report-content');
   const txt = content.innerText.replace(/\n{2,}/g, '\n');
-  navigator.clipboard.writeText('🗺️ 空降高管开局30天读场报告\n\n' + txt + '\n\n来自 OrgLens · 组织透镜\n看清组织，看见解法')
+  navigator.clipboard.writeText('空降高管开局30天读场报告\n\n' + txt + '\n\n来自 OrgLens · 组织透镜\n看清组织，看见解法')
     .then(() => alert('✅ 报告已复制到剪贴板！'))
     .catch(() => prompt('复制以下文本：', txt));
 }
