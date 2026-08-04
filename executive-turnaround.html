@@ -410,9 +410,9 @@ function renderTriQuestions(containerId, partKey, questions, startNum) {
   questions.forEach((q, i) => {
     const n = startNum + i;
     h += '<div class="question"><div class="q-header"><div class="q-num">' + n + '</div><div class="q-text">' + q + '</div></div><div class="q-options">';
-    h += '<button onclick="pickTri('' + partKey + '',' + i + ',3,this)">🟢 已做到</button>';
-    h += '<button onclick="pickTri('' + partKey + '',' + i + ',2,this)">🟡 尝试中</button>';
-    h += '<button onclick="pickTri('' + partKey + '',' + i + ',1,this)">🔴 未开始</button>';
+    h += '<button onclick="pickTri(\'' + partKey + '\',' + i + ',3,this)">🟢 已做到</button>';
+    h += '<button onclick="pickTri(\'' + partKey + '\',' + i + ',2,this)">🟡 尝试中</button>';
+    h += '<button onclick="pickTri(\'' + partKey + '\',' + i + ',1,this)">🔴 未开始</button>';
     h += '</div></div>';
   });
   document.getElementById(containerId).innerHTML = h;
@@ -423,8 +423,8 @@ function renderSignalQuestions(containerId, partKey, signals, startNum) {
   signals.forEach((s, i) => {
     const n = startNum + i;
     h += '<div class="signal-row"><div class="signal-num">' + n + '</div><div class="signal-text">' + s + '</div><div class="signal-toggle">';
-    h += '<button onclick="pickSignal('' + partKey + '',' + i + ',true,this)">✅ 是</button>';
-    h += '<button onclick="pickSignal('' + partKey + '',' + i + ',false,this)">❌ 否</button>';
+    h += '<button onclick="pickSignal(\'' + partKey + '\',' + i + ',true,this)">✅ 是</button>';
+    h += '<button onclick="pickSignal(\'' + partKey + '\',' + i + ',false,this)">❌ 否</button>';
     h += '</div></div>';
     h += '<div class="evidence-box"><textarea placeholder="具体证据（可选）…" id="ev-' + partKey + '-' + i + '"></textarea></div>';
   });
