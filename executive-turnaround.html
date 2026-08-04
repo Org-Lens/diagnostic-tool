@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>空降高管转身自检清单 - OrgLens</title>
+<meta name="description" content="配合《空降高管的第三条路：不是融入就是离开》，四个板块看清你的转身进度，找到认知重构的卡点。">
+<meta property="og:title" content="空降高管转身自检清单 - OrgLens">
+<meta property="og:description" content="你是否还在证明自己？你能听懂每个关键人的利益吗？你找到你的老李了吗？15分钟，四个板块，看清你的转身进度。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231a1a2e'/><circle cx='16' cy='16' r='10' fill='none' stroke='%232d6a4f' stroke-width='1.5'/><line x1='5' y1='27' x2='27' y2='5' stroke='%23c8a96e' stroke-width='1.5' opacity='0.6'/><circle cx='16' cy='16' r='3' fill='%232d6a4f'/></svg>">
+<style>
+:root{
+--primary:#1a1a2e;--accent:#2d6a4f;--accent-light:#e8f5e9;--gold:#c8a96e;--gold-light:#f7efe0;
+--bg:#f6f7f6;--card-bg:#ffffff;--border:#e0e0e0;--high:#2d6a4f;--mid:#e6a817;--low:#c0392b;
+--text2:#666;--text3:#999
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing:antialiased;
+-webkit-tap-highlight-color:transparent
+}
+.container{max-width:720px;margin:0 auto;padding:0 20px 80px}
+.brand-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 0 8px}
+.brand-icon{width:40px;height:40px;flex-shrink:0}
+.brand-name{font-size:18px;font-weight:800;color:var(--primary);letter-spacing:1px;line-height:1.2}
+.brand-tagline{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:1.5px;text-transform:uppercase}
+.header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.header h1{font-size:26px;font-weight:800;color:var(--primary);letter-spacing:.5px;line-height:1.3}
+.header .subtitle{font-size:14px;color:var(--text2);margin-top:6px;line-height:1.5}
+.framework-badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;color:var(--accent);background:var(--accent-light);padding:5px 16px;border-radius:20px;font-weight:600}
+.framework-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.instructions{background:var(--card-bg);border-radius:12px;padding:20px 22px;margin-bottom:22px;border:1px solid var(--border)}
+.instructions h3{font-size:14px;margin-bottom:8px;color:var(--primary);font-weight:700}
+.instructions p{font-size:13px;color:var(--text2);margin:3px 0;line-height:1.6}
+.scale-badge{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.scale-badge span{display:inline-block;font-size:11px;padding:3px 10px;background:#f0f0f0;border-radius:12px;color:var(--text2)}
+.dim-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);transition:box-shadow .2s}
+.dim-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.dim-header{border-bottom:2px solid var(--accent);padding-bottom:10px;margin-bottom:14px}
+.dim-header .dim-num{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;display:flex;align-items:center;gap:6px}
+.dim-header .dim-num .dim-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.dim-header h2{font-size:18px;font-weight:700;margin:3px 0 2px;color:var(--primary)}
+.dim-header .dim-desc{font-size:12px;color:var(--text2)}
+.dim-intro{font-size:12.5px;color:var(--text2);margin-bottom:10px;line-height:1.6;background:var(--accent-light);padding:10px 14px;border-radius:8px}
+.question{padding:14px 0;border-bottom:1px solid #f0f0f0}
+.question:last-child{border-bottom:none}
+.q-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.q-num{width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.q-text{flex:1;font-size:13.5px;color:#333;line-height:1.5}
+.q-options{display:flex;gap:8px;margin-left:36px}
+.q-options button{padding:7px 16px;border-radius:20px;border:2px solid #ddd;background:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;outline:none;display:flex;align-items:center;gap:4px}
+.q-options button:hover{border-color:var(--accent)}
+.q-options button:active{transform:scale(.95)}
+.q-options button.selected-green{background:var(--high);border-color:var(--high);color:#fff;transform:scale(1.03)}
+.q-options button.selected-yellow{background:var(--mid);border-color:var(--mid);color:#fff;transform:scale(1.03)}
+.q-options button.selected-red{background:var(--low);border-color:var(--low);color:#fff;transform:scale(1.03)}
+.signal-row{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #f0f0f0;gap:10px}
+.signal-row:last-child{border-bottom:none}
+.signal-num{width:26px;height:26px;border-radius:50%;background:var(--gold-light);color:var(--gold);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.signal-text{flex:1;font-size:13.5px;color:#333;line-height:1.5}
+.signal-toggle{display:flex;gap:6px;flex-shrink:0}
+.signal-toggle button{padding:6px 14px;border-radius:20px;border:2px solid #ddd;background:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;outline:none}
+.signal-toggle button:hover{border-color:var(--accent)}
+.signal-toggle button:active{transform:scale(.95)}
+.signal-toggle button.selected-yes{background:var(--high);border-color:var(--high);color:#fff}
+.signal-toggle button.selected-no{background:var(--low);border-color:var(--low);color:#fff}
+.evidence-box{margin-left:36px;margin-top:6px}
+.evidence-box textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:12px;font-family:inherit;resize:vertical;min-height:36px;background:#fafafa;outline:none}
+.evidence-box textarea:focus{border-color:var(--accent);background:#fff}
+.dim-subtotal{margin-top:14px;padding:10px 14px;background:#f8faf8;border-radius:8px;display:flex;align-items:center;gap:10px;font-size:13px}
+.dim-subtotal .score-box{width:44px;height:44px;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;transition:all .3s}
+.dim-subtotal .label{color:var(--text2)}
+.dim-subtotal .label strong{color:var(--primary)}
+.dim-subtotal .label .sub{color:var(--text3);font-size:11px}
+
+/* 利益翻译表 */
+.translation-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px}
+.translation-table th{background:var(--accent-light);color:var(--accent);padding:8px 6px;font-size:11px;font-weight:700;text-align:left;border:1px solid var(--border)}
+.translation-table td{padding:6px;border:1px solid var(--border);vertical-align:top}
+.translation-table textarea{width:100%;border:1px solid var(--border);border-radius:6px;padding:6px;font-size:11px;font-family:inherit;resize:vertical;min-height:28px;background:#fafafa;outline:none}
+.translation-table textarea:focus{border-color:var(--accent);background:#fff}
+.translation-table .example td{background:#fefdf7;color:var(--text2);font-size:11px;font-style:italic}
+.table-actions{display:flex;gap:8px;margin-top:8px;justify-content:flex-end}
+.table-actions button{font-size:11px;padding:5px 12px;border-radius:5px;border:1px solid var(--border);background:#fff;color:var(--text2);cursor:pointer;transition:all .15s;outline:none}
+.table-actions button:hover{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+
+/* 老李清单 */
+.checklist{margin-top:10px}
+.checklist label{display:flex;align-items:center;gap:8px;padding:8px 0;font-size:12.5px;color:#333;cursor:pointer;border-bottom:1px solid #f5f5f5}
+.checklist label:last-child{border-bottom:none}
+.checklist label input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.checklist-summary{margin-top:8px;padding:8px 12px;background:var(--gold-light);border-radius:6px;font-size:11.5px;color:var(--primary);text-align:center}
+
+/* 行动日历 */
+.action-calendar{margin-top:10px}
+.cal-row{display:flex;align-items:center;padding:10px 12px;background:#fafafa;border-radius:8px;margin-bottom:6px;gap:10px;transition:all .2s}
+.cal-row:hover{background:var(--accent-light)}
+.cal-week{width:40px;height:40px;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.cal-action{flex:1;font-size:12.5px;color:#333}
+.cal-check{flex-shrink:0}
+.cal-check input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+
+/* 结果区 */
+.btn-row{display:flex;gap:10px;justify-content:center;margin:24px 0;flex-wrap:wrap}
+.btn{padding:11px 26px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;outline:none}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#1b5e3b}
+.btn-outline{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+.btn-outline:hover{background:var(--accent-light)}
+
+.results-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.results-card h2{font-size:19px;font-weight:700;margin-bottom:14px;text-align:center}
+.result-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13.5px}
+.result-row:last-child{border-bottom:none}
+.result-row .r-name{flex:1;font-weight:600;text-align:left}
+.result-row .r-status{width:100px;text-align:center;font-size:12px}
+.result-row .r-status .tag{display:inline-block;padding:2px 10px;border-radius:12px;font-weight:600}
+.tag-good{background:var(--accent-light);color:var(--high)}
+.tag-ok{background:var(--gold-light);color:#b8860b}
+.tag-bad{background:#fce4ec;color:var(--low)}
+
+.result-total{display:flex;align-items:center;padding:14px 0;background:#f8faf8;border-radius:10px;margin-top:8px;font-size:14px;font-weight:700;justify-content:center;gap:10px}
+.result-total .emoji{font-size:36px}
+.result-total .stage-text{font-size:18px;font-weight:800}
+
+.diagnosis{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:2px solid var(--accent);animation:fadeInUp .4s ease-out}
+.diagnosis .emoji{font-size:44px;margin-bottom:6px;text-align:center}
+.diagnosis .level-text{font-size:20px;font-weight:800;margin-bottom:12px;text-align:center}
+.diagnosis .advice{font-size:13.5px;color:#555;line-height:1.9;text-align:left;padding:0 8px}
+.diagnosis .advice p{margin:4px 0}
+
+.next-steps-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.next-steps-card h2{font-size:17px;font-weight:700;margin-bottom:12px}
+.next-steps-card .ns-item{padding:10px 14px;margin-bottom:6px;border-radius:8px;background:#fafafa;font-size:13px;border-left:4px solid var(--accent);line-height:1.7}
+.next-steps-card .ns-item strong{color:var(--accent)}
+.next-steps-card .ns-ref{font-size:12px;color:var(--text2);margin-top:8px}
+
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.stat-box{background:var(--accent-light);border-radius:10px;padding:12px 8px;text-align:center}
+.stat-box .stat-num{font-size:26px;font-weight:800;color:var(--accent)}
+.stat-box .stat-label{font-size:10px;color:var(--text2);margin-top:2px}
+
+.footer{text-align:center;padding:28px 0 16px;color:#aaa;font-size:11.5px;border-top:1px solid var(--border);margin-top:20px}
+.footer-brand{font-weight:700;color:var(--primary);font-size:14px;margin-bottom:4px}
+.footer-tagline{color:var(--gold);font-size:11px;letter-spacing:1.5px;margin-bottom:8px}
+.footer-divider{width:40px;height:1px;background:var(--gold);margin:8px auto}
+.footer a{color:var(--accent);text-decoration:none}
+
+.hidden{display:none!important}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:500px){
+.container{padding:0 12px 60px}
+.header h1{font-size:21px}
+.q-options{margin-left:0;gap:6px}
+.q-options button{padding:6px 12px;font-size:11px}
+.btn{padding:10px 20px;font-size:13px}
+.dim-card{padding:16px 14px}
+.stats-grid{grid-template-columns:repeat(2,1fr)}
+.translation-table{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="brand-bar">
+<svg class="brand-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#2d6a4f"/></linearGradient></defs>
+<circle cx="24" cy="24" r="22" fill="none" stroke="url(#l)" stroke-width="2.5"/>
+<circle cx="24" cy="24" r="15" fill="none" stroke="#2d6a4f" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line x1="2" y1="2" x2="46" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
+<line x1="46" y1="2" x2="2" y2="46" stroke="#c8a96e" stroke-width="1.2" opacity="0.6"/>
+<circle cx="24" cy="24" r="4" fill="#2d6a4f"/>
+<ellipse cx="18" cy="15" rx="6" ry="4" fill="white" opacity="0.15" transform="rotate(-30 18 15)"/>
+</svg>
+<div style="display:flex;flex-direction:column">
+<span class="brand-name">OrgLens</span>
+<span class="brand-tagline">看清组织，看见解法</span>
+</div>
+</div>
+
+<div class="header">
+<h1>🔄 空降高管转身自检清单</h1>
+<p class="subtitle">配合《空降高管的第三条路：不是融入就是离开》<br>四个板块 · 看清你的转身进度</p>
+<div class="framework-badge"><span class="dot"></span> 证明自己 → 利益翻译 → 找到老李 → 六个信号 <span class="dot"></span></div>
+</div>
+
+<div class="instructions">
+<h3>📋 使用说明</h3>
+<p>本清单包含 <strong>4 个板块 + 1 个行动日历</strong>，覆盖文章中的转身认知重构全过程。</p>
+<p>板块一～三为三态自评（🟢已做到 / 🟡正在尝试 / 🔴尚未开始），板块四为二态判断（✅是 / ❌否）。</p>
+<p>建议每两周自检一次，记录变化趋势。</p>
+<div class="scale-badge">
+<span>🟢 已做到</span><span>🟡 正在尝试</span><span>🔴 尚未开始</span>
+</div>
+</div>
+
+<!-- ===== 板块一：你是否还在"证明自己"？ ===== -->
+<div class="dim-card" id="dim-p1">
+<div class="dim-header">
+<div class="dim-num"><span class="dim-dot"></span> Part 1 / 4</div>
+<h2>板块一：你是否还在"证明自己"？</h2>
+<div class="dim-desc">转身的起点，是意识到"证明自己正确"正在消耗你。</div>
+</div>
+<div class="dim-intro">如果3个以上🔴，说明你仍在"证明自己"阶段，转身尚未开始。3个以上🟢，说明你已进入转身状态。</div>
+<div id="q-p1"></div>
+<div class="dim-subtotal" id="sub-p1">
+<div class="score-box" id="score-p1">-</div>
+<div class="label"><strong>证明自己</strong> · 转身起点 <span class="sub">🟢越多越接近转身</span></div>
+</div>
+</div>
+
+<!-- ===== 板块二：利益翻译 ===== -->
+<div class="dim-card" id="dim-p2">
+<div class="dim-header">
+<div class="dim-num"><span class="dim-dot"></span> Part 2 / 4</div>
+<h2>板块二：利益翻译——你听懂每个人了吗？</h2>
+<div class="dim-desc">"利益翻译"的核心能力是：在开口之前，先知道对方真正在意什么。</div>
+</div>
+<div class="dim-intro">如果第6、7题是🔴，说明你还没开始真正的利益翻译——先补信息，再推方案。</div>
+
+<h4 style="font-size:13px;margin:14px 0 8px;color:var(--primary)">📊 关键人利益翻译表</h4>
+<p style="font-size:11.5px;color:var(--text2);margin-bottom:8px">填写你组织中的 3-5 位关键人，每人回答五个维度。示例行仅供参考。</p>
+<div style="overflow-x:auto">
+<table class="translation-table" id="trans-table">
+<thead>
+<tr><th style="width:10%">关键人</th><th style="width:18%">最在意的三件事</th><th style="width:18%">当前压力来源</th><th style="width:22%">我的目标如何缓解他的压力？</th><th style="width:22%">用他的语言，我的方案怎么讲？</th></tr>
+</thead>
+<tbody>
+<tr class="example">
+<td>（例）销售VP</td>
+<td>①老板认可 ②客户续约率 ③团队稳定性</td>
+<td>今年续约率下降，老板在盯</td>
+<td>协作流程优化缩短客户响应时间→提升续约数据</td>
+<td>"这个流程调完，你团队处理客户需求从三天变一天，续约数据会好看——老板也能看到。"</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-actions">
+<button onclick="addTransRow()">+ 添加一行</button>
+<button onclick="removeTransRow()">- 移除末行</button>
+</div>
+
+<div id="q-p2" style="margin-top:16px"></div>
+<div class="dim-subtotal" id="sub-p2">
+<div class="score-box" id="score-p2">-</div>
+<div class="label"><strong>利益翻译</strong> · 听懂每个人 <span class="sub">🟢越多说明越会翻译</span></div>
+</div>
+</div>
+
+<!-- ===== 板块三：老李 ===== -->
+<div class="dim-card" id="dim-p3">
+<div class="dim-header">
+<div class="dim-num"><span class="dim-dot"></span> Part 3 / 4</div>
+<h2>板块三：你找到你的"老李"了吗？</h2>
+<div class="dim-desc">每个组织都有一个掌握信息流向、但不在架构图C位的人。找到他。</div>
+</div>
+
+<h4 style="font-size:13px;margin:10px 0 8px;color:var(--primary)">🔎 老李识别清单</h4>
+<p style="font-size:11.5px;color:var(--text2);margin-bottom:6px">满足 <strong>4 条以上</strong>，他就是你的"老李"。勾选所有符合的项：</p>
+<div class="checklist" id="laoli-checklist">
+<label><input type="checkbox" data-li="1"> 他在这家公司超过 3 年</label>
+<label><input type="checkbox" data-li="2"> 跨部门的人都会找他"问事"</label>
+<label><input type="checkbox" data-li="3"> 他对公司的历史、人事变动、决策来龙去脉了如指掌</label>
+<label><input type="checkbox" data-li="4"> 他不是 VP，但 VP 做决策前有时会先问他的意见</label>
+<label><input type="checkbox" data-li="5"> 他在非正式场合（茶水间、饭局、抽烟区）出现频率高</label>
+<label><input type="checkbox" data-li="6"> 他说的话在组织里有"二次传播"效应——别人会替他传</label>
+</div>
+<div class="checklist-summary" id="laoli-summary">已符合：0 / 6 条</div>
+
+<div id="q-p3" style="margin-top:16px"></div>
+<div class="dim-subtotal" id="sub-p3">
+<div class="score-box" id="score-p3">-</div>
+<div class="label"><strong>找到老李</strong> · 关系经营 <span class="sub">🟢越多关系越深</span></div>
+</div>
+</div>
+
+<!-- ===== 板块四：六个信号 ===== -->
+<div class="dim-card" id="dim-p4">
+<div class="dim-header">
+<div class="dim-num"><span class="dim-dot"></span> Part 4 / 4</div>
+<h2>板块四：转身的六个信号</h2>
+<div class="dim-desc">以下六个信号，用来判断你的转身是否正在发生。</div>
+</div>
+<div class="dim-intro">
+0-1个信号 → 转身尚未开始 | 2-3个 → 转身进行中 | 4-6个 → 转身基本完成，组织信用开始复利增长
+</div>
+<div id="q-p4"></div>
+<div class="dim-subtotal" id="sub-p4">
+<div class="score-box" id="score-p4">-</div>
+<div class="label"><strong>转身信号</strong> · 综合判断 <span class="sub">✅越多越接近完成</span></div>
+</div>
+</div>
+
+<!-- ===== 行动日历 ===== -->
+<div class="dim-card" id="dim-cal">
+<div class="dim-header">
+<div class="dim-num"><span class="dim-dot"></span> Action Plan</div>
+<h2>📅 行动日历：转身期每周关键动作</h2>
+<div class="dim-desc">完成一项勾一项。四周后重新自检，对比变化。</div>
+</div>
+<div class="action-calendar">
+<div class="cal-row">
+<div class="cal-week">W1</div>
+<div class="cal-action">完成利益翻译表（板块二），至少填 3 个人</div>
+<div class="cal-check"><input type="checkbox" data-cal="1"></div>
+</div>
+<div class="cal-row">
+<div class="cal-week">W1</div>
+<div class="cal-action">识别你的"老李"，安排一次无目的的请教对话</div>
+<div class="cal-check"><input type="checkbox" data-cal="2"></div>
+</div>
+<div class="cal-row">
+<div class="cal-week">W2</div>
+<div class="cal-action">做一件"跟 KPI 无关但帮了某人"的事（板块三第14题）</div>
+<div class="cal-check"><input type="checkbox" data-cal="3"></div>
+</div>
+<div class="cal-row">
+<div class="cal-week">W2</div>
+<div class="cal-action">把你最重要的方案，用三个版本说给三个不同的人听（板块二第9题）</div>
+<div class="cal-check"><input type="checkbox" data-cal="4"></div>
+</div>
+<div class="cal-row">
+<div class="cal-week">W3</div>
+<div class="cal-action">完成六个信号的自检（板块四），记录变化</div>
+<div class="cal-check"><input type="checkbox" data-cal="5"></div>
+</div>
+<div class="cal-row">
+<div class="cal-week">W3</div>
+<div class="cal-action">回顾板块一，问自己："我还需要证明什么？"</div>
+<div class="cal-check"><input type="checkbox" data-cal="6"></div>
+</div>
+<div class="cal-row">
+<div class="cal-week">W4</div>
+<div class="cal-action">重新填写关键人利益翻译表，对比第1周的变化</div>
+<div class="cal-check"><input type="checkbox" data-cal="7"></div>
+</div>
+<div class="cal-row">
+<div class="cal-week">W4</div>
+<div class="cal-action">复盘：谁的处境因为你的存在变好了？列出具体人名和事件</div>
+<div class="cal-check"><input type="checkbox" data-cal="8"></div>
+</div>
+</div>
+</div>
+
+<div class="btn-row">
+<button class="btn btn-outline" onclick="resetAll()">🔄 重新填写</button>
+<button class="btn btn-primary" onclick="scrollToResults()">📊 查看诊断结果</button>
+</div>
+
+<!-- ===== 结果区 ===== -->
+<div id="results-section" class="hidden">
+<div id="results-summary"></div>
+<div class="diagnosis" id="diagnosis-box"></div>
+<div class="next-steps-card" id="next-steps"></div>
+<div class="btn-row">
+<button class="btn btn-outline" onclick="window.print()">🖨️ 打印结果</button>
+<button class="btn btn-outline" onclick="shareResults()">📤 复制结果</button>
+</div>
+</div>
+
+<div class="footer">
+<img src="orglens-logo.png" alt="OrgLens · 看清组织，看见解法" class="footer-logo" style="max-width:160px;margin-bottom:8px">
+<div class="footer-brand">OrgLens</div>
+<div class="footer-tagline">看清组织，看见解法</div>
+<div class="footer-divider"></div>
+<p>基于 OrgLens「空降高管转身」框架创建</p>
+<p style="margin-top:2px">关注 OrgLens，每周 2-3 篇，不讲大道理，只拆真问题。</p>
+<p style="margin-top:6px">换一种活法，需要换一种长法。</p>
+</div>
+</div>
+
+<script>
+// Questions data
+const P1_QUESTIONS = [
+  '你在会上提方案时，心里想的是"这件事本身"还是"让大家觉得我有能力"？',
+  '当方案被搁置时，你的第一反应是"组织不行"还是"我的切入点需要调整"？',
+  '你有没有在不需要露脸的事情上投入过精力？',
+  '上次有人因为你做的事获益而主动来感谢你，是什么时候？',
+  '你的周报里，"我做了X"和"XX团队的成果"的比例是怎样的？'
+];
+
+const P2_QUESTIONS = [
+  '你是否知道每个关键人今年最重要的 KPI/OKR 是什么？',
+  '你是否知道每个关键人目前最大的焦虑来源（老板压力、预算、团队、竞品）？',
+  '你在跟不同关键人沟通同一件事时，侧重点是否不同？',
+  '你有没有试过——把同一件事用三个不同的角度讲给三个不同的人听？',
+  '当对方说"可以看看"时，你能否判断这是"真的感兴趣"还是"礼貌拒绝"？'
+];
+
+const P3_QUESTIONS = [
+  '你是否已经识别出组织里的"老李"（可能不止一个）？',
+  '你是否跟老李有过不带目的、纯请教的对话？',
+  '老李是否曾主动跟你分享过"别人不会告诉你"的信息？',
+  '你是否知道老李的痛点？你帮他解决过什么吗？',
+  '最近一周，有没有人跟老李聊完天后，对你的态度发生了变化？'
+];
+
+const P4_SIGNALS = [
+  '有人开始在你不在场的场合替你说好话',
+  '有人带着问题主动来找你，而不是你推方案',
+  '你的方案被搁置时，你不再愤怒，而是重新思考"切入点"',
+  '你在做一件"跟KPI无关但帮了某人"的事',
+  'CEO在公开场合引用过你的成果或观点',
+  '你不再在意方案上有没有你的名字'
+];
+
+// Score storage: 0=unset, 1=red(🔴/❌), 2=yellow, 3=green(🟢/✅)
+let scores = {p1: [0,0,0,0,0], p2: [0,0,0,0,0], p3: [0,0,0,0,0], p4: [0,0,0,0,0,0]};
+
+function renderAllQuestions(){
+  renderTriQuestions('q-p1', 'p1', P1_QUESTIONS, 1);
+  renderTriQuestions('q-p2', 'p2', P2_QUESTIONS, 6);
+  renderTriQuestions('q-p3', 'p3', P3_QUESTIONS, 11);
+  renderSignalQuestions('q-p4', 'p4', P4_SIGNALS, 16);
+}
+
+function renderTriQuestions(containerId, partKey, questions, startNum) {
+  let h = '';
+  questions.forEach((q, i) => {
+    const n = startNum + i;
+    h += '<div class="question"><div class="q-header"><div class="q-num">' + n + '</div><div class="q-text">' + q + '</div></div><div class="q-options">';
+    h += '<button onclick="pickTri('' + partKey + '',' + i + ',3,this)">🟢 已做到</button>';
+    h += '<button onclick="pickTri('' + partKey + '',' + i + ',2,this)">🟡 尝试中</button>';
+    h += '<button onclick="pickTri('' + partKey + '',' + i + ',1,this)">🔴 未开始</button>';
+    h += '</div></div>';
+  });
+  document.getElementById(containerId).innerHTML = h;
+}
+
+function renderSignalQuestions(containerId, partKey, signals, startNum) {
+  let h = '';
+  signals.forEach((s, i) => {
+    const n = startNum + i;
+    h += '<div class="signal-row"><div class="signal-num">' + n + '</div><div class="signal-text">' + s + '</div><div class="signal-toggle">';
+    h += '<button onclick="pickSignal('' + partKey + '',' + i + ',true,this)">✅ 是</button>';
+    h += '<button onclick="pickSignal('' + partKey + '',' + i + ',false,this)">❌ 否</button>';
+    h += '</div></div>';
+    h += '<div class="evidence-box"><textarea placeholder="具体证据（可选）…" id="ev-' + partKey + '-' + i + '"></textarea></div>';
+  });
+  document.getElementById(containerId).innerHTML = h;
+}
+
+function pickTri(part, qi, val, btn) {
+  scores[part][qi] = val;
+  const btns = btn.parentElement.querySelectorAll('button');
+  btns.forEach(b => { b.classList.remove('selected-green','selected-yellow','selected-red'); });
+  if (val === 3) btn.classList.add('selected-green');
+  else if (val === 2) btn.classList.add('selected-yellow');
+  else btn.classList.add('selected-red');
+  updateSubtotal(part);
+}
+
+function pickSignal(part, qi, val, btn) {
+  scores[part][qi] = val ? 3 : 1;
+  const btns = btn.parentElement.querySelectorAll('button');
+  btns.forEach(b => { b.classList.remove('selected-yes','selected-no'); });
+  if (val) btn.classList.add('selected-yes');
+  else btn.classList.add('selected-no');
+  updateSubtotal(part);
+}
+
+function countGreen(part) { return scores[part].filter(v => v === 3).length; }
+function countYellow(part) { return scores[part].filter(v => v === 2).length; }
+function countRed(part) { return scores[part].filter(v => v === 1).length; }
+function countSet(part) { return scores[part].filter(v => v > 0).length; }
+
+function updateSubtotal(part) {
+  const allSet = scores[part].every(v => v > 0);
+  const g = countGreen(part);
+  const y = countYellow(part);
+  const r = countRed(part);
+  const box = document.getElementById('score-' + part);
+  if (box) {
+    if (!allSet) { box.textContent = '-'; return; }
+    if (part === 'p4') {
+      box.textContent = g;
+    } else {
+      box.textContent = '🟢' + g;
+    }
+  }
+}
+
+function subTri(part) { return {g:countGreen(part), y:countYellow(part), r:countRed(part), total:scores[part].length}; }
+function p4Signals() { return countGreen('p4'); }
+
+function allDone() {
+  return ['p1','p2','p3','p4'].every(p => scores[p].every(v => v > 0));
+}
+
+function scrollToResults() {
+  if (!allDone()) {
+    for (let p of ['p1','p2','p3','p4']) {
+      for (let i=0;i<scores[p].length;i++) {
+        if (scores[p][i]===0) {
+          document.getElementById('dim-'+p).scrollIntoView({behavior:'smooth',block:'center'});
+          return;
+        }
+      }
+    }
+    return;
+  }
+  document.getElementById('results-section').classList.remove('hidden');
+  renderResults();
+  setTimeout(() => document.getElementById('results-section').scrollIntoView({behavior:'smooth',block:'start'}), 100);
+}
+
+function renderResults() {
+  const s1 = subTri('p1'), s2 = subTri('p2'), s3 = subTri('p3'), sig = p4Signals();
+  const totalGreen = s1.g + s2.g + s3.g;
+
+  let stageEmoji, stageText, stageColor;
+  if (sig >= 4) { stageEmoji = '🟢'; stageText = '转身基本完成'; stageColor = 'var(--high)'; }
+  else if (sig >= 2) { stageEmoji = '🟡'; stageText = '转身正在进行中'; stageColor = 'var(--mid)'; }
+  else { stageEmoji = '🔴'; stageText = '转身尚未开始'; stageColor = 'var(--low)'; }
+
+  const cards = ['板块一：证明自己','板块二：利益翻译','板块三：找到老李'];
+  const stats = [s1, s2, s3];
+
+  let rows = '';
+  cards.forEach((name, idx) => {
+    const s = stats[idx];
+    const label = s.g >= 4 ? '良好' : (s.g + s.y >= 4 ? '一般' : '需加强');
+    const cls = s.g >= 4 ? 'tag-good' : (s.g + s.y >= 4 ? 'tag-ok' : 'tag-bad');
+    rows += '<div class="result-row"><span class="r-name">' + name + '</span><span class="r-status"><span class="tag ' + cls + '">🟢' + s.g + ' 🟡' + s.y + ' 🔴' + s.r + '</span></span></div>';
+  });
+  rows += '<div class="result-row"><span class="r-name">板块四：转身信号</span><span class="r-status"><span class="tag ' + (sig>=4?'tag-good':(sig>=2?'tag-ok':'tag-bad')) + '">✅ ' + sig + ' / 6</span></span></div>';
+
+  document.getElementById('results-summary').innerHTML =
+    '<h2>📊 转身进度总览</h2>' +
+    '<div class="stats-grid">' +
+    '<div class="stat-box"><div class="stat-num">' + totalGreen + '</div><div class="stat-label">🟢 已做到</div></div>' +
+    '<div class="stat-box"><div class="stat-num">' + (s1.y+s2.y+s3.y) + '</div><div class="stat-label">🟡 尝试中</div></div>' +
+    '<div class="stat-box"><div class="stat-num">' + (s1.r+s2.r+s3.r) + '</div><div class="stat-label">🔴 未开始</div></div>' +
+    '<div class="stat-box"><div class="stat-num">' + sig + '/6</div><div class="stat-label">转身信号</div></div>' +
+    '</div>' + rows +
+    '<div class="result-total"><span class="emoji">' + stageEmoji + '</span><span class="stage-text" style="color:' + stageColor + '">' + stageText + '</span></div>';
+
+  let advice = '';
+  if (sig <= 1) {
+    advice = '<p><strong>🔴 转身尚未开始</strong></p><p>你仍在"证明自己"阶段。建议回到《空降高管的第三条路》，重读"三个认知重构"：方案思维→利益翻译、改变组织→改变一个人的处境、留下印记→让事情因你来过而不同。</p><p>先打开板块二的利益翻译表，填满至少3个人的五个维度。这是转身的起点——在开口之前，先知道对方真正在意什么。</p>';
+  } else if (sig <= 3) {
+    advice = '<p><strong>🟡 转身正在进行中</strong></p><p>局部突破已经出现，这是最关键的阶段。保持板块三的"老李"关系经营——不带目的地聊，帮对方解决一个真实痛点。同时推进板块二的利益翻译，把剩下的关键人也填进去。</p><p>警惕：这个阶段最容易因为一两次成功而放松。转身是个持续过程，不是拿下一城就结束了。</p>';
+  } else {
+    advice = '<p><strong>🟢 转身基本完成</strong></p><p>你的组织信用已经开始复利增长。有人在你不在场时替你说好话，有人带问题来找你，CEO公开引用你的成果——这些都说明你已经不是"那个新来的"了。</p><p>下一步：准备进入空降系列第四阶段"暗流"。转身完成不意味着安全——旧体系的反扑可能正在酝酿。识别你即将面临的三类暗流：积极破坏、沉默联盟、归因转移。</p>';
+  }
+
+  // Add specific weak points
+  if (s1.g + s1.y < 3) advice += '<p style="margin-top:8px;color:var(--low)">⚠️ 板块一（证明自己）得分偏低——你仍在试图证明"我对了"。先放下方案，先听。</p>';
+  if (s2.g + s2.y < 3) advice += '<p style="margin-top:8px;color:var(--low)">⚠️ 板块二（利益翻译）得分偏低——你可能还在用自己的语言推方案。先填表，再开口。</p>';
+  if (s3.g + s3.y < 3) advice += '<p style="margin-top:8px;color:var(--low)">⚠️ 板块三（找到老李）得分偏低——你缺少一个能帮你"读场"的人。本周就去约一次无目的的聊天。</p>';
+
+  document.getElementById('diagnosis-box').innerHTML =
+    '<div class="emoji">' + stageEmoji + '</div><div class="level-text" style="color:' + stageColor + '">' + stageText + '</div><div class="advice">' + advice + '</div>';
+
+  document.getElementById('next-steps').innerHTML = 
+    '<h2>📮 后续步骤</h2>' +
+    (sig <= 1 
+      ? '<div class="ns-item"><strong>回到文章：</strong>重读《空降高管的第三条路：不是融入就是离开》，重点看"三个认知重构"部分。</div><div class="ns-item"><strong>先做这个：</strong>打开板块二的利益翻译表，至少填3个人。</div>'
+      : (sig <= 3 
+        ? '<div class="ns-item"><strong>持续推进：</strong>保持"老李"关系经营，把利益翻译表扩展到所有关键人。</div><div class="ns-item"><strong>警惕：</strong>不要因为局部成功就放松。转身是持续过程。</div>'
+        : '<div class="ns-item"><strong>准备下一阶段：</strong>阅读《空降暗流：你以为站稳了，其实只是暴风雨前的平静》，识别旧体系反扑的三类形态。</div>'))
+    + '<div class="ns-ref">📮 完成本清单后如有困惑，可申请 <strong>15分钟免费1v1组织诊断</strong>，我们帮你定位卡点。</div>' +
+    '<div class="ns-ref">🔗 空降系列导航：空降陷阱 → 空降开局 → 空降转身 → 空降暗流（即将发布）</div>';
+}
+
+function resetAll() {
+  scores = {p1: [0,0,0,0,0], p2: [0,0,0,0,0], p3: [0,0,0,0,0], p4: [0,0,0,0,0,0]};
+  document.querySelectorAll('.q-options button, .signal-toggle button').forEach(b => {
+    b.classList.remove('selected-green','selected-yellow','selected-red','selected-yes','selected-no');
+  });
+  ['p1','p2','p3','p4'].forEach(p => {
+    const box = document.getElementById('score-' + p);
+    if (box) box.textContent = '-';
+  });
+  document.getElementById('results-section').classList.add('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function shareResults() {
+  if (!allDone()) return;
+  const s1 = subTri('p1'), s2 = subTri('p2'), s3 = subTri('p3'), sig = p4Signals();
+  let stage = sig >= 4 ? '转身基本完成' : (sig >= 2 ? '转身正在进行中' : '转身尚未开始');
+  let txt = '🔄 我的空降高管转身自检结果
+
+';
+  txt += '板块一（证明自己）：🟢' + s1.g + ' 🟡' + s1.y + ' 🔴' + s1.r + '
+';
+  txt += '板块二（利益翻译）：🟢' + s2.g + ' 🟡' + s2.y + ' 🔴' + s2.r + '
+';
+  txt += '板块三（找到老李）：🟢' + s3.g + ' 🟡' + s3.y + ' 🔴' + s3.r + '
+';
+  txt += '板块四（转身信号）：✅ ' + sig + ' / 6
+
+';
+  txt += '📊 综合判断：' + stage + '
+
+';
+  txt += '来自 OrgLens 空降高管转身自检清单';
+  navigator.clipboard.writeText(txt).then(() => alert('✅ 结果已复制到剪贴板！')).catch(() => prompt('复制以下文本：', txt));
+}
+
+// 老李清单事件
+document.querySelectorAll('#laoli-checklist input[type=checkbox]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const n = document.querySelectorAll('#laoli-checklist input[type=checkbox]:checked').length;
+    document.getElementById('laoli-summary').textContent = '已符合：' + n + ' / 6 条' + (n >= 4 ? ' ✅ 这就是你的老李！' : '');
+  });
+});
+
+// 利益翻译表操作
+let transRowCount = 1;
+function addTransRow() {
+  transRowCount++;
+  const tr = document.createElement('tr');
+  tr.innerHTML = '<td><textarea placeholder="职位/姓名"></textarea></td>' +
+    '<td><textarea placeholder="① ② ③"></textarea></td>' +
+    '<td><textarea placeholder="压力来源"></textarea></td>' +
+    '<td><textarea placeholder="如何缓解"></textarea></td>' +
+    '<td><textarea placeholder="用他的语言"></textarea></td>';
+  document.querySelector('#trans-table tbody').appendChild(tr);
+}
+function removeTransRow() {
+  const tbody = document.querySelector('#trans-table tbody');
+  const rows = tbody.querySelectorAll('tr:not(.example)');
+  if (rows.length > 0) rows[rows.length-1].remove();
+}
+
+renderAllQuestions();
