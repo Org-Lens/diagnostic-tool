@@ -571,21 +571,12 @@ function shareResults() {
   if (!allDone()) return;
   const s1 = subTri('p1'), s2 = subTri('p2'), s3 = subTri('p3'), sig = p4Signals();
   let stage = sig >= 4 ? '转身基本完成' : (sig >= 2 ? '转身正在进行中' : '转身尚未开始');
-  let txt = '🔄 我的空降高管转身自检结果
-
-';
-  txt += '板块一（证明自己）：🟢' + s1.g + ' 🟡' + s1.y + ' 🔴' + s1.r + '
-';
-  txt += '板块二（利益翻译）：🟢' + s2.g + ' 🟡' + s2.y + ' 🔴' + s2.r + '
-';
-  txt += '板块三（找到老李）：🟢' + s3.g + ' 🟡' + s3.y + ' 🔴' + s3.r + '
-';
-  txt += '板块四（转身信号）：✅ ' + sig + ' / 6
-
-';
-  txt += '📊 综合判断：' + stage + '
-
-';
+  let txt = '🔄 我的空降高管转身自检结果\n\n';
+  txt += '板块一（证明自己）：🟢' + s1.g + ' 🟡' + s1.y + ' 🔴' + s1.r + '\n';
+  txt += '板块二（利益翻译）：🟢' + s2.g + ' 🟡' + s2.y + ' 🔴' + s2.r + '\n';
+  txt += '板块三（找到老李）：🟢' + s3.g + ' 🟡' + s3.y + ' 🔴' + s3.r + '\n';
+  txt += '板块四（转身信号）：✅ ' + sig + ' / 6\n\n';
+  txt += '📊 综合判断：' + stage + '\n\n';
   txt += '来自 OrgLens 空降高管转身自检清单';
   navigator.clipboard.writeText(txt).then(() => alert('✅ 结果已复制到剪贴板！')).catch(() => prompt('复制以下文本：', txt));
 }
@@ -617,3 +608,6 @@ function removeTransRow() {
 }
 
 renderAllQuestions();
+</script>
+</body>
+</html>
