@@ -119,15 +119,6 @@ background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing
 
 <div class="container">
 
-<!-- Brand -->
-<div class="brand-bar">
-  <svg class="brand-icon" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="var(--primary)"/><circle cx="20" cy="20" r="12" fill="none" stroke="var(--accent)" stroke-width="2"/><path d="M7 33L33 7" stroke="var(--gold)" stroke-width="2" opacity="0.6"/><circle cx="20" cy="20" r="4" fill="var(--accent)"/></svg>
-  <div>
-    <div class="brand-name">OrgLens</div>
-    <div class="brand-tagline">看清组织，看见解法</div>
-  </div>
-</div>
-
 <!-- Header -->
 <div class="header">
   <h1>🛡️ 空降暗流应对手册</h1>
@@ -438,8 +429,16 @@ XX 项目在上线第 [阶段] 出现了 [具体问题]，简述如下：
 <script>
 // ======== TAB SWITCHING ========
 function switchTab(idx){
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
-  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+  var btns = document.querySelectorAll('.tab-btn');
+  var panels = document.querySelectorAll('.tab-panel');
+  for(var i=0;i<btns.length;i++){
+    if(i===idx){ btns[i].classList.add('active'); }
+    else{ btns[i].classList.remove('active'); }
+  }
+  for(var i=0;i<panels.length;i++){
+    if(i===idx){ panels[i].classList.add('active'); panels[i].style.display='block'; }
+    else{ panels[i].classList.remove('active'); panels[i].style.display='none'; }
+  }
 }
 
 // ======== ALERT TYPE CHECKLIST ========
@@ -544,3 +543,6 @@ function showToast(){
     }, 500);
   });
 })();
+</script>
+</body>
+</html>
