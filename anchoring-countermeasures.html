@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>空降暗流应对手册 - OrgLens</title>
+<meta name="description" content="三种暗流识别矩阵 × 控制点拆分模板 × 沉默联盟破解策略 × 归因权争夺话术。基于OrgLens空降暗流框架，一套完整的暗流期生存工具。">
+<meta property="og:title" content="空降暗流应对手册 - OrgLens">
+<meta property="og:description" content="你在暗流期吗？用这套工具识别暗流类型、拆分控制点、破解沉默联盟、夺回归因权。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231a1a2e'/><circle cx='16' cy='16' r='10' fill='none' stroke='%232d6a4f' stroke-width='1.5'/><line x1='5' y1='27' x2='27' y2='5' stroke='%23c8a96e' stroke-width='1.5' opacity='0.6'/><circle cx='16' cy='16' r='3' fill='%232d6a4f'/></svg>">
+<style>
+:root{
+--primary:#1a1a2e;--accent:#2d6a4f;--accent-light:#e8f5e9;--gold:#c8a96e;--gold-light:#f7efe0;
+--bg:#f6f7f6;--card-bg:#ffffff;--border:#e0e0e0;--high:#2d6a4f;--mid:#e6a817;--low:#c0392b;
+--text2:#666;--text3:#999
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing:antialiased;
+-webkit-tap-highlight-color:transparent
+}
+.container{max-width:720px;margin:0 auto;padding:0 20px 80px}
+.brand-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 0 8px}
+.brand-icon{width:40px;height:40px;flex-shrink:0}
+.brand-name{font-size:18px;font-weight:800;color:var(--primary);letter-spacing:1px;line-height:1.2}
+.brand-tagline{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:1.5px;text-transform:uppercase}
+.header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.header h1{font-size:26px;font-weight:800;color:var(--primary);letter-spacing:.5px;line-height:1.3}
+.header .subtitle{font-size:14px;color:var(--text2);margin-top:6px;line-height:1.5}
+.framework-badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;color:var(--accent);background:var(--accent-light);padding:5px 16px;border-radius:20px;font-weight:600}
+.framework-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.instructions{background:var(--card-bg);border-radius:12px;padding:20px 22px;margin-bottom:22px;border:1px solid var(--border)}
+.instructions h3{font-size:14px;margin-bottom:8px;color:var(--primary);font-weight:700}
+.instructions p{font-size:13px;color:var(--text2);margin:3px 0;line-height:1.6}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:22px;background:var(--card-bg);border-radius:12px;padding:4px;border:1px solid var(--border)}
+.tab-btn{flex:1;padding:10px 6px;border:none;border-radius:9px;background:transparent;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;text-align:center;line-height:1.3}
+.tab-btn.active{background:var(--accent);color:#fff;box-shadow:0 2px 6px rgba(45,106,79,.25)}
+.tab-btn:hover:not(.active){color:var(--accent)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* Card */
+.card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border)}
+.card h2{font-size:17px;font-weight:700;color:var(--primary);margin-bottom:12px}
+.card h3{font-size:14px;font-weight:700;color:var(--primary);margin:16px 0 8px}
+.card p{font-size:13.5px;color:var(--text2);margin-bottom:10px;line-height:1.6}
+.card ul,.card ol{padding-left:20px;margin-bottom:12px}
+.card li{font-size:13px;color:var(--text2);margin-bottom:6px;line-height:1.6}
+
+/* === TAB 1: 暗流识别 === */
+.alert-item{padding:14px;background:#fafafa;border-radius:10px;margin-bottom:10px;border-left:4px solid transparent;cursor:pointer;transition:all .2s}
+.alert-item.selected{border-left-color:var(--accent);background:var(--accent-light)}
+.alert-item:hover{background:#f0f0f0}
+.alert-item h4{font-size:14px;font-weight:700;color:var(--primary);margin-bottom:4px}
+.alert-item p{font-size:12px;color:var(--text2);line-height:1.5}
+.alert-item .example{font-size:11px;color:var(--text3);margin-top:4px;font-style:italic}
+.result-badge{display:inline-block;padding:4px 12px;border-radius:14px;font-size:11px;font-weight:700;margin-top:6px}
+
+/* === TAB 2: 控制点拆分 === */
+.matrix-table{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0}
+.matrix-table th{padding:10px 8px;background:var(--accent);color:#fff;font-weight:600;text-align:left;font-size:12px}
+.matrix-table th:first-child{border-radius:8px 0 0 0}
+.matrix-table th:last-child{border-radius:0 8px 0 0}
+.matrix-table td{padding:8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:var(--text2);vertical-align:top}
+.matrix-table tr:last-child td:last-child{border-radius:0 0 8px 0}
+.matrix-table tr:last-child td:first-child{border-radius:0 0 0 8px}
+.matrix-table textarea{width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;resize:vertical;min-height:40px;font-family:inherit;background:#fafafa}
+.matrix-table textarea:focus{outline:none;border-color:var(--accent);background:#fff}
+.input-row{display:flex;gap:8px;align-items:center;margin-top:8px}
+.input-row input{flex:1;border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:13px;font-family:inherit}
+.input-row input:focus{outline:none;border-color:var(--accent)}
+.btn-sm{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s;background:var(--accent);color:#fff}
+.btn-sm:active{transform:scale(.96)}
+
+/* === TAB 3: 沉默联盟破解 === */
+.stake-analyzer{border:2px dashed var(--border);border-radius:10px;padding:16px;margin:12px 0}
+.stake-analyzer h4{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px}
+.stake-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.stake-row label{font-size:12px;color:var(--text2);min-width:80px;font-weight:600}
+.stake-row input{flex:1;border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:12px;font-family:inherit}
+.stake-row input:focus{outline:none;border-color:var(--accent)}
+.stake-preview{background:#f8faf8;border-radius:8px;padding:12px;font-size:12px;color:var(--text2);margin-top:8px;display:none}
+.stake-preview.show{display:block}
+.stake-preview strong{color:var(--accent)}
+
+/* === TAB 4: 归因权话术 === */
+.script-card{background:#fafafa;border-radius:10px;padding:16px;margin-bottom:12px;border:1px solid var(--border)}
+.script-card h4{font-size:13px;font-weight:700;color:var(--primary);margin-bottom:6px}
+.script-card .script-text{font-size:13px;color:var(--text2);line-height:1.7;padding:10px 14px;background:#fff;border-radius:8px;border:1px solid #eee;margin:8px 0;white-space:pre-wrap}
+.script-card .script-note{font-size:11px;color:var(--text3);margin-top:4px}
+
+.btn-row{display:flex;gap:10px;justify-content:center;margin:24px 0;flex-wrap:wrap}
+.btn{padding:11px 26px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;outline:none}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{opacity:.9}
+.btn-outline{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+.btn-outline:hover{background:var(--accent-light)}
+.copied-toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:10px 24px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
+.copied-toast.show{opacity:1}
+
+/* Footer */
+.footer{text-align:center;padding:30px 0 20px;border-top:1px solid var(--border);margin-top:10px}
+.footer-logo{height:36px;margin-bottom:6px;opacity:.8}
+.footer p{font-size:11px;color:var(--text3)}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:500px){
+.header h1{font-size:22px}
+.tab-btn{font-size:11px;padding:8px 4px}
+.table-wrap{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Brand -->
+<div class="brand-bar">
+  <svg class="brand-icon" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="var(--primary)"/><circle cx="20" cy="20" r="12" fill="none" stroke="var(--accent)" stroke-width="2"/><path d="M7 33L33 7" stroke="var(--gold)" stroke-width="2" opacity="0.6"/><circle cx="20" cy="20" r="4" fill="var(--accent)"/></svg>
+  <div>
+    <div class="brand-name">OrgLens</div>
+    <div class="brand-tagline">看清组织，看见解法</div>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <h1>🛡️ 空降暗流应对手册</h1>
+  <div class="subtitle">三种暗流识别 × 控制点拆分 × 沉默联盟破解 × 归因权争夺 ——<br>一套完整的空降暗流期生存工具</div>
+  <div class="framework-badge"><span class="dot"></span>基于OrgLens空降暗流框架</div>
+</div>
+
+<!-- Instructions -->
+<div class="instructions">
+  <h3>📋 使用说明</h3>
+  <p>本手册包含四大模块，按顺序使用效果最佳：</p>
+  <p><strong>① 暗流识别</strong> → 判断你当前正处于哪种暗流中（可多选）</p>
+  <p><strong>② 控制点拆分</strong> → 将你方案中的控制点拆开，不给暗流"单点攻击"的抓手</p>
+  <p><strong>③ 沉默联盟破解</strong> → 分析关键人物的利益方向，找到打破联盟的切入点</p>
+  <p><strong>④ 归因权话术</strong> → 主动归因模板，在问题被"别人加工"之前先把完整真相送达决策者</p>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab(0)">① 暗流识别</button>
+  <button class="tab-btn" onclick="switchTab(1)">② 控制点拆分</button>
+  <button class="tab-btn" onclick="switchTab(2)">③ 沉默联盟破解</button>
+  <button class="tab-btn" onclick="switchTab(3)">④ 归因权话术</button>
+</div>
+
+<!-- ============ TAB 0: 暗流识别 ============ -->
+<div class="tab-panel active" id="tab-0">
+  <div class="card">
+    <h2>🔍 第一步：识别你面临的暗流类型</h2>
+    <p>请勾选所有<b>你正在经历</b>的信号。可以多选——暗流经常同时出现。</p>
+
+    <h3>暗流类型一：积极破坏</h3>
+    <div class="alert-item" onclick="toggleAlert(this,1)" id="alert-type1">
+      <h4>⚠️ 有人主动给出了"补充建议"</h4>
+      <p>你的方案被某人以"帮你完善"的名义，加入了看起来合理、但实质改变了控制权的修改。</p>
+      <p class="example">典型案例：销售VP张诚的"补充建议"——看似完善标准化流程，实际上把入口、加急通道、反馈闭环三个控制点全部收回自己手中。</p>
+    </div>
+    <div class="alert-item" onclick="toggleAlert(this,2)" id="alert-type1b">
+      <h4>⚠️ 你进退两难：拒绝=不合作，接受=被稀释</h4>
+      <p>拒绝这些补充建议会让你显得"不给面子""想独揽大权"，接受则你的方案名存实亡。</p>
+    </div>
+    <div class="alert-item" onclick="toggleAlert(this,3)" id="alert-type1c">
+      <h4>⚠️ 领导说"综合一下""他也挺务实的"</h4>
+      <p>上级没有站在你这边，而是建议你"综合"——这意味着积极破坏策略已经成功获得了上层背书。</p>
+    </div>
+
+    <h3>暗流类型二：沉默联盟</h3>
+    <div class="alert-item" onclick="toggleAlert(this,4)" id="alert-type2">
+      <h4>🫥 多个协作者的回应都是"可以，但……"</h4>
+      <p>没有人反对你，但每个人都在"可以"后面加了延迟理由：排期延后、资源紧张、人手请假……</p>
+      <p class="example">典型案例：产品VP林亚"数据格式不同需要整理"、技术VP赵宇"排到下个迭代"——都说可以，但没有一个真正推进。</p>
+    </div>
+    <div class="alert-item" onclick="toggleAlert(this,5)" id="alert-type2b">
+      <h4>🫥 你感到在打"棉花墙"——找不着反对者</h4>
+      <p>每一拳都陷进去，收回来什么都没有。没有明确的敌人，但进度就是动不了。</p>
+    </div>
+    <div class="alert-item" onclick="toggleAlert(this,6)" id="alert-type2c">
+      <h4>🫥 推动项目时，至少两个部门同时在"拖"</h4>
+      <p>单个部门延迟是正常的。两个以上同时延后，即使理由各不相同——这是沉默联盟的信号。他们的利益方向恰好一致：维持现状。</p>
+    </div>
+
+    <h3>暗流类型三：归因转移</h3>
+    <div class="alert-item" onclick="toggleAlert(this,7)" id="alert-type3">
+      <h4>🏷️ 出了问题时，第一个被提到的总是你的项目</h4>
+      <p>"新流程还在磨合"——这句话成了一个标签。无论根本原因是什么，默认解释都是你的项目。</p>
+      <p class="example">典型案例：延迟是销售团队三天后才提交初审结果导致的，但张诚的邮件只说"新流程的磨合问题"。</p>
+    </div>
+    <div class="alert-item" onclick="toggleAlert(this,8)" id="alert-type3b">
+      <h4>🏷️ CEO对你的项目形成了一句固定的概括式评价</h4>
+      <p>比如"方向上是好的但落地有挑战""挺有价值但需要时间"——当CEO开始用固定句式谈论你的项目，归因权已经不在你手里了。</p>
+    </div>
+    <div class="alert-item" onclick="toggleAlert(this,9)" id="alert-type3c">
+      <h4>🏷️ 你无法反驳负面归因——因为它说的"事实"确实存在</h4>
+      <p>归因转移的精妙之处：它没有撒谎，只是"选择性陈述事实"。新流程确实在磨合，所以你没办反反驳。</p>
+    </div>
+
+    <div id="alert-result" style="display:none;margin-top:16px;padding:14px 18px;background:var(--accent-light);border-radius:10px;border:1px solid var(--accent)">
+      <h4 style="color:var(--accent);margin-bottom:6px">📊 你的暗流画像</h4>
+      <div id="alert-summary" style="font-size:13px;color:var(--primary);line-height:1.7"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TAB 1: 控制点拆分 ============ -->
+<div class="tab-panel" id="tab-1">
+  <div class="card">
+    <h2>⚙️ 第二步：控制点拆分模板</h2>
+    <p>积极破坏之所以能生效，是因为你的方案有<b>单点控制点</b>——别人只需要在这个点上"帮你优化"就能改变整个方案的方向。把控制点拆开，暗流就找不到抓手。</p>
+
+    <p><strong>填写你的项目名称：</strong></p>
+    <div class="input-row" style="margin-bottom:14px">
+      <input type="text" id="project-name" placeholder="例如：客户交付流程标准化">
+    </div>
+
+    <div class="table-wrap">
+    <table class="matrix-table" id="control-matrix">
+      <thead>
+        <tr><th style="width:22%">控制点</th><th style="width:25%">当前状态（谁控制）</th><th style="width:25%">暗流风险</th><th style="width:28%">拆分方案</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>入口调度权</strong><br><span style="font-size:10px;color:var(--text3)">谁决定优先做哪个</span></td>
+          <td><textarea placeholder="例：销售VP独揽审批权"></textarea></td>
+          <td><textarea placeholder="例：张诚把初审权加入补充建议"></textarea></td>
+          <td><textarea placeholder="例：改轮值机制，三个部门轮流当值，每季度轮换"></textarea></td>
+        </tr>
+        <tr>
+          <td><strong>标准制定权</strong><br><span style="font-size:10px;color:var(--text3)">谁定义交付标准</span></td>
+          <td><textarea></textarea></td>
+          <td><textarea></textarea></td>
+          <td><textarea placeholder="例：由跨部门小组共同起草，而非单一负责人"></textarea></td>
+        </tr>
+        <tr>
+          <td><strong>加急通道权</strong><br><span style="font-size:10px;color:var(--text3)">谁可以跳过流程</span></td>
+          <td><textarea></textarea></td>
+          <td><textarea></textarea></td>
+          <td><textarea placeholder="例：改三人小组线上表决，不交一个人审批"></textarea></td>
+        </tr>
+        <tr>
+          <td><strong>结果评估权</strong><br><span style="font-size:10px;color:var(--text3)">谁来评估效果</span></td>
+          <td><textarea></textarea></td>
+          <td><textarea></textarea></td>
+          <td><textarea placeholder="例：数据向全员公开，不在单一部门汇总"></textarea></td>
+        </tr>
+        <tr>
+          <td><strong>反馈收集权</strong><br><span style="font-size:10px;color:var(--text3)">投诉和反馈归谁</span></td>
+          <td><textarea></textarea></td>
+          <td><textarea></textarea></td>
+          <td><textarea placeholder="例：建立公开反馈看板，全员可见"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:11px;color:var(--text3);margin-top:6px">💡 核心原则：<b>当你的方案没有单点可以攻击，积极破坏就找不到抓手。</b>每个控制点至少有两个部门共同参与。</p>
+  </div>
+</div>
+
+<!-- ============ TAB 2: 沉默联盟破解 ============ -->
+<div class="tab-panel" id="tab-2">
+  <div class="card">
+    <h2>🤝 第三步：沉默联盟破解策略</h2>
+    <p>沉默联盟的本质是"利益自然对齐"——多个部门不想改变，所以他们各自按自己的舒适区行动。破解的关键不是催、不是告状，而是<b>找到一个让其中一个人先获益的切入点</b>。</p>
+
+    <div class="stake-analyzer">
+      <h4>🎯 利益对齐分析器</h4>
+      <p style="font-size:12px;color:var(--text2)">列出沉默联盟中的关键人物，找到对他们"真正重要"的利益点。</p>
+
+      <div class="stake-row">
+        <label>人物 A：</label>
+        <input type="text" id="person-a" placeholder="姓名/职位（如：产品VP林亚）">
+      </div>
+      <div class="stake-row">
+        <label>当前态度：</label>
+        <input type="text" id="attitude-a" placeholder="如：提供数据但一直延后">
+      </div>
+      <div class="stake-row">
+        <label>他真正关心的：</label>
+        <input type="text" id="stake-a" placeholder="如：Q4向CEO的产品路线图汇报">
+      </div>
+
+      <div style="margin:12px 0;border-top:1px dashed var(--border)"></div>
+
+      <div class="stake-row">
+        <label>人物 B：</label>
+        <input type="text" id="person-b" placeholder="姓名/职位（如：技术VP赵宇）">
+      </div>
+      <div class="stake-row">
+        <label>当前态度：</label>
+        <input type="text" id="attitude-b" placeholder="如：可以配合但排到下个迭代">
+      </div>
+      <div class="stake-row">
+        <label>他真正关心的：</label>
+        <input type="text" id="stake-b" placeholder="如：减少重复运维工作">
+      </div>
+
+      <button class="btn-sm" onclick="generateStakeTactic()" style="margin-top:10px">生成破解策略 →</button>
+    </div>
+
+    <div class="stake-preview" id="stake-preview">
+      <h4 style="color:var(--accent)">💡 破解策略建议</h4>
+      <div id="stake-tactic-output" style="font-size:13px;line-height:1.7"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🧠 沉默联盟破解三原则</h2>
+    <ol>
+      <li><strong>不要挨个催。</strong>催只会让他们更想保持沉默。找到"先获益者"是关键。</li>
+      <li><strong>不要向上告状。</strong>告状会增加政治风险，让沉默者更不敢参与——怕"站队"。</li>
+      <li><strong>把你的项目，包装成"对他的汇报有支撑"。不是"请配合我"，是"这件事能帮到你"。</strong></li>
+    </ol>
+    <p style="font-size:12px;color:var(--text3);margin-top:8px">📖 参考案例：秦川没有催林亚要数据，而是用已有数据做了一个"客户痛点热力图"，告诉林亚"补充产品维度后可以出一份完整报告，支撑你Q4的路线图汇报"——一周后数据补齐了。</p>
+  </div>
+</div>
+
+<!-- ============ TAB 3: 归因权话术 ============ -->
+<div class="tab-panel" id="tab-3">
+  <div class="card">
+    <h2>📝 第四步：归因权争夺话术</h2>
+    <p>归因转移之所以有效，是因为你让出了<b>解释权</b>。当项目出问题，谁第一个给出合理且完整的解释，谁就掌握了归因权。核心原则：<b>不是把锅甩出去，而是让真相在被别人加工之前，先以完整的形式到达决策者。</b></p>
+  </div>
+
+  <div class="script-card">
+    <h4>📧 话术一：交付异常主动归因邮件</h4>
+    <p class="script-note">【适用场景】项目出现任何问题时，在别人发邮件之前（同一天内）先行发送。关键：主动、透明、结构化。</p>
+    <div class="script-text" id="script-1">收件人：[CEO / 相关部门负责人]
+主题：关于 XX 项目 [具体问题] 的分析与改进方案
+
+各位好，
+
+XX 项目在上线第 [阶段] 出现了 [具体问题]，简述如下：
+
+一、发生了什么
+- 事件：[一句话概括]
+- 影响范围：[量化影响]
+- 发生时间：[精确时间]
+
+二、延迟/问题节点分析
+- 节点1：[部门/环节] — [具体延迟] — [时长]
+- 节点2：[部门/环节] — [具体延迟] — [时长]
+- 是否与新流程相关：[是/否/部分相关，具体说明]
+
+三、改进措施
+- 短期（本周内）：[具体行动]
+- 中期（两周内）：[具体行动]
+- 长期：[机制调整]
+
+以上分析基于至今收集到的完整数据。如有补充，欢迎指出。
+
+[你的名字]</div>
+    <button class="btn-sm" onclick="copyScript('script-1')">📋 复制话术</button>
+  </div>
+
+  <div class="script-card">
+    <h4>🗣️ 话术二：应对CEO概括式评价</h4>
+    <p class="script-note">【适用场景】CEO开始用固定句式评价你的项目时（如"方向好但落地有挑战"）。不要争辩，用数据重构叙事。</p>
+    <div class="script-text" id="script-2">CEO 提到"XX项目落地有挑战"时，可以这样回应：
+
+"您说得对，落地确实有挑战。我把挑战拆成了三类，第一类是[外部/客观因素]，第二类是[跨部门协作时序]，第三类是[我们自身需要优化的]。目前前两类在按计划推进，第三类我已经做了调整，这是进度跟踪表，每两周同步一次。"
+
+核心技巧：
+1. 认可评价（不说"不是这样的"）
+2. 主动拆分问题（把模糊的"有挑战"变成具体的三类）
+3. 展示控制感（有进度表、有节奏）</div>
+    <button class="btn-sm" onclick="copyScript('script-2')">📋 复制话术</button>
+  </div>
+
+  <div class="script-card">
+    <h4>📊 话术三：归因分析报告框架</h4>
+    <p class="script-note">【适用场景】定期（每周/双周）出一次，养成习惯。让CEO习惯从你这里获得第一手归因。</p>
+    <div class="script-text" id="script-3">《XX项目双周进展与异常分析》
+
+一、整体进度：完成 XX%，较计划 [提前/正常/延迟 X 天]
+
+二、本周关键成果
+- [成果1]
+- [成果2]
+
+三、异常分析
+| 异常事件 | 发生节点 | 是否与新流程相关 | 影响程度 | 已采取措施 |
+|----------|---------|-----------------|---------|-----------|
+| [事件A] | [部门/环节] | [是/否/部分] | [高/中/低] | [措施] |
+
+四、下周重点
+- [行动1]
+- [行动2]
+
+五、需决策事项（如有）
+- [需要CEO决策的事]</div>
+    <button class="btn-sm" onclick="copyScript('script-3')">📋 复制话术</button>
+  </div>
+
+  <div class="script-card">
+    <h4>🛡️ 话术四：回应"补充建议"式积极破坏</h4>
+    <p class="script-note">【适用场景】有人以"帮你完善"的名义提出了改变控制权的补充建议。</p>
+    <div class="script-text" id="script-4">对方提出补充建议后，可以这样回复（全员邮件）：
+
+"[对方名字]的建议我仔细看了，方向上是好的。有三点我想补充：
+
+1. [建议中某一条]确实有助于提升效率，我想加上一个细节——这个环节可以由[跨部门小组/轮值]来操作，而不是固定在一个部门，这样更符合标准化的初衷。
+
+2. 关于[另一条建议]，我们可以先试用一个季度，数据公开可见，季度末再决定是否固化。
+
+3. 整体上，标准化体系的核心目标是[XX]，任何优化都围绕这个目标来——不是为了优化而优化。
+
+欢迎大家继续补充。"
+
+核心技巧：
+- 不直接拒绝（不触发"不合作"标签）
+- 每个接受都附加"分散控制权"的细节
+- 把优化框架定在你的目标上</div>
+    <button class="btn-sm" onclick="copyScript('script-4')">📋 复制话术</button>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <img src="orglens-logo.png" alt="OrgLens · 看清组织，看见解法" class="footer-logo">
+  <p>OrgLens · 看清组织，看见解法</p>
+  <p style="margin-top:4px">本文工具基于 OrgLens 空降暗流框架设计</p>
+</div>
+
+</div><!-- /container -->
+
+<div class="copied-toast" id="toast">✅ 已复制到剪贴板</div>
+
+<script>
+// ======== TAB SWITCHING ========
+function switchTab(idx){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+
+// ======== ALERT TYPE CHECKLIST ========
+var selectedAlerts = new Set();
+function toggleAlert(el, id){
+  el.classList.toggle('selected');
+  if(el.classList.contains('selected')) selectedAlerts.add(id);
+  else selectedAlerts.delete(id);
+  updateAlertResult();
+}
+
+function updateAlertResult(){
+  var resultDiv = document.getElementById('alert-result');
+  var summary = document.getElementById('alert-summary');
+  if(selectedAlerts.size === 0){
+    resultDiv.style.display = 'none';
+    return;
+  }
+  resultDiv.style.display = 'block';
+  var type1 = 0, type2 = 0, type3 = 0;
+  selectedAlerts.forEach(function(id){
+    if(id <= 3) type1++;
+    else if(id <= 6) type2++;
+    else type3++;
+  });
+
+  var lines = [];
+  if(type1 > 0) lines.push('🟠 <strong>积极破坏</strong>：' + '⚠️'.repeat(Math.min(type1,3)) + ' 关联 ' + type1 + ' 个信号。核心应对：拆分控制点（见Tab②）');
+  if(type2 > 0) lines.push('🟡 <strong>沉默联盟</strong>：' + '🫥'.repeat(Math.min(type2,3)) + ' 关联 ' + type2 + ' 个信号。核心应对：找到先获益者切入（见Tab③）');
+  if(type3 > 0) lines.push('🔴 <strong>归因转移</strong>：' + '🏷️'.repeat(Math.min(type3,3)) + ' 关联 ' + type3 + ' 个信号。核心应对：夺回归因权，先手归因（见Tab④）');
+
+  summary.innerHTML = lines.join('<br>');
+}
+
+// ======== SILENT ALLIANCE TACTIC ========
+function generateStakeTactic(){
+  var personA = document.getElementById('person-a').value || '人物A';
+  var stakeA = document.getElementById('stake-a').value || 'TA真正关心的利益';
+  var personB = document.getElementById('person-b').value || '人物B';
+  var stakeB = document.getElementById('stake-b').value || 'TA真正关心的利益';
+
+  var output = '<p>基于你的分析，建议优先从<b>' + personA + '</b>切入：</p>';
+  output += '<p>📌 <b>切入点</b>：你的项目数据/成果，可以怎么帮到 <b>' + personA + '</b> 关心的「' + stakeA + '」？</p>';
+  output += '<p>📌 <b>沟通话术框架</b>：</p>';
+  output += '<p style="padding:10px 14px;background:#fff;border-radius:8px;border:1px solid #eee">"' + personA + '，我用现有数据做了一个初步分析。如果补上你那边的维度，我们可以出一份完整报告——这份报告可以直接支撑你<b>' + stakeA + '</b>方面的汇报。"</p>';
+  output += '<p>📌 <b>关键原则</b>：不说"请配合我的项目"，说"这件事能支撑你的汇报"。让沉默者看到参与的好处，且不触发"站队"风险。</p>';
+  output += '<p style="margin-top:10px;color:var(--text3);font-size:11px">💡 先在一个人身上取得突破后，联盟的利益一致性就被打破了。第二个人的数据自然会补上。</p>';
+
+  document.getElementById('stake-tactic-output').innerHTML = output;
+  document.getElementById('stake-preview').classList.add('show');
+}
+
+// ======== COPY SCRIPT ========
+function copyScript(scriptId){
+  var el = document.getElementById(scriptId);
+  if(!el) return;
+  var text = el.innerText || el.textContent;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(function(){
+      showToast();
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast();
+  }
+}
+
+function showToast(){
+  var t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 1800);
+}
+
+// ======== AUTO-SAVE CONTROL MATRIX (localStorage) ========
+(function(){
+  var saved = localStorage.getItem('anchoring-matrix');
+  if(saved){
+    try{
+      var data = JSON.parse(saved);
+      var tds = document.querySelectorAll('#control-matrix textarea');
+      for(var i=0;i<Math.min(data.length,tds.length);i++){
+        tds[i].value = data[i] || '';
+      }
+    }catch(e){}
+  }
+
+  var saveTimer;
+  document.getElementById('control-matrix').addEventListener('input',function(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function(){
+      var tds = document.querySelectorAll('#control-matrix textarea');
+      var values = [];
+      tds.forEach(function(t){ values.push(t.value); });
+      localStorage.setItem('anchoring-matrix', JSON.stringify(values));
+    }, 500);
+  });
+})();
