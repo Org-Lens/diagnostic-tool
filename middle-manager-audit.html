@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>中层价值审计表 - OrgLens</title>
+<meta name="description" content="8道题，看清你的中层（或你自己），正在变成AI时代的资产，还是负债。">
+<meta property="og:title" content="中层价值审计表 - OrgLens">
+<meta property="og:description" content="8道题，3分钟，诊断中层在AI时代的真实价值锚点。红区×前瞻性×三条活路。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231a1a2e'/><circle cx='16' cy='16' r='10' fill='none' stroke='%232d6a4f' stroke-width='1.5'/><line x1='5' y1='27' x2='27' y2='5' stroke='%23c8a96e' stroke-width='1.5' opacity='0.6'/><circle cx='16' cy='16' r='3' fill='%232d6a4f'/></svg>">
+<style>
+:root{
+--primary:#1a1a2e;--accent:#2d6a4f;--accent-light:#e8f5e9;--gold:#c8a96e;--gold-light:#f7efe0;
+--bg:#f6f7f6;--card-bg:#ffffff;--border:#e0e0e0;--high:#2d6a4f;--mid:#e6a817;--low:#c0392b;
+--text2:#666;--text3:#999
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+background:var(--bg);color:var(--primary);line-height:1.6;-webkit-font-smoothing:antialiased;
+-webkit-tap-highlight-color:transparent
+}
+.container{max-width:720px;margin:0 auto;padding:0 20px 80px}
+.header{text-align:center;padding:32px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.header h1{font-size:26px;font-weight:800;color:var(--primary);letter-spacing:.5px;line-height:1.3}
+.header .subtitle{font-size:14px;color:var(--text2);margin-top:8px;line-height:1.6}
+.framework-badge{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:11px;color:var(--accent);background:var(--accent-light);padding:6px 16px;border-radius:20px;font-weight:600}
+.framework-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.instructions{background:var(--card-bg);border-radius:12px;padding:20px 22px;margin-bottom:22px;border:1px solid var(--border)}
+.instructions h3{font-size:14px;margin-bottom:8px;color:var(--primary);font-weight:700}
+.instructions p{font-size:13px;color:var(--text2);margin:3px 0;line-height:1.6}
+.instructions .note{font-size:12px;color:var(--text3);margin-top:8px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.legend .lg{font-size:11px;padding:4px 10px;border-radius:12px;font-weight:600}
+.lg-red{background:#fce4ec;color:var(--low)}
+.lg-fwd{background:var(--gold-light);color:#a07810}
+.lg-base{background:#f0f0f0;color:var(--text2)}
+.dim-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border)}
+.dim-header{display:flex;align-items:center;gap:10px;padding-bottom:12px;margin-bottom:6px;border-bottom:2px solid var(--accent)}
+.dim-header .dim-num{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;display:flex;align-items:center;gap:6px}
+.dim-header .dim-num .dim-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.dim-header h2{font-size:17px;font-weight:700;color:var(--primary)}
+.dim-intro{font-size:12.5px;color:var(--text2);margin-bottom:8px;line-height:1.6}
+.question{padding:13px 0;border-bottom:1px solid #f0f0f0;display:flex;flex-direction:column;gap:10px}
+.question:last-child{border-bottom:none}
+.q-top{display:flex;align-items:flex-start;gap:10px}
+.q-tag{flex-shrink:0;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:1px}
+.q-tag.red{background:#fce4ec;color:var(--low)}
+.q-tag.fwd{background:var(--gold-light);color:#a07810}
+.q-tag.base{background:#f0f0f0;color:var(--text2)}
+.q-num{width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.q-text{flex:1;font-size:13.5px;color:#333;line-height:1.55}
+.q-options{display:flex;gap:10px;padding-left:36px}
+.q-options button{flex:1;max-width:110px;padding:9px 0;border-radius:8px;border:2px solid #ddd;background:#fff;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;transition:all .15s;outline:none}
+.q-options button:hover{border-color:var(--accent);color:var(--accent)}
+.q-options button:active{transform:scale(.96)}
+.q-options button.selected-yes{background:var(--accent);border-color:var(--accent);color:#fff}
+.q-options button.selected-no{background:var(--low);border-color:var(--low);color:#fff}
+.btn-row{display:flex;gap:10px;justify-content:center;margin:24px 0}
+.btn{padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;outline:none}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#1b5e3b}
+.btn-outline{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+.btn-outline:hover{background:var(--accent-light)}
+.diagnosis{background:var(--card-bg);border-radius:12px;padding:24px 22px;margin-bottom:18px;border:2px solid var(--accent);text-align:center;animation:fadeInUp .4s ease-out}
+.diagnosis .emoji{font-size:46px;margin-bottom:8px}
+.diagnosis .level-text{font-size:21px;font-weight:800;margin-bottom:4px}
+.diagnosis .advice{font-size:13.5px;color:#555;margin-top:8px;line-height:1.8;text-align:left}
+.results-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.results-card h2{font-size:18px;font-weight:700;margin-bottom:14px}
+.stat-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13.5px}
+.stat-row:last-child{border-bottom:none}
+.stat-row .s-name{flex:1}
+.stat-row .s-val{font-weight:700;color:var(--accent)}
+.stat-row .s-val.red{color:var(--low)}
+.stat-row .s-val.gold{color:#a07810}
+.lane-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.lane-card h2{font-size:17px;font-weight:700;margin-bottom:12px}
+.lane-item{padding:14px 16px;margin-bottom:10px;border-radius:10px;border-left:4px solid var(--accent);background:#f8faf8}
+.lane-item h4{font-size:14px;margin-bottom:4px;color:var(--primary)}
+.lane-item p{font-size:12.5px;color:var(--text2);line-height:1.6}
+.lane-item .lane-key{font-size:11px;color:var(--gold);font-weight:700;letter-spacing:1px;margin-bottom:2px}
+.plan-card{background:var(--card-bg);border-radius:12px;padding:22px 20px;margin-bottom:18px;border:1px solid var(--border);animation:fadeInUp .4s ease-out}
+.plan-card h2{font-size:17px;font-weight:700;margin-bottom:14px}
+.plan-card textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12.5px;font-family:inherit;resize:vertical;min-height:42px;background:#fafafa;outline:none;margin-bottom:6px}
+.plan-card textarea:focus{border-color:var(--accent);background:#fff}
+.plan-label{font-size:12.5px;font-weight:600;color:var(--primary);margin:10px 0 4px}
+.footer{text-align:center;padding:28px 0 16px;color:#aaa;font-size:11.5px;border-top:1px solid var(--border);margin-top:20px}
+.footer-logo{width:140px;margin:0 auto 8px;display:block}
+.footer-brand{font-weight:700;color:var(--primary);font-size:14px;margin-bottom:4px}
+.footer-tagline{color:var(--gold);font-size:11px;letter-spacing:1.5px;margin-bottom:8px}
+.footer-divider{width:40px;height:1px;background:var(--gold);margin:8px auto}
+.footer a{color:var(--accent);text-decoration:none}
+.hidden{display:none!important}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:500px){
+.container{padding:0 12px 60px}
+.header h1{font-size:22px}
+.q-options{padding-left:0}
+.q-text{font-size:12.5px}
+.btn{padding:11px 22px;font-size:13px}
+.dim-card{padding:16px 14px}
+.lane-item{padding:12px 14px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+<h1>🔍 中层价值审计表</h1>
+<p class="subtitle">8 道题，看清你的中层（或你自己）<br>正在变成 AI 时代的资产，还是负债</p>
+<div class="framework-badge"><span class="dot"></span> 红区 × 前瞻性 × 三条活路 <span class="dot"></span></div>
+</div>
+
+<div class="instructions">
+<h3>📋 使用说明</h3>
+<p>以下共 <strong>8 道题</strong>，每题回答 <strong>「是」或「否」</strong>。</p>
+<p>如果你是 <strong>CEO/老板</strong>：拿它审计你的中层团队，逐个过一遍。</p>
+<p>如果你是 <strong>中层管理者本人</strong>：拿它诚实照一照自己，尤其别放过那些"我不敢答"的题。</p>
+<div class="legend">
+<span class="lg lg-red">🔴 红区问题（1、2、4）— 直接暴露"旧价值被AI覆盖"的程度</span>
+<span class="lg lg-fwd">🟡 前瞻性信号（5、6）— 衡量"是否已经在进化"</span>
+<span class="lg lg-base">⚪ 其余为综合观察项</span>
+</div>
+<p class="note">※ 提示：红区答"是"越多，离"最贵的负债"越近；前瞻性信号答"是"，说明已经在往"资产"方向走。</p>
+</div>
+
+<div id="qholder"></div>
+
+<div class="btn-row">
+<button class="btn btn-outline" onclick="resetAll()">🔄 重新填写</button>
+<button class="btn btn-primary" onclick="showResults()">📊 查看审计结果</button>
+</div>
+
+<div id="results-section" class="hidden">
+<div class="results-card" id="results-stats"></div>
+<div class="diagnosis" id="diagnosis-box"></div>
+<div class="lane-card" id="lane-card"></div>
+<div class="plan-card">
+<h2>✍️ 我的转型行动</h2>
+<div class="plan-label">我现在最接近哪条活路（裁判 / 教练 / 领衔者）？</div>
+<textarea rows="2" placeholder="写下你判断自己最可能走通的方向……"></textarea>
+<div class="plan-label">我的"不可替代的那部分"到底是什么？</div>
+<textarea rows="2" placeholder="那件 AI 和机器人都做不到、只有你能做的事……"></textarea>
+<div class="plan-label">接下来 3 个月，我要做的第一件事：</div>
+<textarea rows="2" placeholder="一个具体、可衡量的行动……"></textarea>
+</div>
+<div class="btn-row">
+<button class="btn btn-outline" onclick="window.print()">🖨️ 打印结果</button>
+<button class="btn btn-outline" onclick="shareResults()">📤 复制结果</button>
+</div>
+</div>
+
+<div class="footer">
+<img src="orglens-logo.png" alt="OrgLens · 看清组织，看见解法" class="footer-logo">
+<div class="footer-brand">OrgLens</div>
+<div class="footer-tagline">看清组织，看见解法</div>
+<div class="footer-divider"></div>
+<p>基于 OrgLens「中层价值审计」框架创建</p>
+<p style="margin-top:2px">关注 <a href="#">OrgLens</a>，每周 2-3 篇，不讲大道理，只拆真问题。</p>
+<p style="margin-top:6px">最贵的中层，不是工资最高的那个，是还在用"管人做事"定义价值、而 AI 和机器人都干得更好的那个。</p>
+</div>
+</div>
+
+<script>
+const QUESTIONS=[
+{id:1,tag:'red',tagText:'🔴 红区',text:'你的直接下属里，有没有谁一半以上的时间耗在"传信息"和"盯进度"上？'},
+{id:2,tag:'red',tagText:'🔴 红区',text:'过去三个月，有没有"AI 出的分析，比某个中层的汇报更准、更快"的事？'},
+{id:3,tag:'base',tagText:'观察项',text:'你的中层里，有几个能不靠 PPT、不靠报表、不备稿，当场给你一个有分量的判断？'},
+{id:4,tag:'red',tagText:'🔴 红区',text:'明天全公司接上 AI 看板和自动追踪，多少中层的日常会被直接盖掉？'},
+{id:5,tag:'fwd',tagText:'🟡 前瞻',text:'你的中层里，有人已经在主动用 AI 重新设计团队的活——而不是只会用 AI 写周报？'},
+{id:6,tag:'fwd',tagText:'🟡 前瞻',text:'你给中层打的绩效里，"判断力"和"带出人"各占了多少权重？（占够份量答"是"）'},
+{id:7,tag:'base',tagText:'观察项',text:'要把某个中层降成"资深个人贡献者"，你会顾虑什么？这里头有多少是真怕损失价值，多少是抹不开面子？'},
+{id:8,tag:'base',tagText:'观察项',text:'这个中层明天走了，他三个月"教会"的那套 AI 系统，留得下来吗？还是人一走就没了？'}
+];
+const RED_IDS=[1,2,4];
+const FWD_IDS=[5,6];
+let answers={};
+
+function tagCls(tag){return tag==='red'?'red':(tag==='fwd'?'fwd':'base')}
+
+function renderQuestions(){
+let h='';
+QUESTIONS.forEach(q=>{
+h+=`<div class="dim-card"><div class="q-top">
+<div class="q-num">${q.id}</div>
+<div class="q-text">${q.text}<br><span class="q-tag ${tagCls(q.tag)}" style="margin-top:6px;display:inline-block">${q.tagText}</span></div>
+</div>
+<div class="q-options">
+<button data-q="${q.id}" data-v="yes" onclick="pick(${q.id},'yes',this)">是</button>
+<button data-q="${q.id}" data-v="no" onclick="pick(${q.id},'no',this)">否</button>
+</div></div>`;
+});
+document.getElementById('qholder').innerHTML=h;
+}
+
+function pick(qid,val,btn){
+answers[qid]=val;
+btn.parentElement.querySelectorAll('button').forEach(b=>{b.classList.remove('selected-yes','selected-no')});
+btn.classList.add(val==='yes'?'selected-yes':'selected-no');
+}
+
+function redYesCount(){return RED_IDS.filter(id=>answers[id]==='yes').length}
+function fwdYesCount(){return FWD_IDS.filter(id=>answers[id]==='yes').length}
+function allAnswered(){return QUESTIONS.every(q=>answers[q.id]==='yes'||answers[q.id]==='no')}
+
+function showResults(){
+if(!allAnswered()){
+const firstUn=QUESTIONS.find(q=>!(answers[q.id]==='yes'||answers[q.id]==='no'));
+alert('还有题目没答完，先把第 '+firstUn.id+' 题答了吧。');
+return;
+}
+document.getElementById('results-section').classList.remove('hidden');
+renderResults();
+setTimeout(()=>document.getElementById('results-section').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function renderResults(){
+const red=redYesCount(), fwd=fwdYesCount();
+let level,emoji,color,advice;
+if(red===3 && fwd<2){
+level='中层正在快速贬值';emoji='🔴';color='var(--low)';
+advice='<strong>你的处境：</strong>红区全中，前瞻性信号又弱。这说明中层的旧价值——传信息、盯进度、当审核节点——已经被 AI 大面积覆盖，而他们还没开始转型。<br><br><strong>建议：</strong>别急着砍人，先重新定岗。把"判断力、带人、定方向"变成中层新的考核主线，把「裁判 / 教练 / 领衔者」这三个新角色写进岗位描述。你不是在裁员，是在给岗位重新投胎。';
+}else if(red>=1){
+level='AI 渗透初期';emoji='🟡';color='var(--mid)';
+advice='<strong>你的处境：</strong>中层旧价值还没被替干净，但已经出现裂缝。AI 正在局部吃掉他们的信息中转和进度追踪，只是还没到伤筋动骨的程度。<br><br><strong>建议：</strong>挑 3-5 个最可能转型的中层做试点，让他们先"管 AI"、先"带人机混合团队"，再让其他人看到新模板。用活生生的样板，比讲一百遍道理都管用。';
+}else{
+level='中层已经在进化';emoji='🟢';color='var(--high)';
+advice='<strong>你的处境：</strong>红区一个没中，前瞻性信号也强。说明你的中层已经在往前跑了——他们在用 AI 重构工作，而不是被 AI 重构。<br><br><strong>建议：</strong>把他们固化成组织能力。让已经转型成功的人去带其他人，练出"教练的教练"。别让这些经验只存在个别人的脑子里。';
+}
+document.getElementById('results-stats').innerHTML='<h2>📊 审计结果</h2>'+
+`<div class="stat-row"><span class="s-name">🔴 红区命中（1、2、4 答"是"）</span><span class="s-val red">${red} / 3</span></div>`+
+`<div class="stat-row"><span class="s-name">🟡 前瞻性信号（5、6 答"是"）</span><span class="s-val gold">${fwd} / 2</span></div>`+
+`<div class="stat-row"><span class="s-name">📝 已完成题目</span><span class="s-val">8 / 8</span></div>`;
+document.getElementById('diagnosis-box').innerHTML=`<div class="emoji">${emoji}</div><div class="level-text" style="color:${color}">${level}</div><div class="advice">${advice}</div>`;
+
+document.getElementById('lane-card').innerHTML='<h2>🛤️ 三条活路：中层往哪走</h2>'+
+'<p style="font-size:12.5px;color:var(--text2);margin-bottom:12px;line-height:1.6">不管你现在在哪个档，AI 和机器人都补不上这三样本事。挑一条，找准你的位置。</p>'+
+'<div class="lane-item"><div class="lane-key">活路一 · 裁判</div><h4>说得清 AI 对错的人</h4><p>你不再跑数据了，但更得会读数据、做判断。能讲清楚"AI 的答案哪儿不对"的人，比只会拿 AI 要答案的人，贵十倍。机器人传感器读不出"客户在试探我"、读不出"供应商在偷工减料"——那是你的护城河。</p></div>'+
+'<div class="lane-item"><div class="lane-key">活路二 · 教练</div><h4>人机集群的碳基管家</h4><p>AI 带不了人，觉不出"这员工今天状态不对"。你的三件事：配资源（哪些活给机器人、哪些活死都得留给人）、养判断力（让下属有底气说"这结论我不认"）、兜情绪（帮被贬值的人找到新支点）。</p></div>'+
+'<div class="lane-item"><div class="lane-key">活路三 · 领衔者</div><h4>把人和 AI 编进一个战斗单元</h4><p>你的价值不是"我知道你不知道"，而是"我+我的 AI 集群，在同一件事上产出高出一个量级"。要三样：懂战略、懂业务、懂 AI 编排。从"把人要说的传下去"，变成"把人要说的，翻译成 AI 要做的、机器人要去执行的"。</p></div>';
+}
+
+function resetAll(){
+answers={};
+document.querySelectorAll('.q-options button').forEach(b=>b.classList.remove('selected-yes','selected-no'));
+document.getElementById('results-section').classList.add('hidden');
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function shareResults(){
+if(!allAnswered())return;
+const red=redYesCount(),fwd=fwdYesCount();
+let level='';
+if(red===3&&fwd<2)level='🔴 中层正在快速贬值';
+else if(red>=1)level='🟡 AI 渗透初期';
+else level='🟢 中层已经在进化';
+const txt=`🔍 我的中层价值审计结果\n\n${level}\n\n🔴 红区命中：${red} / 3\n🟡 前瞻性信号：${fwd} / 2\n\n—— 三条活路 ——\n① 裁判：说得清 AI 对错\n② 教练：人机集群的碳基管家\n③ 领衔者：把人和 AI 编进一个战斗单元\n\n来自 OrgLens 中层价值审计表`;
+navigator.clipboard.writeText(txt).then(()=>alert('✅ 结果已复制到剪贴板！')).catch(()=>prompt('复制以下文本：',txt));
+}
+
+renderQuestions();
+</script>
+</body>
+</html>
