@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>经营管理驾驶舱 | OrgLens 经营决策系统</title>
+<style>
+:root {
+  --bg: #0a0e17; --surface: #111827; --surface2: #1a2235; --surface3: #1e2b40;
+  --border: #1e2d45; --accent: #3b82f6; --accent2: #06b6d4;
+  --gold: #c9a84c; --gold-light: #e8c86a; --navy: #1a2a42;
+  --green: #10b981; --red: #ef4444; --orange: #f59e0b; --yellow: #fbbf24; --purple: #8b5cf6;
+  --text: #e2e8f0; --text2: #94a3b8; --text3: #64748b;
+  --radius: 12px; --radius-sm: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden;
+}
+.bg-grid {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  background-image: radial-gradient(circle, rgba(201,168,76,0.03) 1px, transparent 1px);
+  background-size: 40px 40px; pointer-events: none; z-index: 0;
+}
+.container { position: relative; z-index: 1; max-width: 1480px; margin: 0 auto; padding: 24px; }
+
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 28px; margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--navy), var(--surface));
+  border-radius: var(--radius); border: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+header::before {
+  content: ''; position: absolute; top:0; left:0; width:4px; height:100%;
+  background: linear-gradient(180deg, var(--gold), var(--accent2));
+}
+header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+header h1 .org { color: var(--text); } header h1 .lens { color: var(--gold-light); }
+.header-sub { font-size: 12px; color: var(--text3); margin-top: 4px; }
+.header-meta { display: flex; gap: 14px; align-items: center; }
+.meta-text { font-size: 12px; color: var(--text2); }
+.badge { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; border: 1px solid; }
+.badge-brand { background: rgba(201,168,76,0.1); color: var(--gold-light); border-color: rgba(201,168,76,0.2); }
+.badge-live { background: rgba(6,182,212,0.1); color: var(--accent2); border-color: rgba(6,182,212,0.2); }
+.live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.nav-tabs { display: flex; gap: 4px; margin-bottom: 20px; background: var(--surface); padding: 4px; border-radius: var(--radius); border: 1px solid var(--border); flex-wrap: wrap; }
+.nav-tab { flex:1; min-width: 100px; padding: 12px 16px; border:none; cursor:pointer; font-size:13px; font-weight:600; border-radius: var(--radius-sm); background:transparent; color:var(--text2); transition: all .25s; text-align:center; letter-spacing:.3px; }
+.nav-tab:hover { color: var(--text); background: rgba(255,255,255,.03); }
+.nav-tab.active { background: var(--accent); color:#fff; box-shadow: 0 4px 12px rgba(59,130,246,.3); }
+
+.tab-content { display:none; } .tab-content.active { display:block; animation: fadeSlide .35s ease; }
+@keyframes fadeSlide { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
+
+.kpi-grid { display:grid; grid-template-columns: repeat(5, 1fr); gap:16px; margin-bottom:24px; }
+.kpi-card {
+  background: var(--surface); border:1px solid var(--border); border-radius: var(--radius);
+  padding:20px; position:relative; overflow:hidden; cursor:pointer; transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.kpi-card:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 8px 24px rgba(201,168,76,.12); }
+.kpi-card::after { content:''; position:absolute; top:0; left:0; width:4px; height:100%; transition:width .2s; }
+.kpi-card:hover::after { width:6px; }
+.kpi-label { font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+.kpi-value { font-size:32px; font-weight:800; letter-spacing:-1px; margin-bottom:4px; }
+.kpi-value .u { font-size:18px; color:var(--text2); font-weight:600; }
+.kpi-sub { font-size:12px; color:var(--text2); }
+.kpi-change { font-size:11px; margin-top:6px; }
+.kpi-change.up { color:var(--green); } .kpi-change.down { color:var(--red); } .kpi-change.warn { color: var(--orange); }
+
+.dashboard-grid { display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:24px; }
+.dashboard-grid.three-col { grid-template-columns: 2fr 1fr 1fr; }
+.panel { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; transition:border-color .2s; }
+.panel:hover { border-color: rgba(201,168,76,.22); }
+.panel-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.panel-header h2 { font-size:15px; font-weight:600; }
+.tag { font-size:11px; padding:3px 10px; border-radius:20px; background:rgba(201,168,76,.1); color:var(--gold-light); }
+.full-width { grid-column: 1/-1; }
+
+table { width:100%; border-collapse:collapse; }
+th { text-align:left; font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:.5px; padding:10px 12px; border-bottom:1px solid var(--border); font-weight:500; white-space:nowrap; }
+td { padding:10px 12px; font-size:13px; border-bottom:1px solid rgba(30,45,69,.5); }
+tr:hover td { background: rgba(201,168,76,.03); }
+tr.num td { text-align:right; font-variant-numeric: tabular-nums; }
+tr.num th { text-align:right; }
+
+.bar-cell { display:flex; align-items:center; gap:8px; }
+.bar-fill { height:6px; border-radius:3px; transition:width .8s ease; flex-shrink:0; }
+.bar-fill.navy { background: linear-gradient(90deg, var(--navy), var(--accent)); }
+.bar-fill.gold { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+.bar-fill.green { background: var(--green); }
+.bar-fill.red { background: var(--red); }
+.bar-fill.cyan { background: linear-gradient(90deg, var(--accent2), #22d3ee); }
+
+.status-badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
+.status-good { background:rgba(16,185,129,.15); color:var(--green); }
+.status-warn { background:rgba(251,191,36,.15); color:var(--yellow); }
+.status-danger { background:rgba(239,68,68,.15); color:var(--red); }
+.status-info { background:rgba(59,130,246,.15); color:var(--accent); }
+
+/* 损益瀑布 */
+.waterfall { display:flex; align-items:flex-end; gap:10px; padding:16px 8px 0; height:220px; }
+.wfall-col { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; }
+.wfall-bar { width:100%; border-radius:6px 6px 0 0; position:relative; transition:height .8s ease; }
+.wfall-bar.income { background:linear-gradient(180deg, var(--accent), var(--accent2)); }
+.wfall-bar.cost { background:linear-gradient(180deg, var(--red), #f87171); }
+.wfall-bar.profit { background:linear-gradient(180deg, var(--green), #34d399); }
+.wfall-val { font-size:12px; font-weight:700; margin-top:6px; color:var(--text); }
+.wfall-label { font-size:10px; color:var(--text3); margin-top:4px; text-align:center; white-space:nowrap; }
+
+/* 漏斗 */
+.funnel { display:flex; flex-direction:column; gap:8px; }
+.funnel-stage { display:flex; align-items:center; gap:12px; }
+.funnel-bar { height:34px; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:600; position:relative; }
+.funnel-meta { min-width:110px; font-size:11px; color:var(--text2); text-align:right; }
+
+/* 风险卡 */
+.risk-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:24px; }
+.risk-card { background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); padding:16px; border-left:3px solid var(--orange); cursor:pointer; transition:all .2s; }
+.risk-card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,.3); }
+.risk-card.high { border-left-color:var(--red); }
+.risk-card.mid { border-left-color:var(--orange); }
+.risk-card.low { border-left-color:var(--green); }
+.risk-card h4 { font-size:13px; font-weight:600; margin-bottom:6px; }
+.risk-val { font-size:11px; color:var(--text2); margin-bottom:4px; }
+.risk-action { font-size:11px; color:var(--accent2); margin-top:8px; }
+
+/* 明细行 */
+.detail-row { display:none; }
+.detail-row.show { display:table-row; animation:fadeSlide .3s ease; }
+.detail-row td { background:var(--surface2); font-size:12px; color:var(--text2); padding:8px 36px; border-bottom:1px solid var(--border); }
+.clickable-row { cursor:pointer; }
+
+/* 洞察卡 */
+.insight { padding:12px; border-radius:8px; margin-bottom:12px; font-size:12px; line-height:1.6; border:1px solid; }
+.insight.neg { background:rgba(239,68,68,.06); border-color:rgba(239,68,68,.18); color:var(--text2); }
+.insight.pos { background:rgba(16,185,129,.06); border-color:rgba(16,185,129,.18); color:var(--text2); }
+.insight.warn { background:rgba(251,191,36,.06); border-color:rgba(251,191,36,.18); color:var(--text2); }
+.insight b { color:var(--gold-light); }
+.insight .k { color:var(--red); font-weight:600; }
+
+/* tooltip */
+.tooltip { position:fixed; z-index:1000; background:var(--surface3); border:1px solid var(--gold); border-radius:var(--radius); padding:16px; max-width:320px; pointer-events:none; opacity:0; transition:opacity .2s; box-shadow:0 12px 32px rgba(0,0,0,.5); font-size:12px; }
+.tooltip.visible { opacity:1; }
+.tooltip h4 { font-size:13px; color:var(--gold-light); margin-bottom:8px; }
+.tooltip p { color:var(--text2); line-height:1.6; }
+
+.footer-note { text-align:center; font-size:11px; color:var(--text3); padding:20px; margin-top:16px; border-top:1px solid var(--border); }
+.footer-note span { color:var(--gold-light); }
+
+/* 术语提示 */
+.tip-term { cursor:help; border-bottom:1px dashed rgba(232,200,106,.7); padding-bottom:1px; transition: color .2s, border-color .2s; }
+.tip-term::after { content:'?'; display:inline-block; margin-left:3px; font-size:9px; font-weight:700; color:var(--gold); background:rgba(201,168,76,.15); border-radius:50%; width:13px; height:13px; line-height:13px; text-align:center; vertical-align:1px; }
+.tip-term:hover { color: var(--gold-light); border-bottom-color: var(--gold-light); }
+.tip-term:hover::after { background:var(--gold); color:var(--navy); }
+
+@media (max-width:1200px) { .kpi-grid { grid-template-columns:repeat(3,1fr); } .dashboard-grid.three-col { grid-template-columns:1fr 1fr; } }
+@media (max-width:1024px) { .dashboard-grid { grid-template-columns:1fr; } .risk-grid { grid-template-columns:1fr 1fr; } }
+@media (max-width:640px) { .kpi-grid { grid-template-columns:1fr 1fr; } .risk-grid { grid-template-columns:1fr; } .container { padding:12px; } header { flex-direction:column; gap:12px; align-items:flex-start; } .nav-tabs { flex-wrap:wrap; } .waterfall { gap:4px; } }
+
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+
+  <header>
+    <div>
+      <h1><span class="org">经营管理驾驶舱</span> <span class="lens">| CEO 决策一览</span></h1>
+      <div class="header-sub">科技研发一体企业 · 经营管理系统一体化 · 模拟数据 v0.1</div>
+    </div>
+    <div class="header-meta">
+      <span class="badge badge-brand">OrgLens 咨询</span>
+      <div class="live-dot"></div>
+      <span class="meta-text">数据更新：2026年8月</span>
+      <span class="badge badge-live">40-300人规模</span>
+    </div>
+  </header>
+
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" data-tab="overview">总览看板</button>
+    <button class="nav-tab" data-tab="pnl">经营损益</button>
+    <button class="nav-tab" data-tab="budget">预算管理</button>
+    <button class="nav-tab" data-tab="cost">成本管理</button>
+    <button class="nav-tab" data-tab="ops">运营效率</button>
+    <button class="nav-tab" data-tab="marketing">营销系统</button>
+    <button class="nav-tab" data-tab="risk">风险预警</button>
+  </div>
+
+  <div id="tab-overview" class="tab-content active"></div>
+  <div id="tab-pnl" class="tab-content"></div>
+  <div id="tab-budget" class="tab-content"></div>
+  <div id="tab-cost" class="tab-content"></div>
+  <div id="tab-ops" class="tab-content"></div>
+  <div id="tab-marketing" class="tab-content"></div>
+  <div id="tab-risk" class="tab-content"></div>
+
+  <div class="footer-note">经营管理驾驶舱 v0.1 | <span>OrgLens 咨询</span> · 看清经营，看见痛点 | 数据替换使用配套 Excel</div>
+</div>
+
+<div class="tooltip" id="tooltip"><h4 id="tooltipTitle"></h4><p id="tooltipBody"></p></div>
+
+<script>
+// ============================================================
+// 经营管理驾驶舱 | OrgLens 经营决策系统
+// 模拟数据 v0.1 | 科技研发一体企业（40-300人规模，本版按 ~100人模拟）
+// ============================================================
+
+// ============ 数据模型（模拟） ============
+const DATA = {
+  // 年度经营核心数据（万元）
+  company: {
+    revenue: 12000,        // 营收
+    revenueYoY: 18,        // 营收同比
+    vc: 7200,              // 变动成本
+    fc: 3000,              // 固定成本
+    profit: 1800,          // 利润
+    margin: 15,            // 利润率
+    cm: 4800,              // 边际贡献（营收-变动成本）
+    cmRate: 40,            // 边际贡献率
+    headcount: 100,
+    cashFlow: 950,         // 经营现金流
+    ocfMargin: 7.9
+  },
+
+  // 总览 KPI
+  kpi: [
+    { label:'营收', tip:'营业总收入，企业核心业绩指标。当前 1.2 亿，同比 +18%。', val:'1.2', unit:'亿', sub:'同比 +18%', chg:'↑ 18% 同比', up:true, tab:'pnl' },
+    { label:'净利润', tip:'营收扣除全部成本费用后的利润。当前 1800 万，净利率 15%。', val:'1800', unit:'万', sub:'净利率 15%', chg:'↑ 2.1pp', up:true, tab:'pnl' },
+    { label:'边际贡献率', tip:'边际贡献 = 营收 − 变动成本；边际贡献率 = 边际贡献 ÷ 营收，健康区间 40-45%。', val:'40', unit:'%', sub:'目标 ≥ 42%', chg:'↓ 2pp 需关注', up:false, tab:'cost' },
+    { label:'经营现金流', tip:'经营活动现金流净额 950 万，OCF 率 7.9%，反映主营业务造血能力。', val:'950', unit:'万', sub:'OCF 率 7.9%', chg:'↓ 承压', up:false, tab:'ops' },
+    { label:'人效', tip:'人均营收 = 1.2 亿 ÷ 100 人 = 120 万/人。衡量组织效能的核心指标。', val:'120', unit:'万', sub:'目标 ≥ 150万', chg:'需提升', up:false, tab:'ops' }
+  ],
+
+  // 经营损益（瀑布：营收 → 边际贡献 → 利润）
+  pnl: {
+    waterfall: [
+      { label:'营收', val:12000, type:'income' },
+      { label:'变动成本', val:7200, type:'cost' },
+      { label:'边际贡献', val:4800, type:'profit' },
+      { label:'固定成本', val:3000, type:'cost' },
+      { label:'净利润', val:1800, type:'profit' }
+    ],
+    bridge: [
+      { name:'营收', val:12000, pct:100, note:'目标 13000，缺口 1000' },
+      { name:'变动成本', val:7200, pct:60, note:'变动成本率 60%（偏高）' },
+      { name:'边际贡献', val:4800, pct:40, note:'边际贡献率 40%（偏低）' },
+      { name:'固定成本', val:3000, pct:25, note:'固定成本占营收 25%' },
+      { name:'净利润', val:1800, pct:15, note:'净利率 15%' }
+    ],
+    insights: [
+      { cls:'neg', html: '<span class="k">痛点①</span> 变动成本率 60% 偏高，<b>边际贡献率仅 40%</b>，低于健康线 42-45%，说明产品定价或成本结构存在压力' },
+      { cls:'warn', html: '<span class="k">痛点②</span> 固定成本占营收 25%，<b>经营杠杆偏高</b>，营收一旦下滑，利润将大幅承压' },
+      { cls:'pos', html: '<span class="k">机会</span> 净利润率 15% 处于行业中等水平，若边际贡献率提升 2pp，<b>可增厚利润约 240 万</b>' }
+    ]
+  },
+
+  // 预算管理
+  budget: {
+    cols:['科目','年度预算(万)','已执行(万)','执行率','剩余(万)','状态'],
+    rows:[
+      { name:'营业成本', b:7200, a:6600, detail:'材料/外协/交付成本。Q4集中性支出预期上浮' },
+      { name:'人力成本', b:3000, a:2700, detail:'固定薪酬占比高，与业绩挂钩的浮动部分不足' },
+      { name:'研发投入', b:1800, a:1500, detail:'新品研发项目进度滞后，预算用不完' },
+      { name:'营销费用', b:900, a:980, detail:'获客成本超预算，需复盘投放ROI' },
+      { name:'管理费用', b:600, a:520, detail:'行政/办公/法务，控制良好' }
+    ],
+    total: { b:13500, a:12300 },
+    insights: [
+      { cls:'warn', html: '<span class="k">预警</span> 营销费用<b>超预算 8.9%</b>，获客成本攀升，需复盘销售投入产出' },
+      { cls:'neg', html: '<span class="k">提示</span> 研发投入执行率仅 83%，<b>预算闲置</b>，或反映研发交付进度滞后' }
+    ]
+  },
+
+  // 成本管理
+  cost: {
+    varCols:['变动成本科目','金额(万)','占营收','同比','状态'],
+    varRows:[
+      { name:'材料/外协成本', val:3600, pct:30, chg:'+2.0pp', status:'warn' },
+      { name:'直接人工(项目)', val:1800, pct:15, chg:'+0.5pp', status:'good' },
+      { name:'交付/物流', val:1080, pct:9, chg:'+1.0pp', status:'warn' },
+      { name:'销售提成', val:720, pct:6, chg:'+0.8pp', status:'good' }
+    ],
+    fixCols:['固定成本科目','金额(万)','占营收','同比','状态'],
+    fixRows:[
+      { name:'研发固定人力', val:1200, pct:10, chg:'+1.2pp', status:'warn' },
+      { name:'管理/职能人力', val:900, pct:7.5, chg:'-0.3pp', status:'good' },
+      { name:'租金/折旧', val:600, pct:5, chg:'+0.2pp', status:'good' },
+      { name:'其他固定', val:300, pct:2.5, chg:'+0.1pp', status:'good' }
+    ],
+    insights: [
+      { cls:'neg', html: '<span class="k">痛点</span> <b>材料/外协占比 30%</b> 且同比上升 2pp，供应链结构是成本管控第一抓手' },
+      { cls:'warn', html: '<span class="k">提示</span> 研发固定人力占比升至 10%，<b>固定成本刚性增强</b>，需评估人员效能' }
+    ]
+  },
+
+  // 运营效率
+  ops: {
+    cols:['效率指标','当前','目标','同比','状态'],
+    rows:[
+      { ind:'人均营收(万)', tip:'人均营收 = 营收 ÷ 员工人数，衡量组织效能的核心指标。', curr:'120', target:'150', chg:'-8%', status:'danger' },
+      { ind:'人均利润(万)', tip:'人均利润 = 净利润 ÷ 员工人数，反映每名员工创造的真实利润。', curr:'18', target:'25', chg:'-12%', status:'danger' },
+      { ind:'项目交付周期(天)', tip:'从项目启动到交付验收的平均天数，越长说明交付效率越低。', curr:'75', target:'60', chg:'+10%', status:'warn' },
+      { ind:'回款周期(天)', tip:'应收账龄从开票到回款的平均天数，越长越占用现金流。', curr:'68', target:'45', chg:'+15%', status:'warn' },
+      { ind:'库存周转(次/年)', tip:'存货周转次数/年，越高说明库存流转越快。', curr:'6.5', target:'8', chg:'-0.5', status:'warn' },
+      { ind:'研发投入产出比', tip:'研发投入带来的新增营收倍数，衡量研发投资效益。', curr:'1:2.8', target:'1:3.5', chg:'-', status:'warn' },
+      { ind:'OR运营比率', tip:'Operating Ratio，运营比率 = 运营成本费用 ÷ 营收。越低越高效，偏高说明毛利被成本费用挤压。', curr:'72%', target:'68%', chg:'+4pp', status:'danger' }
+    ],
+    insights: [
+      { cls:'neg', html: '<span class="k">痛点</span> <b>人均营收 120 万</b>、人均利润 18 万，均显著低于目标，组织效能与人效是核心瓶颈' },
+      { cls:'warn', html: '<span class="k">痛点</span> 回款周期 68 天、交付周期 75 天，<b>运营周转偏慢</b>，占用现金流' }
+    ]
+  },
+
+  // 营销系统
+  marketing: {
+    funnel: [
+      { label:'线索', val:2400, rate:'100%' },
+      { label:'有效商机', val:1200, rate:'50%' },
+      { label:'方案/报价', val:720, rate:'30%' },
+      { label:'签约', val:360, rate:'15%' },
+      { label:'回款', val:300, rate:'12.5%' }
+    ],
+    cost: [
+      { name:'获客成本(CAC)', tip:'Customer Acquisition Cost，客户获取成本 = 销售营销总费用 ÷ 新增客户数。越低越高效。', val:'2.4万/单', note:'环比 +15%，偏高' },
+      { name:'线索到签约转化率', tip:'签约数 ÷ 线索数，衡量销售漏斗前中段承接效率。', val:'15%', note:'目标 20%' },
+      { name:'销售人效', tip:'人均营收/人均签约额，衡量销售团队单位产出。', val:'120万/人', note:'目标 180万' },
+      { name:'老客续约率', tip:'到期客户中完成续约的比例，反映客户粘性与满意度。', val:'82%', note:'目标 90%' }
+    ],
+    clientCols:['客户类型','客户数','营收贡献','占比','毛利率','状态'],
+    clientRows:[
+      { name:'战略大客户', n:8, rev:4200, pct:35, gm:42, status:'good' },
+      { name:'中坚客户', n:25, rev:4800, pct:40, gm:30, status:'warn' },
+      { name:'长尾客户', n:80, rev:3000, pct:25, gm:18, status:'danger' }
+    ],
+    insights: [
+      { cls:'neg', html: '<span class="k">痛点</span> 线索→签约转化率仅 15% 且获客成本攀升，<b>销售打法与流程</b>标准化程度不足' },
+      { cls:'warn', html: '<span class="k">痛点</span> 长尾客户占营收 25% 但毛利率仅 18%，<b>客户结构</b>拖累整体盈利，需聚焦目标客户' }
+    ]
+  },
+
+  // 风险预警
+  risk: [
+    { level:'high', title:'变动成本率偏高（60%）', val:'边际贡献率 40%，低于健康线', impact:'盈利空间被侵蚀，抗风险能力弱', action:'供应链降本 + 定价优化 + 产品结构升级' },
+    { level:'high', title:'组织人效不足', val:'人均营收 120万 vs 目标 150万', impact:'固定成本刚性下利润承压', action:'组织诊断 + 人效提升 + 激励机制重构' },
+    { level:'high', title:'现金流周转偏慢', val:'回款周期 68 天、OCF 率 7.9%', impact:'资金链紧张，增长受限', action:'强化预算/回款运营 + 现金流管理' },
+    { level:'mid', title:'营销获客成本攀升', val:'CAC 环比 +15%，转化率 15%', impact:'营销投入产出失衡', action:'销售打法标准化 + 聚焦目标客户' },
+    { level:'mid', title:'客户结构失衡', val:'长尾客户占 25%、毛利率 18%', impact:'整体盈利能力被摊薄', action:'客户分层 + 淘汰低毛利客户' },
+    { level:'mid', title:'研发投入产出不足', val:'投入产出比 1:2.8', impact:'产品竞争力下降', action:'研发项目立项机制 + 成果考核' }
+  ]
+};
+
+// ============ 渲染辅助 ============
+function el(html) { const d = document.createElement('div'); d.innerHTML = html; return d.firstElementChild; }
+function badge(status) {
+  const map = { good:'健康', warn:'关注', danger:'危险', info:'正常' };
+  return '<span class="status-badge status-'+(status||'info')+'">'+(map[status]||'正常')+'</span>';
+}
+function bar(w, cls) { return '<div class="bar-cell"><div class="bar-fill '+cls+'" style="width:'+w+'%"></div>'+w+'%</div>'; }
+function barVal(w, cls, txt) { return '<div class="bar-cell"><div class="bar-fill '+cls+'" style="width:'+w+'%"></div>'+txt+'</div>'; }
+
+// ============ 总览 ============
+function renderKPI() {
+  const wrap = document.getElementById('tab-overview');
+  wrap.innerHTML = '';
+  const g = el('<div class="kpi-grid"></div>');
+  DATA.kpi.forEach(k => {
+    const labelHtml = k.tip ? tipTerm(k.tip, k.label) : k.label;
+    g.appendChild(el(
+      '<div class="kpi-card" data-tab="'+k.tab+'">'+
+      '<div class="kpi-label">'+labelHtml+'</div>'+
+      '<div class="kpi-value">'+k.val+'<span class="u">'+k.unit+'</span></div>'+
+      '<div class="kpi-sub">'+k.sub+'</div>'+
+      '<div class="kpi-change '+(k.up?'up':'down')+'">'+k.chg+'</div></div>'
+    ));
+  });
+  wrap.appendChild(g);
+
+  // 经营损益瀑布预览
+  const grid = el('<div class="dashboard-grid"></div>');
+  const pnlPanel = el('<div class="panel"><div class="panel-header"><h2>经营损益 · 边际贡献拆解</h2><span class="tag">点击看完整</span></div></div>');
+  pnlPanel.appendChild(makeWaterfall(DATA.pnl.waterfall));
+  pnlPanel.addEventListener('click', () => switchTab('pnl'));
+  pnlPanel.style.cursor = 'pointer';
+  grid.appendChild(pnlPanel);
+
+  // 核心痛点速览
+  const painPanel = el('<div class="panel"><div class="panel-header"><h2>CEO 关注痛点速览</h2><span class="tag">一键定位</span></div></div>');
+  const pains = [
+    { cls:'neg', t:'变动/固定成本结构失衡', tab:'cost' },
+    { cls:'neg', t:'组织人效不足（120万/人）', tab:'ops' },
+    { cls:'warn', t:'回款周转偏慢', tab:'ops' },
+    { cls:'warn', t:'营销转化率与获客成本', tab:'marketing' }
+  ];
+  pains.forEach(p => {
+    const c = el('<div class="insight '+p.cls+'"><b>'+p.t+'</b><span style="float:right;color:var(--text3);font-size:10px">点击 →</span></div>');
+    c.style.cursor = 'pointer';
+    c.addEventListener('click', () => switchTab(p.tab));
+    painPanel.appendChild(c);
+  });
+  painPanel.appendChild(el('<div class="insight pos" style="margin-bottom:0"><b>结论</b> 企业盈利但结构偏弱——增收不增利、人效偏低、周转偏慢，正是经营管理系统要解决的三大矛盾。</div>'));
+  grid.appendChild(painPanel);
+  wrap.appendChild(grid);
+}
+
+function makeWaterfall(arr) {
+  const maxVal = Math.max(...arr.map(i => i.val));
+  const box = el('<div class="waterfall"></div>');
+  arr.forEach(i => {
+    const h = Math.max(6, (i.val / maxVal) * 160);
+    const col = el('<div class="wfall-col"></div>');
+    col.appendChild(el('<div class="wfall-bar '+i.type+'" data-h="'+h+'px" style="height:'+h+'px"></div>'));
+    col.appendChild(el('<div class="wfall-val">'+i.val+'</div>'));
+    col.appendChild(el('<div class="wfall-label">'+i.label+'</div>'));
+    box.appendChild(col);
+  });
+  return box;
+}
+
+// ============ 经营损益 ============
+function renderPnl() {
+  const wrap = document.getElementById('tab-pnl');
+  wrap.innerHTML = '';
+  const grid = el('<div class="dashboard-grid"></div>');
+
+  const wPanel = el('<div class="panel"><div class="panel-header"><h2>经营损益瀑布：营收 → 利润</h2><span class="tag">边际贡献法</span></div></div>');
+  wPanel.appendChild(makeWaterfall(DATA.pnl.waterfall));
+  wPanel.appendChild(el('<div style="font-size:11px;color:var(--text3);margin-top:12px">边际贡献 = 营收 − 变动成本；净利润 = 边际贡献 − 固定成本</div>'));
+  grid.appendChild(wPanel);
+
+  const bPanel = el('<div class="panel"><div class="panel-header"><h2>损益结构一览</h2><span class="tag">万元 · 占营收比</span></div></div>');
+  let t = '<table><thead><tr><th>科目</th><th>金额(万)</th><th>占营收比例</th><th>说明</th></tr></thead><tbody>';
+  DATA.pnl.bridge.forEach(r => {
+    const barCls = r.name === '营收' ? 'cyan' : (r.name === '净利润' ? 'green' : (r.name === '边际贡献' ? 'gold' : 'red'));
+    t += '<tr><td style="font-weight:600">'+r.name+'</td><td>'+r.val+'</td><td>'+barVal(r.pct, barCls, r.pct+'%')+'</td><td style="color:var(--text2);font-size:11px">'+r.note+'</td></tr>';
+  });
+  t += '</tbody></table>';
+  t += '<div style="margin-top:12px;font-size:11px;color:var(--text3)">比例 = 各科目 ÷ 营收。营收100%为基准，变动成本60% → 边效40% → 固定25% → 净利润15%</div>';
+  bPanel.appendChild(el(t));
+  grid.appendChild(bPanel);
+
+  wrap.appendChild(grid);
+
+  const ins = el('<div class="dashboard-grid"></div>');
+  ins.innerHTML = '<div class="panel full-width"><div class="panel-header"><h2>经营洞察</h2><span class="tag">诊断结论</span></div></div>';
+  const ip = ins.querySelector('.panel');
+  DATA.pnl.insights.forEach(i => ip.appendChild(el('<div class="insight '+i.cls+'">'+i.html+'</div>')));
+  wrap.appendChild(ins);
+}
+
+// ============ 预算管理 ============
+function renderBudget() {
+  const wrap = document.getElementById('tab-budget');
+  wrap.innerHTML = '';
+  const panel = el('<div class="panel full-width"><div class="panel-header"><h2>预算执行情况</h2><span class="tag">年度 · 万元</span></div></div>');
+
+  let t = '<table><thead><tr>';
+  DATA.budget.cols.forEach(c => t += '<th>'+c+'</th>');
+  t += '</tr></thead><tbody>';
+  DATA.budget.rows.forEach((r,i) => {
+    const usedPct = Math.round(r.a / r.b * 100);
+    const st = usedPct > 100 ? 'danger' : (usedPct > 90 ? 'warn' : 'good');
+    t += '<tr class="clickable-row" data-detail="b'+i+'">';
+    t += '<td>'+r.name+'</td><td>'+r.b+'</td><td>'+r.a+'</td>';
+    t += '<td>'+barVal(usedPct, usedPct>100?'red':(usedPct>90?'gold':'cyan'), usedPct+'%')+'</td>';
+    t += '<td>'+(r.b-r.a)+'</td><td>'+badge(st)+'</td></tr>';
+    t += '<tr class="detail-row" id="det-b'+i+'"><td colspan="6">→ '+r.detail+'</td></tr>';
+  });
+  const total = DATA.budget.total;
+  const tp = Math.round(total.a/total.b*100);
+  t += '<tr style="font-weight:700;border-top:2px solid var(--gold)"><td>合计</td><td>'+total.b+'</td><td>'+total.a+'</td><td>'+barVal(tp,'green',tp+'%')+'</td><td>'+(total.b-total.a)+'</td><td>'+badge('good')+'</td></tr>';
+  t += '</tbody></table>';
+  t += '<div style="margin-top:14px;font-size:11px;color:var(--text3)">点击行查看科目明细 | 执行率 = 已执行 / 年度预算</div>';
+  panel.appendChild(el(t));
+  wrap.appendChild(panel);
+  bindDetail(panel);
+
+  const ins = el('<div class="dashboard-grid"></div>');
+  const ip = el('<div class="panel full-width"><div class="panel-header"><h2>预算洞察</h2><span class="tag">预警</span></div></div>');
+  DATA.budget.insights.forEach(i => ip.appendChild(el('<div class="insight '+i.cls+'">'+i.html+'</div>')));
+  ins.appendChild(ip);
+  wrap.appendChild(ins);
+}
+
+// ============ 成本管理 ============
+function renderCost() {
+  const wrap = document.getElementById('tab-cost');
+  wrap.innerHTML = '';
+  const grid = el('<div class="dashboard-grid"></div>');
+
+  const vPanel = el('<div class="panel"><div class="panel-header"><h2>变动成本结构</h2><span class="tag">随业务量变动</span></div></div>');
+  let vt = '<table><thead><tr>'+DATA.cost.varCols.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>';
+  DATA.cost.varRows.forEach(r => {
+    vt += '<tr><td>'+r.name+'</td><td>'+r.val+'</td><td>'+barVal(r.pct,'red',r.pct+'%')+'</td><td style="color:var(--red)">'+r.chg+'</td><td>'+badge(r.status)+'</td></tr>';
+  });
+  vt += '</tbody></table>';
+  vPanel.appendChild(el(vt));
+  grid.appendChild(vPanel);
+
+  const fPanel = el('<div class="panel"><div class="panel-header"><h2>固定成本结构</h2><span class="tag">刚性支出</span></div></div>');
+  let ft = '<table><thead><tr>'+DATA.cost.fixCols.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>';
+  DATA.cost.fixRows.forEach(r => {
+    ft += '<tr><td>'+r.name+'</td><td>'+r.val+'</td><td>'+barVal(r.pct,'gold',r.pct+'%')+'</td><td style="color:'+(r.chg.startsWith('+')?'var(--red)':'var(--green)')+'">'+r.chg+'</td><td>'+badge(r.status)+'</td></tr>';
+  });
+  ft += '</tbody></table>';
+  fPanel.appendChild(el(ft));
+  grid.appendChild(fPanel);
+
+  wrap.appendChild(grid);
+
+  const ins = el('<div class="dashboard-grid"></div>');
+  const ip = el('<div class="panel full-width"><div class="panel-header"><h2>成本洞察</h2><span class="tag">诊断</span></div></div>');
+  DATA.cost.insights.forEach(i => ip.appendChild(el('<div class="insight '+i.cls+'">'+i.html+'</div>')));
+  ins.appendChild(ip);
+  wrap.appendChild(ins);
+}
+
+// ============ 运营效率 ============
+function renderOps() {
+  const wrap = document.getElementById('tab-ops');
+  wrap.innerHTML = '';
+  const panel = el('<div class="panel full-width"><div class="panel-header"><h2>运营效率指标</h2><span class="tag">月度追踪</span></div></div>');
+  let t = '<table><thead><tr>'+DATA.ops.cols.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>';
+  DATA.ops.rows.forEach(r => {
+    const indHtml = r.tip ? tipTerm(r.tip, r.ind) : r.ind;
+    t += '<tr><td style="font-weight:600">'+indHtml+'</td><td>'+r.curr+'</td><td>'+r.target+'</td><td style="color:var(--red)">'+r.chg+'</td><td>'+badge(r.status)+'</td></tr>';
+  });
+  t += '</tbody></table>';
+  panel.appendChild(el(t));
+  wrap.appendChild(panel);
+
+  const ins = el('<div class="dashboard-grid"></div>');
+  const ip = el('<div class="panel full-width"><div class="panel-header"><h2>效率洞察</h2><span class="tag">诊断</span></div></div>');
+  DATA.ops.insights.forEach(i => ip.appendChild(el('<div class="insight '+i.cls+'">'+i.html+'</div>')));
+  ins.appendChild(ip);
+  wrap.appendChild(ins);
+}
+
+// ============ 营销系统 ============
+function renderMarketing() {
+  const wrap = document.getElementById('tab-marketing');
+  wrap.innerHTML = '';
+  const grid = el('<div class="dashboard-grid"></div>');
+
+  const fuPanel = el('<div class="panel"><div class="panel-header"><h2>销售漏斗</h2><span class="tag">线索→回款</span></div></div>');
+  const fu = el('<div class="funnel"></div>');
+  const colors = ['#3b82f6','#06b6d4','#c9a84c','#f59e0b','#10b981'];
+  DATA.marketing.funnel.forEach((s,i) => {
+    const w = Math.max(12, (s.val / 2400) * 100);
+    const stage = el('<div class="funnel-stage"></div>');
+    stage.appendChild(el('<div class="funnel-bar" style="width:'+w+'%;background:'+colors[i]+'">'+s.label+' · '+s.val+'</div>'));
+    stage.appendChild(el('<div class="funnel-meta">'+s.rate+'</div>'));
+    fu.appendChild(stage);
+  });
+  fuPanel.appendChild(fu);
+  fuPanel.appendChild(el('<div style="font-size:11px;color:var(--text3);margin-top:10px">转化率：线索100% → 签约15% → 回款12.5%，漏斗中段流失最大</div>'));
+  grid.appendChild(fuPanel);
+
+  const cPanel = el('<div class="panel"><div class="panel-header"><h2>营销关键指标</h2><span class="tag">效率</span></div></div>');
+  let ct = '';
+  DATA.marketing.cost.forEach(r => {
+    const nameHtml = r.tip ? tipTerm(r.tip, r.name) : r.name;
+    ct += '<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(30,45,69,.5)"><div><div style="font-size:13px">'+nameHtml+'</div><div style="font-size:11px;color:var(--text3)">'+r.note+'</div></div><div style="font-size:15px;font-weight:700;color:var(--gold-light)">'+r.val+'</div></div>';
+  });
+  cPanel.appendChild(el(ct));
+  grid.appendChild(cPanel);
+
+  wrap.appendChild(grid);
+
+  const cliPanel = el('<div class="panel full-width"><div class="panel-header"><h2>客户结构分析</h2><span class="tag">盈利贡献</span></div></div>');
+  let clit = '<table><thead><tr>'+DATA.marketing.clientCols.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>';
+  DATA.marketing.clientRows.forEach(r => {
+    clit += '<tr><td style="font-weight:600">'+r.name+'</td><td>'+r.n+'</td><td>'+r.rev+'</td><td>'+barVal(r.pct,'cyan',r.pct+'%')+'</td><td>'+r.gm+'%</td><td>'+badge(r.status)+'</td></tr>';
+  });
+  clit += '</tbody></table>';
+  cliPanel.appendChild(el(clit));
+  wrap.appendChild(cliPanel);
+
+  const ins = el('<div class="dashboard-grid"></div>');
+  const ip = el('<div class="panel full-width"><div class="panel-header"><h2>营销洞察</h2><span class="tag">诊断</span></div></div>');
+  DATA.marketing.insights.forEach(i => ip.appendChild(el('<div class="insight '+i.cls+'">'+i.html+'</div>')));
+  ins.appendChild(ip);
+  wrap.appendChild(ins);
+}
+
+// ============ 风险预警 ============
+function renderRisk() {
+  const wrap = document.getElementById('tab-risk');
+  wrap.innerHTML = '';
+  const panel = el('<div class="panel full-width"><div class="panel-header"><h2>经营风险预警</h2><span class="tag">实时 · 需关注</span></div></div>');
+  const rg = el('<div class="risk-grid"></div>');
+  DATA.risk.forEach(r => {
+    rg.appendChild(el(
+      '<div class="risk-card '+r.level+'">'+
+      '<h4>'+r.title+'</h4>'+
+      '<div class="risk-val">'+r.val+'</div>'+
+      '<div class="risk-val">影响：'+r.impact+'</div>'+
+      '<div class="risk-action">&rarr; '+r.action+'</div></div>'
+    ));
+  });
+  panel.appendChild(rg);
+  panel.appendChild(el('<div style="font-size:11px;color:var(--text3)">三大核心矛盾：盈利结构与经营改善 · 员工动力与合理激励 · 组织效率与运营管理</div>'));
+  wrap.appendChild(panel);
+}
+
+// ============ 交互 ============
+function switchTab(tab) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.toggle('active', t.id === 'tab-'+tab));
+}
+
+function bindDetail(scope) {
+  scope.querySelectorAll('.clickable-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const id = row.dataset.detail;
+      const det = document.getElementById('det-'+id);
+      if (det) det.classList.toggle('show');
+    });
+  });
+}
+
+// ============ 术语词典 ============
+const GLOSSARY = {
+  'CAC': 'Customer Acquisition Cost，客户获取成本。CAC = 当期销售/营销总费用 ÷ 新增客户数。数值越低说明获客越高效；环比上升代表获客变贵。',
+  'OCF率': 'Operating Cash Flow 率，经营活动现金流 ÷ 营收。衡量每 1 元营收有多少真正变成现金回账，反映利润含金量与回款能力；偏低说明钱压在应收/库存里。',
+  'OR': 'Operating Ratio，运营比率 = 运营成本费用 ÷ 营收。越低越高效，表示同等营收所需成本支出越少；偏高说明毛利空间被成本费用挤压。',
+  '边际贡献率': '边际贡献 = 营收 − 变动成本；边际贡献率 = 边际贡献 ÷ 营收。反映每一元销售扣除直接成本后，可用于cover固定成本并产生利润的比例，健康区间通常 40-45%。',
+  '变动成本': '随业务量同比变动的成本（材料、外协、直接人工、交付、销售提成等）。变动成本率 = 变动成本 ÷ 营收。',
+  '固定成本': '不随业务量变动的刚性支出（研发/职能固定人力、租金、折旧等）。固定成本占比越高，经营杠杆越大，营收波动时利润更敏感。',
+  '经营现金流': '企业经营活动产生的现金流净额，反映主营业务造血能力，比净利润更能体现真实资金状况。',
+  '人效': '人均营收 = 营收 ÷ 员工人数；人均利润 = 净利润 ÷ 员工人数。衡量组织效能的核心指标。',
+  '执行率': '已执行金额 ÷ 年度预算金额。超过 100% 代表超支，明显低于 100% 代表预算闲置、计划执行滞后。',
+  '回款周期': '应收账款从开票到收回现金的平均天数。周期越短，资金周转越快、现金流越健康。',
+  '交付周期': '从项目启动到交付验收的平均天数，反映运营交付效率。',
+  '库存周转': '库存周转次数/年，衡量存货流转速度，越高说明库存管理越高效。',
+  '研发投入产出比': '研发投入带来的新增营收/利润倍数，衡量研发投资效益。',
+  '获客成本': '见 CAC，即每获取一个新客户平均投入的销售/营销费用。',
+  '转化率': '漏斗各环节向下一环节转化的比例，如线索→签约转化率 = 签约数 ÷ 线索数。',
+  '毛利率': '（营收 − 营业成本）÷ 营收，反映产品或服务的直接盈利能力。'
+};
+
+// 生成带 data-tip 的标签（悬停显示术语解释）
+function tipTerm(term, label) {
+  return '<span class="tip-term" data-tip="'+term+'">'+label+'</span>';
+}
+
+// tooltip
+function showTooltip(e, title, text) {
+  const t = document.getElementById('tooltip');
+  document.getElementById('tooltipTitle').textContent = title || '详细说明';
+  document.getElementById('tooltipBody').textContent = text;
+  t.classList.add('visible');
+  t.style.left = Math.min(e.clientX+16, window.innerWidth-340)+'px';
+  t.style.top = Math.min(e.clientY+16, window.innerHeight-120)+'px';
+}
+function hideTooltip() { document.getElementById('tooltip').classList.remove('visible'); }
+document.addEventListener('mousemove', e => {
+  const t = document.getElementById('tooltip');
+  if (t.classList.contains('visible')) {
+    t.style.left = Math.min(e.clientX+16, window.innerWidth-340)+'px';
+    t.style.top = Math.min(e.clientY+16, window.innerHeight-120)+'px';
+  }
+});
+
+// ============ 初始化 ============
+function init() {
+  // tab 导航
+  document.getElementById('navTabs').querySelectorAll('.nav-tab').forEach(t => {
+    t.addEventListener('click', () => switchTab(t.dataset.tab));
+  });
+  // KPI 卡片点击跳转（事件委托）
+  document.getElementById('tab-overview').addEventListener('click', e => {
+    const card = e.target.closest('.kpi-card');
+    if (card) switchTab(card.dataset.tab);
+  });
+
+  // 术语 Tooltip（事件委托，全局）
+  document.addEventListener('mouseover', e => {
+    const t = e.target.closest('.tip-term');
+    if (t && t.dataset.tip) {
+      showTooltip(e, '指标说明', t.dataset.tip);
+    }
+  });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('.tip-term')) hideTooltip();
+  });
+
+  renderKPI();
+  renderPnl();
+  renderBudget();
+  renderCost();
+  renderOps();
+  renderMarketing();
+  renderRisk();
+
+  // 条形图动画
+  setTimeout(() => {
+    document.querySelectorAll('.bar-fill').forEach((b,i) => {
+      const w = b.style.width;
+      b.style.width = '0';
+      setTimeout(() => { b.style.width = w; }, i*40);
+    });
+    document.querySelectorAll('.wfall-bar').forEach((b,i) => {
+      const h = b.dataset.h || b.style.height;
+      b.style.height = '0';
+      setTimeout(() => { b.style.height = h; }, i*80);
+    });
+  }, 200);
+
+  // 背景网格动画
+  let off = 0;
+  const g = document.querySelector('.bg-grid');
+  setInterval(() => { off = (off+0.1)%40; g.style.backgroundPosition = off+'px '+off+'px'; }, 50);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+</script>
+</body>
+</html>

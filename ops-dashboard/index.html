@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>经营管理驾驶舱 - OrgLens 经营决策系统</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+
+  <header>
+    <div>
+      <h1><span class="org">经营管理驾驶舱</span> <span class="lens">| CEO 决策一览</span></h1>
+      <div class="header-sub">科技研发一体企业 · 经营管理系统一体化 · 模拟数据 v0.1</div>
+    </div>
+    <div class="header-meta">
+      <span class="badge badge-brand">OrgLens 咨询</span>
+      <div class="live-dot"></div>
+      <span class="meta-text">数据更新：2026年8月</span>
+      <span class="badge badge-live">40-300人规模</span>
+    </div>
+  </header>
+
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" data-tab="overview">总览看板</button>
+    <button class="nav-tab" data-tab="pnl">经营损益</button>
+    <button class="nav-tab" data-tab="budget">预算管理</button>
+    <button class="nav-tab" data-tab="cost">成本管理</button>
+    <button class="nav-tab" data-tab="ops">运营效率</button>
+    <button class="nav-tab" data-tab="marketing">营销系统</button>
+    <button class="nav-tab" data-tab="risk">风险预警</button>
+  </div>
+
+  <div id="tab-overview" class="tab-content active"></div>
+  <div id="tab-pnl" class="tab-content"></div>
+  <div id="tab-budget" class="tab-content"></div>
+  <div id="tab-cost" class="tab-content"></div>
+  <div id="tab-ops" class="tab-content"></div>
+  <div id="tab-marketing" class="tab-content"></div>
+  <div id="tab-risk" class="tab-content"></div>
+
+  <div class="footer-note">经营管理驾驶舱 v0.1 | <span>OrgLens 咨询</span> · 看清经营，看见痛点 | 数据替换使用配套 Excel</div>
+</div>
+
+<div class="tooltip" id="tooltip"><h4 id="tooltipTitle"></h4><p id="tooltipBody"></p></div>
+
+<script src="app.js"></script>
+</body>
+</html>
